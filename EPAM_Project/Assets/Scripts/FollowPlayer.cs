@@ -5,24 +5,23 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class FollowPlayer : MonoBehaviour {
 
-    [SerializeField] Transform playerTransform;
     Vector3 offset;
+    Vector3 camPos;
     Camera cam;
 
-
     void Start() {
-        offset = playerTransform.position - transform.position;
         cam = GetComponent<Camera>();
+        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+        playerMovement.PLAYER_MOVED += AdjustCamera;
+        offset = playerMovement.transform.position - transform.position;
+    }
+    
+    void AdjustCamera(Vector3 playerPos, Vector3 mousePos){
+        Vector3 mouseDir = (mousePos - playerPos).normalized;
+        camPos = Vector3.Lerp(playerPos, mousePos, 0.2f) - offset;
     }
 
     void LateUpdate() {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit rayHit)){
-            Vector3 mousePos = rayHit.point;
-            Vector3 mouseDir = (mousePos - playerTransform.position).normalized;
-            Vector3 camPoint = Vector3.Lerp(playerTransform.position, mousePos, 0.2f);
-            transform.position = camPoint - offset;
-        }
+        transform.position = camPos;
     }
 }

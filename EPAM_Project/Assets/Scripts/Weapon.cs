@@ -1,30 +1,102 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Weapon : MonoBehaviour
 {
+    public static UnityAction<int> BULLET_COUNT_CHANGED;
+    public static UnityAction<bool> RELOADING;
+
     [SerializeField]
     private GameObject bulletPrefab;
 
     [SerializeField, Range(0.001f, 1f)]
     private float rateOfFire;
 
-    private bool canFire = true;
+    [SerializeField, Range(1f, 10f)]
+    private float reloadTime;
 
-    public void Fire()
+    [SerializeField, Min(1)]
+    private int clipSize = 10;
+    private int currentClip;
+
+    private int CurrentClip
     {
-        if (canFire)
+        get { return currentClip; }
+        set
         {
-            ObjectPooler.Instance.Spawn("bullet", transform.position, transform.rotation);
-            StartCoroutine("WeaponCooldown");
+            currentClip = value;
+            BULLET_COUNT_CHANGED?.Invoke(value);
         }
     }
 
-    IEnumerator WeaponCooldown()
+    private enum State
     {
-        canFire = false;
-        yield return new WaitForSecondsRealtime(rateOfFire);
-        canFire = true;
+        StopFiring,
+        CanFire,
+        NeedReload
     }
+
+    private State state;
+
+    private void Start()
+    {
+        CurrentClip = clipSize;
+        state = State.CanFire;
+    }
+
+    public void Fire()
+    {
+        if (state == State.CanFire)
+        {
+            ObjectPooler.Instance.Spawn("bullet", transform.position, transform.rotation);
+            StartCoroutine("WeaponLogic");
+        }
+        if (state == State.NeedReload)
+        {
+            StartCoroutine("Reload");
+        }
+    }
+
+    private IEnumerator WeaponLogic()
+    {
+        state = State.StopFiring;
+
+        CurrentClip--;
+
+        if (CurrentClip > 0)
+        {
+            yield return new WaitForSecondsRealtime(rateOfFire);
+            state = State.CanFire;
+        }
+        else
+        {
+            state = State.NeedReload;
+        }
+    }
+
+    private IEnumerator Reload()
+    {
+        state = State.StopFiring;
+
+        RELOADING?.Invoke(true);
+        CurrentClip = 0;
+
+        yield return new WaitForSecondsRealtime(reloadTime);
+        CurrentClip = clipSize;
+
+        RELOADING?.Invoke(false);
+
+        state = State.CanFire;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            StartCoroutine("Reload");
+        }
+    }
+
 }

@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UserInput : MonoBehaviour
+public class UserInput : Input
 {
-    [SerializeField] Camera cam;
-
-    public Vector3 GetPointerPositioninWorld => Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) ? hit.point : Vector3.zero;
-    public Vector2 WASDInput => new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    public static Vector3 GetPointerPositioninWorld => Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) ? hit.point : Vector3.zero;
+    public static Vector2 WASDInput => new Vector2(GetAxisRaw("Horizontal"), GetAxisRaw("Vertical"));
 }

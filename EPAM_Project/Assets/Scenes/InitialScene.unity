@@ -448,7 +448,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ClipText
+  m_Text: 
 --- !u!222 &465696062
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -791,7 +791,7 @@ Transform:
   - {fileID: 1157340527}
   - {fileID: 313657623}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1961317626150761947
 PrefabInstance:
@@ -800,9 +800,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 261082650, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1961317625786382765, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1961317625786382765, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
       propertyPath: m_LocalPosition.x

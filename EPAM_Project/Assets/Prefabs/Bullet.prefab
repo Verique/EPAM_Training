@@ -11,11 +11,13 @@ GameObject:
   - component: {fileID: 1529520565375724454}
   - component: {fileID: 1529520565375724449}
   - component: {fileID: 1529520565375724448}
-  - component: {fileID: 1529520565375724451}
   - component: {fileID: 1529520565375724452}
+  - component: {fileID: 1529520565375724451}
+  - component: {fileID: 7635323618526835313}
+  - component: {fileID: 3062987306476942978}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: playerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,6 +85,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1529520565375724452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529520565375724450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7211bce355c61f042a48618ee38267a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpeed: 120
 --- !u!136 &1529520565375724451
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -97,7 +112,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1529520565375724452
+--- !u!114 &7635323618526835313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +121,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1529520565375724450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7211bce355c61f042a48618ee38267a9, type: 3}
+  m_Script: {fileID: 11500000, guid: ec3e12ee3adecb24188ce29b7dc03744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 120
+  damage: 100
+--- !u!114 &3062987306476942978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529520565375724450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d2909771f0ac764e9e6cd49b0c68c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  damageSourceTags:
+  - enemy

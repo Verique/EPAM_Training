@@ -5,8 +5,8 @@ using UnityEngine.Events;
 
 public class Weapon : MonoBehaviour
 {
-    public static UnityAction<int> BULLET_COUNT_CHANGED;
-    public static UnityAction<bool> RELOADING;
+    public UnityAction<int> BULLET_COUNT_CHANGED;
+    public UnityAction<bool> RELOADING;
 
     [SerializeField]
     private GameObject bulletPrefab;
@@ -30,6 +30,8 @@ public class Weapon : MonoBehaviour
             BULLET_COUNT_CHANGED?.Invoke(value);
         }
     }
+
+    public int ClipSize { get { return clipSize; } }
 
     private enum State
     {
@@ -81,7 +83,6 @@ public class Weapon : MonoBehaviour
         state = State.StopFiring;
 
         RELOADING?.Invoke(true);
-        CurrentClip = 0;
 
         yield return new WaitForSecondsRealtime(reloadTime);
         CurrentClip = clipSize;

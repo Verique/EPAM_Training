@@ -1,26 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-[RequireComponent(typeof(RectTransform))]
-public class PlayerHealthbar : MonoBehaviour
+public class PlayerHealthBar : UIBar
 {
-    private Vector2 initialBarSize;
-    private RectTransform barTransform;
-
     [SerializeField]
     private Health health;
-    private int maxHealth;
 
-    private void Start()
+    protected override void SetupBar()
     {
-        barTransform = GetComponent<RectTransform>();
-        initialBarSize = barTransform.sizeDelta;
-        maxHealth = health.MaxHealth;
-        health.HEALTH_CHANGED += UpdateHealthbar;
-    }
-
-    public void UpdateHealthbar(int healthPoints)
-    {
-        float height = initialBarSize.y * healthPoints / maxHealth;
-        barTransform.sizeDelta = new Vector2(initialBarSize.x, height);
+        base.SetupBar();
+        maxValue = health.MaxHealth;
+        health.HEALTH_CHANGED += UpdateBar;
     }
 }

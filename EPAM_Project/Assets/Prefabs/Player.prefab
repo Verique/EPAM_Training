@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1529520565375724450, guid: e67480c4fe407434aba456177b9c2dd3, type: 3}
-  rateOfFire: 0.181
+  rateOfFire: 0.057
   reloadTime: 1.62
   clipSize: 10
 --- !u!1 &1961317625786382766
@@ -155,6 +155,21 @@ MonoBehaviour:
   maxHealth: 10
   damageSourceTags:
   - enemy
+  HEALTH_CHANGED:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: PlayerHealthbar, Assembly-CSharp
+        m_MethodName: UpdateHealthbar
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   invTime: 1
 --- !u!1 &7658581623556639793
 GameObject:

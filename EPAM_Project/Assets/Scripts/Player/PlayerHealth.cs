@@ -14,8 +14,6 @@ public class PlayerHealth : Health
         {
             base.TakeDamage(damage);
             StartCoroutine("PlayerDamageTaken");
-
-            Debug.Log(string.Format("Player has taken damage! Remaining health : {0}", currentHealth));
         }
     }
 

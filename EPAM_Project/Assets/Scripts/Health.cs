@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,23 +5,42 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
     [SerializeField]
-    private int maxHealth = 100;
-    private int minHealth = 0;
-    protected int currentHealth;
+    private List<string> damageSourceTags;
 
     [SerializeField]
-    private List<string> damageSourceTags;
+    private int maxHealth;
+
+    private int minHealth = 0;
+    private int currentHealth;
+
+    public UnityAction<int> HEALTH_CHANGED;
+
+    public int CurrentHealth
+    {
+        get { return currentHealth; }
+        private set
+        {
+            currentHealth = value;
+            HEALTH_CHANGED?.Invoke(value);
+        }
+    }
+
+    public int MaxHealth
+    {
+        get { return maxHealth; }
+    }
+
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        CurrentHealth = maxHealth;
     }
 
     protected virtual void TakeDamage(int damage)
     {
-        currentHealth = Mathf.Clamp(currentHealth - damage, minHealth, maxHealth);
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, minHealth, maxHealth);
 
-        if (currentHealth == minHealth)
+        if (CurrentHealth == minHealth)
         {
             Kill();
         }

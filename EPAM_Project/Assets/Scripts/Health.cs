@@ -46,7 +46,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void Kill()
+    protected virtual void Kill()
     {
         gameObject.SetActive(false);
     }

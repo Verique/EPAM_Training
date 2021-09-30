@@ -1,19 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : Health
 {
     [SerializeField]
     private float invTime;
+
+    [SerializeField]
+    private GameObject gameOverText;
+
     bool isDamageable = true;
 
     protected override void TakeDamage(int damage)
     {
         if (isDamageable)
         {
-            base.TakeDamage(damage);
             StartCoroutine("PlayerDamageTaken");
+            base.TakeDamage(damage);
         }
     }
 
@@ -22,6 +26,12 @@ public class PlayerHealth : Health
         isDamageable = false;
         yield return new WaitForSecondsRealtime(invTime);
         isDamageable = true;
+    }
+
+    protected override void Kill()
+    {
+        base.Kill();
+        gameOverText.SetActive(true);
     }
 }
 

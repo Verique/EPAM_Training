@@ -17,13 +17,16 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        target = FindObjectOfType<PlayerMovement>().transform;
+        target = FindObjectOfType<PlayerMovement>()?.transform;
         rgbd = GetComponent<Rigidbody>();
         eTransform = transform;
     }
 
     private void FixedUpdate()
     {
+        if (target == null)
+            return;
+
         Vector3 lookPos = target.position;
         lookPos.z = height;
         eTransform.LookAt(lookPos);

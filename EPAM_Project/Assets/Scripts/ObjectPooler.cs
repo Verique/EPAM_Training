@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ public class ObjectPooler : MonoBehaviour
         Instance = this;
     }
 
-    #endregion 
+    #endregion
 
     [System.Serializable]
     public class Pool
@@ -23,22 +22,22 @@ public class ObjectPooler : MonoBehaviour
         public int size;
     }
 
-    public Dictionary<string, Queue<GameObject>> poolDict;
+    private Dictionary<string, Queue<GameObject>> poolDict;
     public List<Pool> poolList;
 
     private void Start()
     {
         poolDict = new Dictionary<string, Queue<GameObject>>();
 
-        foreach (Pool pool in poolList)
+        foreach (var pool in poolList)
         {
-            Queue<GameObject> objectPool = new Queue<GameObject>();
+            var objectPool = new Queue<GameObject>();
 
-            GameObject parent = new GameObject(pool.tag + "s");
+            var parent = new GameObject(pool.tag + "s");
 
-            for (int i = 0; i < pool.size; i++)
+            for (var i = 0; i < pool.size; i++)
             {
-                GameObject obj = Instantiate(pool.prefab, parent.transform);
+                var obj = Instantiate(pool.prefab, parent.transform);
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
@@ -49,18 +48,14 @@ public class ObjectPooler : MonoBehaviour
 
     public GameObject Spawn(string tag, Vector3 position, Quaternion rotation)
     {
-        if (poolDict == null)
-        {
-            return null;
-        }
+        if (poolDict == null) return null;
 
         if (!poolDict.ContainsKey(tag))
         {
-            Debug.LogWarning(string.Format("Pool with tag [{0}] doesnt exist", tag));
             return null;
         }
 
-        GameObject obj = poolDict[tag].Dequeue();
+        var obj = poolDict[tag].Dequeue();
 
         obj.SetActive(true);
         obj.transform.position = position;

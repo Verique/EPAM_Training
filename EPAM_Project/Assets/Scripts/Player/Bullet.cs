@@ -1,20 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+namespace Player
 {
-    [SerializeField]
-    private float bulletSpeed = 60f;
-    private Transform bTransform;
-
-    void Start()
+    public class Bullet : MonoBehaviour
     {
-        bTransform = transform;
-    }
+        [SerializeField] private float bulletSpeed = 60f;
+        private Transform bTransform;
 
-    void FixedUpdate()
-    {
-        bTransform.position += bTransform.up * bulletSpeed * Time.fixedDeltaTime;
+        private void Start()
+        {
+            bTransform = transform;
+        }
+
+        private void FixedUpdate()
+        {
+            bTransform.position += bulletSpeed * Time.fixedDeltaTime * bTransform.up;
+        }
     }
 }

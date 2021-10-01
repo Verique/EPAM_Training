@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
@@ -10,14 +11,13 @@ public class CameraFollow : MonoBehaviour
 
     private Vector3 sDampVelocity = Vector3.zero;
 
-    [SerializeField]
-    private readonly float smoothTime = 0.2f;
+    [SerializeField] private readonly float smoothTime = 0.2f;
 
     private void Start()
     {
-        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
-        playerMovement.PLAYER_MOVED += newPos => AdjustCamera(newPos, mPos);
-        playerMovement.MOUSE_MOVED += newPos => AdjustCamera(pPos, newPos);
+        var playerMovement = FindObjectOfType<PlayerMovement>();
+        playerMovement.PlayerMoved += newPos => AdjustCamera(newPos, mPos);
+        playerMovement.MouseMoved += newPos => AdjustCamera(pPos, newPos);
         offset = playerMovement.transform.position - transform.position;
     }
 

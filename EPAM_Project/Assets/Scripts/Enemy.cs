@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Enemy : MonoBehaviour
 {
-    private const float height = -5f;
+    private const float Height = -5f;
 
     private Transform target;
 
     private Rigidbody rgbd;
     private Transform eTransform;
 
-    [SerializeField]
-    private float enemySpeed = 100f;
+    [SerializeField] private float enemySpeed = 100f;
 
     private void Start()
     {
@@ -24,13 +22,14 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (target == null)
+        if (target is null)
+        {
             return;
-
+        }
+        
         var lookPos = target.position;
-        lookPos.z = height;
+        lookPos.z = Height;
         eTransform.LookAt(lookPos);
         rgbd.velocity = eTransform.forward * enemySpeed;
     }
-
 }

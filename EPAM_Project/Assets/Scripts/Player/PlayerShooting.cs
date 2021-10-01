@@ -1,23 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShooting : MonoBehaviour
+namespace Player
 {
-    private const int LMB_CODE = 0;
-    private Transform pTransform;
-    [SerializeField]
-    private Weapon weapon;
-
-    private void Start()
+    public class PlayerShooting : MonoBehaviour
     {
-        pTransform = transform;
-    }
+        private const int LmbCode = 0;
 
-    private void Update()
-    {
-        if (Input.GetMouseButton(LMB_CODE))
-            weapon.Fire();
+        [SerializeField] private Weapon weapon;
+
+        private void Update()
+        {
+            if (Input.GetMouseButton(LmbCode))
+                weapon.Fire();
+        }
     }
 }

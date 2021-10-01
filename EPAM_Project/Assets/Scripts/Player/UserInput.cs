@@ -1,9 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class UserInput : Input
+namespace Player
 {
-    public static Vector3? GetPointerPositioninWorld => Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit) ? hit.point : (Vector3?)null;
-    public static Vector2 WASDInput => new Vector2(GetAxisRaw("Horizontal"), GetAxisRaw("Vertical"));
+    public class UserInput : Input
+    {
+        public static Vector3? GetPointerPositionInWorld =>
+            Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition), out var hit)
+                ? hit.point
+                : (Vector3?) null;
+
+        public static Vector2 WasdInput => new Vector2(GetAxisRaw("Horizontal"), GetAxisRaw("Vertical"));
+    }
 }

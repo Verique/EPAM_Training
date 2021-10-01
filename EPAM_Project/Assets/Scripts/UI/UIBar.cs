@@ -17,7 +17,7 @@ public class UIBar : MonoBehaviour
 
     protected void UpdateBar(int newValue)
     {
-        float height = initialBarSize.y * newValue / maxValue;
+        var height = initialBarSize.y * newValue / maxValue;
         barTransform.sizeDelta = new Vector2(initialBarSize.x, height);
     }
 

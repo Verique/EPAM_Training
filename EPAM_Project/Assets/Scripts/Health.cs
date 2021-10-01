@@ -4,33 +4,25 @@ using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField]
-    private List<string> damageSourceTags;
+    [SerializeField] private List<string> damageSourceTags;
+    [SerializeField] private int maxHealth;
 
-    [SerializeField]
-    private int maxHealth;
-
-    private int minHealth = 0;
+    private const int MinHealth = 0;
     private int currentHealth;
 
-    public UnityAction<int> HEALTH_CHANGED;
+    public UnityAction<int> HealthChanged;
 
-    public int CurrentHealth
+    private int CurrentHealth
     {
-        get { return currentHealth; }
-        private set
+        get => currentHealth;
+        set
         {
             currentHealth = value;
-            HEALTH_CHANGED?.Invoke(value);
+            HealthChanged?.Invoke(value);
         }
     }
-
-    public int MaxHealth
-    {
-        get { return maxHealth; }
-    }
-
-
+    public int MaxHealth => maxHealth;
+    
     private void Start()
     {
         CurrentHealth = maxHealth;
@@ -38,12 +30,9 @@ public class Health : MonoBehaviour
 
     protected virtual void TakeDamage(int damage)
     {
-        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, minHealth, maxHealth);
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, MinHealth, maxHealth);
 
-        if (CurrentHealth == minHealth)
-        {
-            Kill();
-        }
+        if (CurrentHealth == MinHealth) Kill();
     }
 
     protected virtual void Kill()
@@ -53,14 +42,12 @@ public class Health : MonoBehaviour
 
     private void OnCollisionStay(Collision other)
     {
-        GameObject otherObj = other.gameObject;
+        var otherObj = other.gameObject;
+
 
         if (!damageSourceTags.Contains(otherObj.tag))
             return;
 
-        if (otherObj.TryGetComponent(out DamageSource source))
-        {
-            TakeDamage(source.Damage);
-        }
+        if (otherObj.TryGetComponent(out DamageSource source)) TakeDamage(source.Damage);
     }
 }

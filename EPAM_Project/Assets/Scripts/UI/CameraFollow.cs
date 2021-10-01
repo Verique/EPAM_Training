@@ -1,37 +1,40 @@
 using Player;
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
-public class CameraFollow : MonoBehaviour
+namespace UI
 {
-    private Vector3 offset;
-    private Vector3 camPos;
-
-    private Vector3 pPos, mPos;
-
-    private Vector3 sDampVelocity = Vector3.zero;
-
-    [SerializeField] private readonly float smoothTime = 0.2f;
-
-    private void Start()
+    [RequireComponent(typeof(Camera))]
+    public class CameraFollow : MonoBehaviour
     {
-        var playerMovement = FindObjectOfType<PlayerMovement>();
-        playerMovement.PlayerMoved += newPos => AdjustCamera(newPos, mPos);
-        playerMovement.MouseMoved += newPos => AdjustCamera(pPos, newPos);
-        offset = playerMovement.transform.position - transform.position;
-    }
+        private Vector3 offset;
+        private Vector3 camPos;
 
-    private void AdjustCamera(Vector3 playerPos, Vector3 mousePos)
-    {
-        pPos = playerPos;
-        mPos = mousePos;
+        private Vector3 pPos, mPos;
 
-        camPos = Vector3.Lerp(playerPos, mousePos, 0.2f) - offset;
-        camPos = Vector3.SmoothDamp(transform.position, camPos, ref sDampVelocity, smoothTime);
-    }
+        private Vector3 sDampVelocity = Vector3.zero;
 
-    private void LateUpdate()
-    {
-        transform.position = camPos;
+        [SerializeField] private float smoothTime = 0.2f;
+
+        private void Start()
+        {
+            var playerMovement = FindObjectOfType<PlayerMovement>();
+            playerMovement.PlayerMoved += newPos => AdjustCamera(newPos, mPos);
+            playerMovement.MouseMoved += newPos => AdjustCamera(pPos, newPos);
+            offset = playerMovement.transform.position - transform.position;
+        }
+
+        private void AdjustCamera(Vector3 playerPos, Vector3 mousePos)
+        {
+            pPos = playerPos;
+            mPos = mousePos;
+
+            camPos = Vector3.Lerp(playerPos, mousePos, 0.2f) - offset;
+            camPos = Vector3.SmoothDamp(transform.position, camPos, ref sDampVelocity, smoothTime);
+        }
+
+        private void LateUpdate()
+        {
+            transform.position = camPos;
+        }
     }
 }

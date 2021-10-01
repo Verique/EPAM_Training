@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class PlayerHealthBar : UIBar
+namespace UI
 {
-    [SerializeField]
-    private Health health;
-
-    protected override void SetupBar()
+    public class PlayerHealthBar : UIBar
     {
-        base.SetupBar();
-        maxValue = health.MaxHealth;
-        health.HEALTH_CHANGED += UpdateBar;
+        [SerializeField] private Health health;
+
+        protected override void SetupBar()
+        {
+            base.SetupBar();
+            MaxValue = health.MaxHealth;
+            health.HealthChanged += UpdateBar;
+        }
     }
 }

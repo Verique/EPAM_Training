@@ -7,6 +7,12 @@ public class PlayerHealth : Health
     [SerializeField]
     private float invTime;
 
+    private const int framesToLerp = 80;
+    private const float colorLerpSpeed = 1 / (float)framesToLerp;
+
+    [SerializeField]
+    private Renderer playerRenderer;
+
     [SerializeField]
     private GameObject gameOverText;
 
@@ -16,16 +22,29 @@ public class PlayerHealth : Health
     {
         if (isDamageable)
         {
-            StartCoroutine("PlayerDamageTaken");
+            StartCoroutine("PlayerDamageTakenCooldown");
+            StartCoroutine("PlayerDamageTakenIndication");
             base.TakeDamage(damage);
         }
     }
 
-    private IEnumerator PlayerDamageTaken()
+    private IEnumerator PlayerDamageTakenCooldown()
     {
         isDamageable = false;
         yield return new WaitForSecondsRealtime(invTime);
         isDamageable = true;
+    }
+
+    private IEnumerator PlayerDamageTakenIndication()
+    {
+        int frameCount = 0;
+
+        do
+        {
+            playerRenderer.material.color = Color.Lerp(Color.red, Color.white, frameCount * colorLerpSpeed);
+            frameCount++;
+            yield return new WaitForEndOfFrame();
+        } while (frameCount < framesToLerp);
     }
 
     protected override void Kill()

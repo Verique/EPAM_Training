@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
         if (target == null)
             return;
 
-        Vector3 lookPos = target.position;
+        var lookPos = target.position;
         lookPos.z = height;
         eTransform.LookAt(lookPos);
         rgbd.velocity = eTransform.forward * enemySpeed;

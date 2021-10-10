@@ -9,17 +9,33 @@ namespace UI
         private Vector2 initialBarSize;
         private RectTransform barTransform;
 
-        protected int MaxValue;
+        public int MaxValue { get; set; }
         protected Image Image;
 
-        private void Start()
+        private void Awake()
         {
             SetupBar();
         }
 
-        protected void UpdateBar(int newValue)
+        public void UpdateBarHeight(int newValue)
         {
             var height = initialBarSize.y * newValue / MaxValue;
+            SetBarHeight(height);
+        }
+        
+        public void UpdateBarWidth(int newValue)
+        {
+            var width = initialBarSize.x * newValue / MaxValue;
+            SetBarWidth(width);
+        }
+
+        private void SetBarWidth(float width)
+        {
+            barTransform.sizeDelta = new Vector2(width, initialBarSize.y);
+        }
+        
+        private void SetBarHeight(float height)
+        {
             barTransform.sizeDelta = new Vector2(initialBarSize.x, height);
         }
 

@@ -10,7 +10,7 @@ namespace UI
         {
             base.SetupBar();
             MaxValue = health.MaxHealth;
-            health.HealthChanged += UpdateBar;
+            health.HealthChanged += UpdateBarHeight;
         }
     }
 }

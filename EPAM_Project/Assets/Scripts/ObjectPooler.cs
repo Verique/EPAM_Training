@@ -20,6 +20,7 @@ public class ObjectPooler : MonoBehaviour
         public string tag;
         public GameObject prefab;
         public int size;
+        public Transform parent;
     }
 
     private Dictionary<string, Queue<GameObject>> poolDict;
@@ -33,11 +34,9 @@ public class ObjectPooler : MonoBehaviour
         {
             var objectPool = new Queue<GameObject>();
 
-            var parent = new GameObject(pool.tag + "s");
-
             for (var i = 0; i < pool.size; i++)
             {
-                var obj = Instantiate(pool.prefab, parent.transform);
+                var obj = Instantiate(pool.prefab, pool.parent);
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
@@ -57,6 +56,7 @@ public class ObjectPooler : MonoBehaviour
 
         var obj = poolDict[tag].Dequeue();
 
+        obj.SetActive(false);
         obj.SetActive(true);
         obj.transform.position = position;
         obj.transform.rotation = rotation;

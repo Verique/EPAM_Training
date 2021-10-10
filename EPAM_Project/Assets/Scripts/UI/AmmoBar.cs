@@ -16,7 +16,7 @@ namespace UI
         {
             base.SetupBar();
             MaxValue = weapon.ClipSize;
-            weapon.BulletCountChanged += UpdateBar;
+            weapon.BulletCountChanged += UpdateBarHeight;
             weapon.Reloading += ReloadIndication;
         }
 

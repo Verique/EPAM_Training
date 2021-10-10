@@ -12,10 +12,10 @@ public class Health : MonoBehaviour
 
     public UnityAction<int> HealthChanged;
 
-    private int CurrentHealth
+    public int CurrentHealth
     {
         get => currentHealth;
-        set
+        private set
         {
             currentHealth = value;
             HealthChanged?.Invoke(value);

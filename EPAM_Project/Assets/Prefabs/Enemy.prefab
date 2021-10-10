@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b41fc10ec6bd24988887bbf9a4ddb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpeed: 100
+  enemySpeed: 40
 --- !u!54 &5905202115791297581
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -140,9 +140,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2909771f0ac764e9e6cd49b0c68c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
   damageSourceTags:
   - playerBullet
+  maxHealth: 100
 --- !u!114 &286699948369033831
 MonoBehaviour:
   m_ObjectHideFlags: 0

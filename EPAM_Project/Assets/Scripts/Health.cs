@@ -23,7 +23,7 @@ public class Health : MonoBehaviour
     }
     public int MaxHealth => maxHealth;
     
-    private void Start()
+    private void OnEnable()
     {
         CurrentHealth = maxHealth;
     }

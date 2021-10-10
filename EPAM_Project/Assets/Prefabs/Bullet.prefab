@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3e12ee3adecb24188ce29b7dc03744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 50
 --- !u!114 &3062987306476942978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2909771f0ac764e9e6cd49b0c68c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
   damageSourceTags:
   - enemy
+  maxHealth: 1

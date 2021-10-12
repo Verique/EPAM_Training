@@ -43,7 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0e795f772334c4aba954bcbcd22fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1529520565375724450, guid: e67480c4fe407434aba456177b9c2dd3, type: 3}
   rateOfFire: 0.216
   reloadTime: 1.62
   clipSize: 30
@@ -57,10 +56,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1961317625786382765}
   - component: {fileID: 1993870456}
-  - component: {fileID: 1993870455}
   - component: {fileID: 6894782584571064451}
   - component: {fileID: 261082650}
   - component: {fileID: 261082651}
+  - component: {fileID: 1419409047}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -100,19 +99,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 56
   m_CollisionDetection: 0
---- !u!114 &1993870455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961317625786382766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2834f4f5c8360342a7565552366c2f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 60
 --- !u!136 &6894782584571064451
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -156,7 +142,21 @@ MonoBehaviour:
   - enemy
   maxHealth: 10
   invTime: 1
+  playerRenderer: {fileID: 8490146433233739788}
   gameOverText: {fileID: 0}
+--- !u!114 &1419409047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961317625786382766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68770b5c8ff84d1fa3937a2a54647c48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 50
 --- !u!1 &7658581623556639793
 GameObject:
   m_ObjectHideFlags: 0

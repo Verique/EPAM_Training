@@ -123,6 +123,49 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &115883275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 115883276}
+  - component: {fileID: 115883277}
+  m_Layer: 0
+  m_Name: UserInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &115883276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115883275}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &115883277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115883275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1451118268114964aea9a8a7b23ed13a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &224216134
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,11 +539,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 55, z: 0}
---- !u!23 &535154410 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8490146433233739788, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-  m_PrefabInstance: {fileID: 1961317626150761947}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &775607217
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,6 +938,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!4 &1419409050 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1961317625786382765, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
+  m_PrefabInstance: {fileID: 1961317626150761947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1420485035
 GameObject:
   m_ObjectHideFlags: 0
@@ -993,10 +1036,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1420485035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ea44cf71f589b4f94629877f8e9582, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cf0d679e70e59b46845fc192406c8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   smoothTime: 0.2
+  offset: {x: 0, y: 40, z: 140}
+  trackTarget: {fileID: 1419409050}
 --- !u!1 &1496348633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,37 +1521,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 261082651, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: framesToLerp
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 261082651, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
       propertyPath: gameOverText
       value: 
       objectReference: {fileID: 1687674361}
-    - target: {fileID: 261082651, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: colorLerpTime
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 261082651, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: colorLerpSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 261082651, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: playerMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: 7dfccb6ea18ebe54ba154a54d1530ed0, type: 2}
-    - target: {fileID: 261082651, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: playerRenderer
-      value: 
-      objectReference: {fileID: 535154410}
-    - target: {fileID: 261082651, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: playerDamagedMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: 5cba3860d6fb25548b92dc67fec0fa21, type: 2}
-    - target: {fileID: 261082651, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: playerDefaultMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: 7dfccb6ea18ebe54ba154a54d1530ed0, type: 2}
     - target: {fileID: 1961317625786382765, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
       propertyPath: m_RootOrder
       value: 4

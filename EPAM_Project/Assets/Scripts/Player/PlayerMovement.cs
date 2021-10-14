@@ -1,3 +1,5 @@
+using System;
+using Systems;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,44 +9,52 @@ namespace Player
     public class PlayerMovement : MonoBehaviour
     {
         private Rigidbody rgbd;
+        private InputManager inputManager;
+
+        private Vector3? mousePos;
+        private Vector2 input;
 
         [SerializeField] private float speed = 5;
-
-        public UnityAction<Vector3> PlayerMoved;
-        public UnityAction<Vector3> MouseMoved;
 
         private void Start()
         {
             rgbd = GetComponent<Rigidbody>();
+            
+            inputManager = Services.Instance.Get<InputManager>();
+            inputManager.MouseMoved += ChangeMousePos;
+            inputManager.WasdInput += ChangePlayerPos;
         }
 
+        private void ChangeMousePos(Vector3? mousePos)
+        {
+            this.mousePos = mousePos;
+        }
+        private void ChangePlayerPos(Vector2 input)
+        {
+            this.input = input;
+        }
+        
         private void FixedUpdate()
         {
-            UserInputMove();
-            UserInputRotate();
+            Move();
+            Rotate();
         }
 
-        private void UserInputMove()
+        private void Move()
         {
-            var input = UserInput.WasdInput;
             var dir = input.normalized;
             var newPos = rgbd.position + speed * Time.fixedDeltaTime * (Vector3) dir;
             rgbd.MovePosition(newPos);
-
-            PlayerMoved?.Invoke(rgbd.position);
         }
 
-        private void UserInputRotate()
+        private void Rotate()
         {
-            if (UserInput.GetPointerPositionInWorld == null)
+            if (mousePos == null)
                 return;
-
-            var mousePos = UserInput.GetPointerPositionInWorld.GetValueOrDefault();
-            var dirToMouse = mousePos - rgbd.position;
+            
+            var dirToMouse = mousePos.GetValueOrDefault() - rgbd.position;
             var angle = Mathf.Atan2(dirToMouse.y, dirToMouse.x) * Mathf.Rad2Deg - 90f;
             rgbd.rotation = Quaternion.Euler(0, 0, angle);
-
-            MouseMoved?.Invoke(mousePos);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Player
         private Rigidbody rgbd;
         private InputManager inputManager;
 
-        private Vector3? mousePos;
+        private Vector3 mousePos;
         private Vector2 input;
 
         [SerializeField] private float speed = 5;
@@ -25,7 +25,7 @@ namespace Player
             inputManager.WasdInput += ChangePlayerPos;
         }
 
-        private void ChangeMousePos(Vector3? mousePos)
+        private void ChangeMousePos(Vector3 mousePos)
         {
             this.mousePos = mousePos;
         }
@@ -49,10 +49,7 @@ namespace Player
 
         private void Rotate()
         {
-            if (mousePos == null)
-                return;
-            
-            var dirToMouse = mousePos.GetValueOrDefault() - rgbd.position;
+            var dirToMouse = mousePos - rgbd.position;
             var angle = Mathf.Atan2(dirToMouse.y, dirToMouse.x) * Mathf.Rad2Deg - 90f;
             rgbd.rotation = Quaternion.Euler(0, 0, angle);
         }

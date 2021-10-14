@@ -8,23 +8,22 @@ namespace Systems
         private Camera mainCam;
         
         public event Action<Vector2> WasdInput;
-        public event Action<Vector3?> MouseMoved;
+        public event Action<Vector3> MouseMoved;
 
         private void Start()
         {
             mainCam = Services.Instance.Get<CameraManager>().Cam;
         }
 
-        private Vector3? GetPointerPositionInWorld =>
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out var hit)
-                ? hit.point
-                : (Vector3?) null;
-
         private static Vector2 Wasd => new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         
         private void Update()
         {
-            MouseMoved?.Invoke(GetPointerPositionInWorld);
+            if (Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out var hit))
+            {
+                MouseMoved?.Invoke(hit.point);
+            }
+            
             WasdInput?.Invoke(Wasd);
         }
         

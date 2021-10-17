@@ -1,7 +1,7 @@
 ﻿using Services;
 using UnityEngine;
 
-namespace UI
+namespace UI.SpawnableUIElement
 {
     public abstract class SpawnableUIElement : MonoBehaviour
     {

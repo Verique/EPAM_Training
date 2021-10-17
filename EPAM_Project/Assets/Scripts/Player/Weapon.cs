@@ -51,7 +51,7 @@ namespace Player
             switch (state)
             {
                 case State.CanFire:
-                    pool.Spawn("bullet", transform.position, wTransform.rotation);
+                    pool.Spawn("bullet", wTransform.position, wTransform.rotation);
                     StartCoroutine(nameof(WeaponLogic));
                     break;
                 case State.NeedReload:

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Player
@@ -6,11 +7,13 @@ namespace Player
     public class Bullet : MonoBehaviour
     {
         [SerializeField] private float bulletSpeed = 60f;
+        private Rigidbody rgbd;
+        private Transform bTransform;
 
-        private void Start()
-        {
-            var rgbd = GetComponent<Rigidbody>();
-            var bTransform = GetComponent<Transform>();
+        private void OnEnable()
+        {           
+            rgbd = GetComponent<Rigidbody>();
+            bTransform = GetComponent<Transform>();
             rgbd.velocity = bulletSpeed * bTransform.up;
         }
     }

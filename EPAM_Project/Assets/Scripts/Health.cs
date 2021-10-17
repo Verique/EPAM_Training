@@ -13,7 +13,7 @@ public class Health : MonoBehaviour
 
     public event Action<int> HealthChanged;
 
-    private int CurrentHealth
+    public int CurrentHealth
     {
         get => currentHealth;
         set

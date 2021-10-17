@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 286699948369033831}
   - component: {fileID: 8020010861880868316}
   - component: {fileID: 7905830551187980708}
+  - component: {fileID: 892661954812771970}
   - component: {fileID: 2661200161338826453}
   m_Layer: 0
   m_Name: Enemy
@@ -202,6 +203,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &892661954812771970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7911480848025705824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca83be6a8e6246c1bfdcac1d0772cfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolTag: enemy
 --- !u!114 &2661200161338826453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,3 +228,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ddc27ee0974f49bf743958a54f7416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eBar: {fileID: 0}

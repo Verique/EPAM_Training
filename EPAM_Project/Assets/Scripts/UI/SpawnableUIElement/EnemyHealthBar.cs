@@ -1,9 +1,8 @@
-﻿using System;
-using Services;
+﻿using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.SpawnableUIElement
 {
     [RequireComponent(typeof(Image), typeof(RectTransform))]
     public class EnemyHealthBar : SpawnableUIElement

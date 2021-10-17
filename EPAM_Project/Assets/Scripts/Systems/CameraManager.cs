@@ -6,20 +6,18 @@ namespace Systems
 {
     public class CameraManager : MonoBehaviour, IService
     {
+        [SerializeField] private float smoothTime = 0.2f;
+        [SerializeField] private Vector3 offset;
+        [SerializeField] private Camera cam;
+        
         public Camera Cam => cam;
 
         private Transform cameraTransform;
-        
-        [SerializeField] private Camera cam;
-        
         public Transform Target { get; set; }
         
         private Vector3 camPos;
         private Vector3 mousePos;
         private Vector3 sDampVelocity = Vector3.zero;
-
-        [SerializeField] private float smoothTime = 0.2f;
-        [SerializeField] private Vector3 offset;
 
         private void Start()
         {

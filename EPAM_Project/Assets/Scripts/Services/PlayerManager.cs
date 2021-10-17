@@ -1,17 +1,10 @@
-﻿using System;
-using Player;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Systems
+namespace Services
 {
     public class PlayerManager : MonoBehaviour, IService
     {
         [SerializeField] private Transform player;
         public Transform Transform => player;
-        
-        public void Register() 
-        {
-            Services.Instance.Add(this);
-        }
     }
 }

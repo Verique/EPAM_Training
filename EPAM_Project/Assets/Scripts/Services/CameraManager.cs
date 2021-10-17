@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Systems
+namespace Services
 {
     public class CameraManager : MonoBehaviour, IService
     {
@@ -22,7 +20,7 @@ namespace Systems
         private void Start()
         {
             cameraTransform = cam.transform;
-            Services.Instance.Get<InputManager>().MouseMoved += ChangeMousePos;
+            ServiceLocator.Instance.Get<InputManager>().MouseMoved += ChangeMousePos;
         }
 
         private void ChangeMousePos(Vector3 mousePos)
@@ -41,9 +39,6 @@ namespace Systems
             cameraTransform.position = camPos;
         }
 
-        public void Register() 
-        {
-            Services.Instance.Add(this);
-        }
+        public Vector2 WorldToScreen(Vector3 world) => Cam.WorldToScreenPoint(world);
     }
 }

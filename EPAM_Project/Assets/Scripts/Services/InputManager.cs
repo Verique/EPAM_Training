@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Systems
+namespace Services
 {
     public class InputManager : MonoBehaviour, IService
     {
@@ -12,7 +12,7 @@ namespace Systems
 
         private void Start()
         {
-            mainCam = Services.Instance.Get<CameraManager>().Cam;
+            mainCam = ServiceLocator.Instance.Get<CameraManager>().Cam;
         }
 
         private static Vector2 Wasd => new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -25,11 +25,6 @@ namespace Systems
             }
             
             WasdInput?.Invoke(Wasd);
-        }
-        
-        public void Register() 
-        {
-            Services.Instance.Add(this);
         }
     }
 }

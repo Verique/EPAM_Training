@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Systems
+namespace Services
 {
-    public class Services : MonoBehaviour
+    public class ServiceLocator : MonoBehaviour
     {
-        public static Services Instance;
+        public static ServiceLocator Instance;
         private void Awake()
         {
             Instance = this;
             services = new Dictionary<string, IService>();
             
-            foreach (var service in GetComponentsInChildren<IService>())
-            {
-                service.Register();
-            }
+            Add(GetComponentInChildren<InputManager>());
+            Add(GetComponentInChildren<CameraManager>());
+            Add(GetComponentInChildren<PlayerManager>());
+            Add(GetComponentInChildren<ObjectPool>());
+            Add(GetComponentInChildren<SpawnableUIManager>());
         }
 
         private Dictionary<string, IService> services;

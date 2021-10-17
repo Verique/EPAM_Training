@@ -1,4 +1,5 @@
 using System.Collections;
+using Services;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,6 +15,7 @@ namespace Player
         [SerializeField] [Min(1)] private int clipSize = 10;
         private int currentClip;
         private Transform wTransform;
+        private ObjectPool pool;
 
         private int CurrentClip
         {
@@ -41,6 +43,7 @@ namespace Player
             wTransform = transform;
             CurrentClip = clipSize;
             state = State.CanFire;
+            pool = ServiceLocator.Instance.Get<ObjectPool>();
         }
 
         public void Fire()
@@ -48,7 +51,7 @@ namespace Player
             switch (state)
             {
                 case State.CanFire:
-                    ObjectPooler.Instance.Spawn("bullet", transform.position, wTransform.rotation);
+                    pool.Spawn("bullet", transform.position, wTransform.rotation);
                     StartCoroutine(nameof(WeaponLogic));
                     break;
                 case State.NeedReload:

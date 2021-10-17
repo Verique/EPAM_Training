@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,12 +11,12 @@ public class Health : MonoBehaviour
     private const int MinHealth = 0;
     private int currentHealth;
 
-    public UnityAction<int> HealthChanged;
+    public event Action<int> HealthChanged;
 
-    public int CurrentHealth
+    private int CurrentHealth
     {
         get => currentHealth;
-        private set
+        set
         {
             currentHealth = value;
             HealthChanged?.Invoke(value);

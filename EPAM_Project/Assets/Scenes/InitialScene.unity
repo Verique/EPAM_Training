@@ -692,16 +692,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolList:
-  - tag: hbar
-    prefab: {fileID: 4606699299145582804, guid: 2a428ee24dc0a984f830a4a931c787cc, type: 3}
+  - prefab: {fileID: 4606699299145582804, guid: 2a428ee24dc0a984f830a4a931c787cc, type: 3}
     size: 25
     parent: {fileID: 1385918809}
-  - tag: bullet
-    prefab: {fileID: 1529520565375724450, guid: e67480c4fe407434aba456177b9c2dd3, type: 3}
+  - prefab: {fileID: 1529520565375724450, guid: e67480c4fe407434aba456177b9c2dd3, type: 3}
     size: 100
     parent: {fileID: 1632768335}
-  - tag: enemy
-    prefab: {fileID: 7911480848025705824, guid: dd7c71c9fe3b2dc428a390feeae43ca4, type: 3}
+  - prefab: {fileID: 7911480848025705824, guid: dd7c71c9fe3b2dc428a390feeae43ca4, type: 3}
     size: 25
     parent: {fileID: 237683234}
 --- !u!1 &775607217
@@ -1786,7 +1783,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 261082650, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
 --- !u!114 &1961317626150761948 stripped
 MonoBehaviour:

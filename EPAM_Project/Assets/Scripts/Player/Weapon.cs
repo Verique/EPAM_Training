@@ -14,7 +14,9 @@ namespace Player
         [SerializeField] [Range(1f, 10f)] private float reloadTime;
         [SerializeField] [Min(1)] private int clipSize = 10;
         private int currentClip;
+        private InputManager inputManager;
         private Transform wTransform;
+        private float fireCooldown;
         private ObjectPool pool;
 
         private int CurrentClip
@@ -31,8 +33,8 @@ namespace Player
 
         private enum State
         {
-            StopFiring,
-            CanFire,
+            NotFiring,
+            Firing,
             NeedReload
         }
 
@@ -40,60 +42,58 @@ namespace Player
 
         private void Start()
         {
+            inputManager = ServiceLocator.Instance.Get<InputManager>();
+            inputManager.ReloadKeyUp += Reload;
+            inputManager.LMBHold += FireBullet;
             wTransform = transform;
             CurrentClip = clipSize;
-            state = State.CanFire;
+            state = State.NotFiring;
             pool = ServiceLocator.Instance.Get<ObjectPool>();
+            StartCoroutine(nameof(CantFireCoolDown));
         }
 
-        public void Fire()
+        private IEnumerator CantFireCoolDown()
         {
-            switch (state)
-            {
-                case State.CanFire:
-                    pool.Spawn("bullet", wTransform.position, wTransform.rotation);
-                    StartCoroutine(nameof(WeaponLogic));
-                    break;
-                case State.NeedReload:
-                    StartCoroutine(nameof(Reload));
-                    break;
-            }
+            while (true)
+                switch (state)
+                {
+                    case State.Firing:
+                        pool.Spawn("bullet", wTransform.position, wTransform.rotation);
+                        CurrentClip--;
+                        yield return new WaitForSecondsRealtime(rateOfFire);
+                        
+                        if (state == State.Firing)
+                            state = State.NotFiring;
+                        
+                        break;
+                    case State.NeedReload:
+                        Reloading?.Invoke(true);
+                        yield return new WaitForSecondsRealtime(reloadTime);
+                        CurrentClip = clipSize;
+                        Reloading?.Invoke(false);
+                        state = State.NotFiring;
+                        break;
+                    case State.NotFiring:
+                        yield return new WaitForEndOfFrame();
+                        break;
+                    default:
+                        yield return new WaitForEndOfFrame();
+                        break;
+                }
         }
 
-        private IEnumerator WeaponLogic()
+        private void Reload()
         {
-            state = State.StopFiring;
+            state = State.NeedReload;
+        }
 
-            CurrentClip--;
+        private void FireBullet()
+        {
+            if (state == State.NotFiring && CurrentClip > 0)
+                state = State.Firing;
 
-            if (CurrentClip > 0)
-            {
-                yield return new WaitForSecondsRealtime(rateOfFire);
-                state = State.CanFire;
-            }
-            else
-            {
+            if (CurrentClip == 0)
                 state = State.NeedReload;
-            }
-        }
-
-        private IEnumerator Reload()
-        {
-            state = State.StopFiring;
-
-            Reloading?.Invoke(true);
-
-            yield return new WaitForSecondsRealtime(reloadTime);
-            CurrentClip = clipSize;
-
-            Reloading?.Invoke(false);
-
-            state = State.CanFire;
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyUp(KeyCode.R)) StartCoroutine(nameof(Reload));
         }
     }
 }

@@ -43,7 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0e795f772334c4aba954bcbcd22fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1529520565375724450, guid: e67480c4fe407434aba456177b9c2dd3, type: 3}
   rateOfFire: 0.216
   reloadTime: 1.62
   clipSize: 30
@@ -59,7 +58,6 @@ GameObject:
   - component: {fileID: 1993870456}
   - component: {fileID: 1993870455}
   - component: {fileID: 6894782584571064451}
-  - component: {fileID: 261082650}
   - component: {fileID: 261082651}
   m_Layer: 0
   m_Name: Player
@@ -127,19 +125,6 @@ CapsuleCollider:
   m_Height: 202.2
   m_Direction: 2
   m_Center: {x: 43, y: -21.3, z: -75.9}
---- !u!114 &261082650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961317625786382766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7041e6d6f53ea04f9deb240ef8f886a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weapon: {fileID: 324429591}
 --- !u!114 &261082651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +141,7 @@ MonoBehaviour:
   - enemy
   maxHealth: 10
   invTime: 1
+  playerRenderer: {fileID: 0}
   gameOverText: {fileID: 0}
 --- !u!1 &7658581623556639793
 GameObject:

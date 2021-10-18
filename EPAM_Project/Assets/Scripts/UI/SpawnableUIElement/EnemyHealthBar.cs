@@ -7,7 +7,6 @@ namespace UI.SpawnableUIElement
     [RequireComponent(typeof(Image), typeof(RectTransform))]
     public class EnemyHealthBar : SpawnableUIElement
     {
-        public const string PoolTag = "hbar";
         public override void EventHandler<T>(T param)
         {
             if (!(param is int health)) return;

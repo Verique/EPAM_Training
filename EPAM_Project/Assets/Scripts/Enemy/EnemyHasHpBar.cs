@@ -1,6 +1,5 @@
 ﻿using System;
 using Services;
-using UI.SpawnableUIElement;
 using UnityEngine;
 
 namespace Enemy
@@ -14,8 +13,7 @@ namespace Enemy
         private Health health;
         private Action<int> action;
         
-        [SerializeField]
-        private EnemyHealthBar eBar;
+        private GameObject eBar;
 
         private void Start()
         {
@@ -25,9 +23,8 @@ namespace Enemy
 
         private void OnBecameVisible()
         {
-            prefs = new SpawnableUIManager.UIInfoPrefs(transform, offset, EnemyHealthBar.PoolTag, health.MaxHealth);
-
-            eBar = infoManager.Link<EnemyHealthBar, int>(prefs, out action);
+            prefs = new SpawnableUIManager.UIInfoPrefs(transform, offset, health.MaxHealth);
+            eBar = infoManager.Link(prefs, "hbar", out action);
             action(health.CurrentHealth);
             health.HealthChanged += action;
         }
@@ -35,7 +32,7 @@ namespace Enemy
         private void OnBecameInvisible()
         {
             if (eBar != null)
-                eBar.gameObject.SetActive(false);
+                eBar.SetActive(false);
             health.HealthChanged -= action;
         }
     }

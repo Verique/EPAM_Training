@@ -1,9 +1,6 @@
 ﻿using System;
-using UI;
 using UI.SpawnableUIElement;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Services
 {
@@ -12,18 +9,16 @@ namespace Services
         private ObjectPool pool;
         private Camera cam;
         
-        public struct UIInfoPrefs
+        public readonly struct UIInfoPrefs
         {
-            public Transform Target;
-            public Vector2 Offset;
-            public string Tag;
+            public readonly Transform Target;
+            public readonly Vector2 Offset;
             public readonly float MaxValue;
 
-            public UIInfoPrefs(Transform target, Vector2 offset, string tag, float maxValue)
+            public UIInfoPrefs(Transform target, Vector2 offset, float maxValue)
             {
                 Target = target;
                 Offset = offset;
-                Tag = tag;
                 MaxValue = maxValue;
             }
         }
@@ -34,13 +29,17 @@ namespace Services
             pool = ServiceLocator.Instance.Get<ObjectPool>();
         }
 
-        public T1 Link<T1, T2>(UIInfoPrefs prefs, out Action<T2> action) where T1: SpawnableUIElement
+        public GameObject Link<T>(UIInfoPrefs prefs, string tag, out Action<T> action) 
         {
-            var go = pool.Spawn(prefs.Tag, Vector3.zero, Quaternion.identity);
-            var uiElement = go.GetComponent<T1>();
+            var go = pool.Spawn(tag, Vector3.zero, Quaternion.identity);
+            var uiElement = go.GetComponent<SpawnableUIElement>();
+
+            if (uiElement == null)
+                throw new ArgumentException($"GameObject with tag {tag} doesn't have a uiElement");
+
             uiElement.Prefs = prefs;
             action = uiElement.EventHandler;
-            return uiElement;
+            return go;
         }
     }
 }

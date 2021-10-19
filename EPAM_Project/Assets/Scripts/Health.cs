@@ -7,21 +7,14 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private List<string> damageSourceTags;
     [SerializeField] private int maxHealth;
+    [SerializeField] private float invTime = 0;
+
+    private float timeSinceDamageTaken;
 
     private const int MinHealth = 0;
-    private int currentHealth;
-
-    public event Action<int> HealthChanged;
-
-    public int CurrentHealth
-    {
-        get => currentHealth;
-        set
-        {
-            currentHealth = value;
-            HealthChanged?.Invoke(value);
-        }
-    }
+    public event Action<int> DamageTaken;
+    public event Action IsDead;
+    public int CurrentHealth { get; private set; }
     public int MaxHealth => maxHealth;
     
     private void OnEnable()
@@ -29,16 +22,15 @@ public class Health : MonoBehaviour
         CurrentHealth = maxHealth;
     }
 
-    protected virtual void TakeDamage(int damage)
+    private void TakeDamage(int damage)
     {
+        if (Time.time - timeSinceDamageTaken < invTime)
+            return;
+        
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, MinHealth, maxHealth);
-
-        if (CurrentHealth == MinHealth) Kill();
-    }
-
-    protected virtual void Kill()
-    {
-        gameObject.SetActive(false);
+        timeSinceDamageTaken = Time.time;
+        DamageTaken?.Invoke(CurrentHealth);
+        if (CurrentHealth <= MinHealth) IsDead?.Invoke();
     }
 
     private void OnCollisionStay(Collision other)

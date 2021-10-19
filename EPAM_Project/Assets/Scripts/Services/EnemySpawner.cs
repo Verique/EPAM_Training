@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class EnemySpawner : MonoBehaviour
+    public class EnemySpawner : MonoBehaviour, IService
     {
         private const float LevelSize = 500f;
         private const float SpawnHeight = -5f;
@@ -12,10 +12,9 @@ namespace Enemy
 
         [SerializeField] private float timeToSpawn = 1f;
 
-        private void Start()
+        private void Awake()
         {
             pool = ServiceLocator.Instance.Get<ObjectPool>();
-            StartCoroutine(nameof(SpawnEnemy));
         }
 
         private IEnumerator SpawnEnemy()
@@ -27,6 +26,11 @@ namespace Enemy
                 pool.Spawn("enemy", spawnPos, Quaternion.identity);
                 yield return new WaitForSecondsRealtime(timeToSpawn);
             }
+        }
+
+        public void StartSpawning()
+        {
+            StartCoroutine(nameof(SpawnEnemy));
         }
     }
 }

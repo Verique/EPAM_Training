@@ -19,7 +19,7 @@ namespace Services
         private Dictionary<string, List<GameObject>> poolActiveDict;
         public List<Pool> poolList;
 
-        private void Start()
+        private void Awake()
         {
             poolDict = new Dictionary<string, List<GameObject>>();
             poolActiveDict = new Dictionary<string, List<GameObject>>();

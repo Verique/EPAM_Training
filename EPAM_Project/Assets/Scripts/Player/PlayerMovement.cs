@@ -1,7 +1,5 @@
-using System;
 using Services;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Player
 {
@@ -20,7 +18,7 @@ namespace Player
         {
             rgbd = GetComponent<Rigidbody>();
             
-            inputManager = Services.ServiceLocator.Instance.Get<InputManager>();
+            inputManager = ServiceLocator.Instance.Get<InputManager>();
             inputManager.MouseMoved += ChangeMousePos;
             inputManager.WasdInput += ChangePlayerPos;
         }

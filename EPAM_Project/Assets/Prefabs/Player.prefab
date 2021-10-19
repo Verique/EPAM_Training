@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 1993870456}
   - component: {fileID: 1993870455}
   - component: {fileID: 6894782584571064451}
-  - component: {fileID: 261082651}
+  - component: {fileID: 1961317626150761949}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -125,7 +125,7 @@ CapsuleCollider:
   m_Height: 202.2
   m_Direction: 2
   m_Center: {x: 43, y: -21.3, z: -75.9}
---- !u!114 &261082651
+--- !u!114 &1961317626150761949
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,15 +134,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1961317625786382766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78b6db5c3a8da5943ba4ac6781ed1e45, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d2909771f0ac764e9e6cd49b0c68c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damageSourceTags:
   - enemy
   maxHealth: 10
-  invTime: 1
-  playerRenderer: {fileID: 0}
-  gameOverText: {fileID: 0}
 --- !u!1 &7658581623556639793
 GameObject:
   m_ObjectHideFlags: 0

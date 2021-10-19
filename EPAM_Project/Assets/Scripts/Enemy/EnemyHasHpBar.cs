@@ -26,14 +26,14 @@ namespace Enemy
             prefs = new SpawnableUIManager.UIInfoPrefs(transform, offset, health.MaxHealth);
             eBar = infoManager.Link(prefs, "hbar", out action);
             action(health.CurrentHealth);
-            health.HealthChanged += action;
+            health.DamageTaken += action;
         }
 
         private void OnBecameInvisible()
         {
             if (eBar != null)
                 eBar.SetActive(false);
-            health.HealthChanged -= action;
+            health.DamageTaken -= action;
         }
     }
 }

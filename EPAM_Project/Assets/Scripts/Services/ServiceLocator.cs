@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Enemy;
 using UnityEngine;
 
 namespace Services
@@ -17,6 +18,7 @@ namespace Services
             Add(GetComponentInChildren<PlayerManager>());
             Add(GetComponentInChildren<ObjectPool>());
             Add(GetComponentInChildren<SpawnableUIManager>());
+            Add(GetComponentInChildren<EnemySpawner>());
         }
 
         private Dictionary<string, IService> services;

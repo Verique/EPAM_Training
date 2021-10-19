@@ -8,14 +8,14 @@ namespace UI
     {
         private Vector2 initialBarSize;
         private RectTransform barTransform;
-        public int MaxValue { get; set; }
+        protected int MaxValue { get; set; }
 
-        private void Awake()
+        private void Start()
         {
             SetupBar();
         }
 
-        public void UpdateBarHeight(int newValue)
+        protected void UpdateBarHeight(int newValue)
         {
             var height = initialBarSize.y * newValue / MaxValue;
             barTransform.sizeDelta = new Vector2(initialBarSize.x, height);

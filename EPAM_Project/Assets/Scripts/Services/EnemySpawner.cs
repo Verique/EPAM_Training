@@ -1,15 +1,17 @@
 using System.Collections;
-using Services;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace Enemy
+namespace Services
 {
     public class EnemySpawner : MonoBehaviour, IService
     {
+        private const string EnemyPoolTag = "enemy";
         private const float LevelSize = 500f;
         private const float SpawnHeight = -5f;
         private ObjectPool pool;
 
+        public List<GameObject> Enemys => pool.GetPooledObjects(EnemyPoolTag );
         [SerializeField] private float timeToSpawn = 1f;
 
         private void Awake()
@@ -23,7 +25,7 @@ namespace Enemy
             {
                 var spawnPos = new Vector3(Random.Range(-LevelSize, LevelSize), Random.Range(-LevelSize, LevelSize),
                     SpawnHeight);
-                pool.Spawn("enemy", spawnPos, Quaternion.identity);
+                Enemys.Add(pool.Spawn(EnemyPoolTag , spawnPos, Quaternion.identity));
                 yield return new WaitForSecondsRealtime(timeToSpawn);
             }
         }
@@ -31,6 +33,11 @@ namespace Enemy
         public void StartSpawning()
         {
             StartCoroutine(nameof(SpawnEnemy));
+        }
+
+        public void StopSpawning()
+        {
+            StopCoroutine(nameof(SpawnEnemy));
         }
     }
 }

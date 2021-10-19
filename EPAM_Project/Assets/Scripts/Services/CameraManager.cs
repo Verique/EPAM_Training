@@ -39,6 +39,6 @@ namespace Services
             cameraTransform.position = camPos;
         }
 
-        public Vector2 WorldToScreen(Vector3 world) => Cam.WorldToScreenPoint(world);
+        public Vector2 WorldPosToScreen(Vector3 worldPos) => Cam.WorldToScreenPoint(worldPos);
     }
 }

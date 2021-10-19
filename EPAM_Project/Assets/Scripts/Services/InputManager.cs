@@ -9,8 +9,9 @@ namespace Services
         
         public event Action<Vector2> WasdInput;
         public event Action<Vector3> MouseMoved;
-        public event Action LMBHold; 
+        public event Action LmbHold; 
         public event Action ReloadKeyUp;
+        public event Action PauseKeyUp;
 
         private void Start()
         {
@@ -24,7 +25,8 @@ namespace Services
             if (Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out var hit)) MouseMoved?.Invoke(hit.point);
             WasdInput?.Invoke(Wasd);
             if (Input.GetKeyUp(KeyCode.R)) ReloadKeyUp?.Invoke();
-            if (Input.GetMouseButton(0)) LMBHold?.Invoke();
+            if (Input.GetKeyUp(KeyCode.Escape)) PauseKeyUp?.Invoke();
+            if (Input.GetMouseButton(0)) LmbHold?.Invoke();
             
         }
     }

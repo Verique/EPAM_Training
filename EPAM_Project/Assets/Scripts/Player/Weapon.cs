@@ -44,7 +44,7 @@ namespace Player
         {
             inputManager = ServiceLocator.Instance.Get<InputManager>();
             inputManager.ReloadKeyUp += Reload;
-            inputManager.LMBHold += FireBullet;
+            inputManager.LmbHold += FireBullet;
             wTransform = transform;
             CurrentClip = clipSize;
             state = State.NotFiring;

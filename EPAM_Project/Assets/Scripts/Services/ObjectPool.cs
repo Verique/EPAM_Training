@@ -49,6 +49,8 @@ namespace Services
             }
         }
 
+        public List<GameObject> GetPooledObjects(string tag) => poolDict[tag];
+
         public GameObject Spawn(string tag, Vector3 position, Quaternion rotation)
         {
             if (!poolDict.ContainsKey(tag))

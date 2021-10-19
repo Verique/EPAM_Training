@@ -37,7 +37,7 @@ namespace UI.SpawnableUIElement
 
         private void LateUpdate()
         {
-            barTransform.position = cameraManager.WorldToScreen(Prefs.Target.position) + Prefs.Offset;
+            barTransform.position = cameraManager.WorldPosToScreen(Prefs.Target.position) + Prefs.Offset;
         }
         
     }

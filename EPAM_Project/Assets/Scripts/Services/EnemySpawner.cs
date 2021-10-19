@@ -11,7 +11,7 @@ namespace Services
         private const float SpawnHeight = -5f;
         private ObjectPool pool;
 
-        public List<GameObject> Enemys => pool.GetPooledObjects(EnemyPoolTag );
+        public List<GameObject> Enemys => pool.GetPooledObjects(EnemyPoolTag);
         [SerializeField] private float timeToSpawn = 1f;
 
         private void Awake()
@@ -26,7 +26,7 @@ namespace Services
                 var spawnPos = new Vector3(Random.Range(-LevelSize, LevelSize), Random.Range(-LevelSize, LevelSize),
                     SpawnHeight);
                 Enemys.Add(pool.Spawn(EnemyPoolTag , spawnPos, Quaternion.identity));
-                yield return new WaitForSecondsRealtime(timeToSpawn);
+                yield return new WaitForSeconds(timeToSpawn);
             }
         }
 

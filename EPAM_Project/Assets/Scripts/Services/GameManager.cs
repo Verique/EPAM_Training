@@ -4,15 +4,18 @@ using UnityEngine.UI;
 
 namespace Services
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour, IService
     {
         [SerializeField] private GameObject gameOverScreen;
         [SerializeField] private GameObject pauseScreen;
 
-        private bool isPaused;
         private EnemySpawner enemySpawner;
         private CameraManager cameraManager;
+        private PlayerManager playerManager;
         private Transform playerTransform;
+        
+        public bool GamePaused { get; private set; }
+
         private void Start()
         {
             StartGame();
@@ -20,8 +23,8 @@ namespace Services
 
         private void StartGame()
         {
-            var player = ServiceLocator.Instance.Get<PlayerManager>();
-            playerTransform = player.Transform;
+            playerManager = ServiceLocator.Instance.Get<PlayerManager>();
+            playerTransform = playerManager.Transform;
             playerTransform.GetComponent<Health>().IsDead += EndGame;
 
             ServiceLocator.Instance.Get<InputManager>().PauseKeyUp += Pause;
@@ -34,13 +37,15 @@ namespace Services
 
             gameOverScreen.GetComponentInChildren<Button>().onClick.AddListener(Restart);
             pauseScreen.GetComponentInChildren<Button>().onClick.AddListener(Pause);
+
+            GamePaused = false;
         }
 
         private void Pause()
         {
-            isPaused = !isPaused;
-            pauseScreen.SetActive(isPaused);
-            Time.timeScale = isPaused ? 0 : 1; 
+            GamePaused = !GamePaused;
+            pauseScreen.SetActive(GamePaused);
+            Time.timeScale = GamePaused ? 0 : 1;
         }
 
         private void Restart()

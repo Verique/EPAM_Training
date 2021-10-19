@@ -1,4 +1,5 @@
 using Player;
+using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,16 +11,17 @@ namespace UI
         private Image image;
         private readonly Color reloadColor = Color.black;
         private readonly Color defaultColor = new Color32(219, 164, 99, 255);
-
-        [SerializeField] private Weapon weapon;
-
+        private PlayerManager playerManager;
+        
         protected override void SetupBar()
         {
             base.SetupBar();
+
+            playerManager = ServiceLocator.Instance.Get<PlayerManager>();
             image = GetComponent<Image>();
-            MaxValue = weapon.ClipSize;
-            weapon.BulletCountChanged += UpdateBarHeight;
-            weapon.Reloading += ReloadIndication;
+            MaxValue = playerManager.ClipSize;
+            playerManager.BulletCountChanged += UpdateBarHeight;
+            playerManager.Reloading += ReloadIndication;
         }
 
         private void ReloadIndication(bool reloading)

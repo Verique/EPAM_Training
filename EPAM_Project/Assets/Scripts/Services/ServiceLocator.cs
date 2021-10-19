@@ -19,6 +19,7 @@ namespace Services
             Add(GetComponentInChildren<ObjectPool>());
             Add(GetComponentInChildren<SpawnableUIManager>());
             Add(GetComponentInChildren<EnemySpawner>());
+            Add(GetComponentInChildren<GameManager>());
         }
 
         private Dictionary<string, IService> services;

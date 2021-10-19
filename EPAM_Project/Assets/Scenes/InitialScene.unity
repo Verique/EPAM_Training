@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0051389c118367408a633f6dd781063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 1106850878}
+  weapon: {fileID: 0}
 --- !u!114 &224216137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1128,6 +1128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2079521075}
+  rateOfFire: 0.2
+  reloadTime: 1.6
+  clipSize: 25
 --- !u!1 &926073920
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,17 +1353,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 996913167}
   m_CullTransparentMesh: 1
---- !u!114 &1106850878 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 324429591, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-  m_PrefabInstance: {fileID: 1961317626150761947}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0e795f772334c4aba954bcbcd22fff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1157340526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2295,10 +2287,6 @@ PrefabInstance:
     - target: {fileID: 1961317625786382766, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1961317626150761949, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: invTime
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f41670956912b7241ae07bf51bdb241e, type: 3}

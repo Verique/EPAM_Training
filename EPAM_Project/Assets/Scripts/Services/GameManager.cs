@@ -18,6 +18,7 @@ namespace Services
 
         private void Start()
         {
+            Time.timeScale = 1;
             StartGame();
         }
 

@@ -13,15 +13,16 @@ namespace Enemy
         private Transform eTransform;
         public Transform Target { get; set; }
 
-        [SerializeField] private float enemySpeed = 100f;
+        private float enemySpeed;
 
         private void Awake()
         {
+            enemySpeed = PlayerPrefs.GetFloat("EnemySpeed");
             GetComponent<Health>().IsDead += () => gameObject.SetActive(false);
             rgbd = GetComponent<Rigidbody>();
             eTransform = transform;
         }
-        
+  
         private void FixedUpdate()
         {
             if (Target is null)

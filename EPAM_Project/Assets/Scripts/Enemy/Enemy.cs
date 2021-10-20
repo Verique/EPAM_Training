@@ -12,18 +12,16 @@ namespace Enemy
         private Rigidbody rgbd;
         private Transform eTransform;
         public Transform Target { get; set; }
-        public Vector3 TargetPos => Target.position;
 
         [SerializeField] private float enemySpeed = 100f;
 
-        private void Start()
+        private void Awake()
         {
             GetComponent<Health>().IsDead += () => gameObject.SetActive(false);
-            Target = FindObjectOfType<PlayerMovement>().transform;
             rgbd = GetComponent<Rigidbody>();
             eTransform = transform;
         }
-
+        
         private void FixedUpdate()
         {
             if (Target is null)

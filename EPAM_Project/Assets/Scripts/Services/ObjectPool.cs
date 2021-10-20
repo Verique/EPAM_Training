@@ -79,7 +79,9 @@ namespace Services
         public void Despawn(string tag, GameObject obj)
         {
             obj.SetActive(false);
-            poolActiveDict[tag].Remove(obj);
+            
+            if (poolActiveDict.ContainsKey(tag))
+                poolActiveDict[tag].Remove(obj);
         }
 
         private GameObject GetNonActiveInQueue(IEnumerable<GameObject> list)

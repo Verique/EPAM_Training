@@ -25,7 +25,7 @@ namespace Services
             {
                 var spawnPos = new Vector3(Random.Range(-LevelSize, LevelSize), Random.Range(-LevelSize, LevelSize),
                     SpawnHeight);
-                Enemys.Add(pool.Spawn(EnemyPoolTag , spawnPos, Quaternion.identity));
+                pool.Spawn(EnemyPoolTag, spawnPos, Quaternion.identity);
                 yield return new WaitForSeconds(timeToSpawn);
             }
         }

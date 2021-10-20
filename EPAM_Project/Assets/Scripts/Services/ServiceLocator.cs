@@ -8,6 +8,7 @@ namespace Services
     public class ServiceLocator : MonoBehaviour
     {
         public static ServiceLocator Instance;
+        
         private void Awake()
         {
             Instance = this;
@@ -24,7 +25,7 @@ namespace Services
 
         private Dictionary<string, IService> services;
 
-        public void Add<T>(T service) where T: Component, IService 
+        private void Add<T>(T service) where T: Component, IService 
         {
             var key = typeof(T).Name;
 

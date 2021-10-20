@@ -34,21 +34,23 @@ namespace Services
             
             enemySpawner = ServiceLocator.Instance.Get<EnemySpawner>();
             enemySpawner.StartSpawning();
-
-            gameOverScreen.GetComponentInChildren<Button>().onClick.AddListener(Restart);
-            pauseScreen.GetComponentInChildren<Button>().onClick.AddListener(Pause);
+            
+            foreach (var enemy in enemySpawner.Enemys)
+            {
+                enemy.GetComponent<Enemy.Enemy>().Target = playerTransform;
+            }
 
             GamePaused = false;
         }
 
-        private void Pause()
+        public void Pause()
         {
             GamePaused = !GamePaused;
             pauseScreen.SetActive(GamePaused);
             Time.timeScale = GamePaused ? 0 : 1;
         }
 
-        private void Restart()
+        public void Restart()
         {
             SceneManager.LoadScene("InitialScene");
         }
@@ -64,6 +66,11 @@ namespace Services
             }
             
             gameOverScreen.SetActive(true);
+        }
+
+        public void ToMainMenu()
+        {
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }

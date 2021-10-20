@@ -7,7 +7,6 @@ namespace Services
     public class SpawnableUIManager : MonoBehaviour, IService
     {
         private ObjectPool pool;
-        private Camera cam;
         
         public readonly struct UIInfoPrefs
         {
@@ -25,7 +24,6 @@ namespace Services
 
         private void Start()
         {
-            cam = ServiceLocator.Instance.Get<CameraManager>().Cam;
             pool = ServiceLocator.Instance.Get<ObjectPool>();
         }
 

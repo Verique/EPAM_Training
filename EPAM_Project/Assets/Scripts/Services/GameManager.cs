@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ namespace Services
     public class GameManager : MonoBehaviour, IService
     {
         [SerializeField] private GameObject gameOverScreen;
-        [SerializeField] private GameObject pauseScreen;
+        [SerializeField] private PauseScreen pauseScreen;
 
         private EnemySpawner enemySpawner;
         private CameraManager cameraManager;
@@ -18,7 +19,6 @@ namespace Services
 
         private void Start()
         {
-            Time.timeScale = 1;
             StartGame();
         }
 
@@ -48,7 +48,6 @@ namespace Services
         {
             GamePaused = !GamePaused;
             pauseScreen.SetActive(GamePaused);
-            Time.timeScale = GamePaused ? 0 : 1;
         }
 
         public void Restart()

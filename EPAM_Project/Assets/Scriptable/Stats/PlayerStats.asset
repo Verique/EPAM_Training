@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
   intStats:
-    stats:
-    - name: health
-      value: 10
+  - name: health
+    value: 10
   floatStats:
-    stats: []
+  - name: speed
+    value: 50

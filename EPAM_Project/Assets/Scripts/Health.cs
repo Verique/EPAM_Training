@@ -21,7 +21,7 @@ public class Health : MonoBehaviour
     
     private void OnEnable()
     {
-        maxHealth = GetComponent<StatLoader>().Stats.GetInt("health");
+        maxHealth = GetComponent<StatLoader>().GetInt("health");
         CurrentHealth = maxHealth;
     }
 

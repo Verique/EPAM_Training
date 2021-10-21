@@ -19,7 +19,7 @@ namespace Enemy
 
         private void Awake()
         {
-            speed = GetComponent<StatLoader>().Stats.GetFloat("speed");
+            speed = GetComponent<StatLoader>().GetFloat("speed");
             GetComponent<Health>().IsDead += () => gameObject.SetActive(false);
             rgbd = GetComponent<Rigidbody>();
             eTransform = transform;

@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: EnemyStats
   m_EditorClassIdentifier: 
   intStats:
-    stats:
-    - name: health
-      value: 100
+  - name: health
+    value: 100
   floatStats:
-    stats:
-    - name: speed
-      value: 0
+  - name: speed
+    value: 40

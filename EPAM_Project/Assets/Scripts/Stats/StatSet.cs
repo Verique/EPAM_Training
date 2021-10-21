@@ -5,10 +5,9 @@ using UnityEngine;
 
 namespace Stats
 {
-    [Serializable]
     public class StatSet<T> : ISerializationCallbackReceiver
     {
-        [SerializeField] private List <Stat<T>> stats;
+        [SerializeField] private List<Stat<T>> statsListForSerialization;
         private Dictionary<string, Stat<T>> statsDict;
 
         public T Get(string statName)
@@ -24,14 +23,22 @@ namespace Stats
             if (!statsDict.ContainsKey(statName)) 
                 throw new InvalidOperationException($"There is no {statName} in stats");
             
-            statsDict[statName].value = value;
+            statsDict[statName] = new Stat<T>(statName, value);
         }
 
-        public void OnBeforeSerialize() { }
+        public void OnBeforeSerialize()
+        {
+            statsListForSerialization = statsDict.Values.ToList();
+        }
 
         public void OnAfterDeserialize()
         {
-            statsDict = stats.ToDictionary(stat => stat.name);
+            statsDict = statsListForSerialization.ToDictionary(stat => stat.name);
+        }
+
+        public StatSet(IEnumerable<Stat<T>> initialList)
+        {
+            statsDict = initialList.ToDictionary(stat => stat.name);
         }
     }
 }

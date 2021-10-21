@@ -1,22 +1,23 @@
 using Services;
+using Stats;
 using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody), typeof(StatLoader))]
     public class PlayerMovement : MonoBehaviour
     {
         private Rigidbody rgbd;
         private InputManager inputManager;
+        private StatLoader statLoader;
 
         private Vector3 mousePos;
         private Vector2 input;
 
-        [SerializeField] private float speed = 5;
-
         private void Start()
         {
             rgbd = GetComponent<Rigidbody>();
+            statLoader = GetComponent<StatLoader>();
             
             inputManager = ServiceLocator.Instance.Get<InputManager>();
             inputManager.MouseMoved += ChangeMousePos;
@@ -41,7 +42,7 @@ namespace Player
         private void Move()
         {
             var dir = input.normalized;
-            var newPos = rgbd.position + speed * Time.fixedDeltaTime * (Vector3) dir;
+            var newPos = rgbd.position + statLoader.GetFloat("speed") * Time.fixedDeltaTime * (Vector3) dir;
             rgbd.MovePosition(newPos);
         }
 

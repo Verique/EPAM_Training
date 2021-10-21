@@ -1,7 +1,6 @@
 ﻿using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace Services
 {
@@ -46,16 +45,16 @@ namespace Services
 
         public void Pause()
         {
-            if (GameState == GameState.Default)
+            switch (GameState)
             {
-                GameState = GameState.Pause;
-                pauseScreen.SetActive(true);
-            }
-
-            if (GameState == GameState.Pause)
-            {
-                GameState = GameState.Default;
-                pauseScreen.SetActive(false);
+                case GameState.Default:
+                    GameState = GameState.Pause;
+                    pauseScreen.SetActive(true);
+                    break;
+                case GameState.Pause:
+                    GameState = GameState.Default;
+                    pauseScreen.SetActive(false);
+                    break;
             }
         }
 
@@ -81,6 +80,11 @@ namespace Services
         public void ToMainMenu()
         {
             SceneManager.LoadScene("MainMenu");
+        }
+
+        private void Update()
+        {
+            Debug.Log($"GameState : {GameState}");
         }
     }
 }

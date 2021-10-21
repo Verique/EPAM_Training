@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
+using Stats;
 using UnityEngine;
-using UnityEngine.Events;
 
+[RequireComponent(typeof(StatLoader))]
 public class Health : MonoBehaviour
 {
     [SerializeField] private List<string> damageSourceTags;
-    [SerializeField] private int maxHealth;
     [SerializeField] private float invTime = 0;
 
     private float timeSinceDamageTaken;
+    private int maxHealth;
 
     private const int MinHealth = 0;
+    
     public event Action<int> DamageTaken;
     public event Action IsDead;
     public int CurrentHealth { get; private set; }
@@ -19,6 +21,7 @@ public class Health : MonoBehaviour
     
     private void OnEnable()
     {
+        maxHealth = GetComponent<StatLoader>().Stats.GetInt("health");
         CurrentHealth = maxHealth;
     }
 

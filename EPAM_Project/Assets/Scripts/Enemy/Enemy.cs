@@ -1,23 +1,25 @@
 using System;
 using Player;
+using Stats;
 using UnityEngine;
 
 namespace Enemy
 {
-    [RequireComponent(typeof(Rigidbody), typeof(Health))]
+    [RequireComponent(typeof(Rigidbody), typeof(Health), typeof(StatLoader))]
     public class Enemy : MonoBehaviour
     {
         private const float Height = -5f;
 
         private Rigidbody rgbd;
         private Transform eTransform;
+        
         public Transform Target { get; set; }
 
-        private float enemySpeed;
+        private float speed;
 
         private void Awake()
         {
-            enemySpeed = PlayerPrefs.GetFloat("EnemySpeed");
+            speed = GetComponent<StatLoader>().Stats.GetFloat("speed");
             GetComponent<Health>().IsDead += () => gameObject.SetActive(false);
             rgbd = GetComponent<Rigidbody>();
             eTransform = transform;
@@ -33,7 +35,7 @@ namespace Enemy
             var lookPos = Target.position;
             lookPos.z = Height;
             eTransform.LookAt(lookPos);
-            rgbd.velocity = eTransform.forward * enemySpeed;
+            rgbd.velocity = eTransform.forward * speed;
         }
 
     }

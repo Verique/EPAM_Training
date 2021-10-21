@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 7905830551187980708}
   - component: {fileID: 892661954812771970}
   - component: {fileID: 2661200161338826453}
+  - component: {fileID: 1843161543546468304}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: enemy
@@ -120,7 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b41fc10ec6bd24988887bbf9a4ddb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpeed: 40
 --- !u!54 &5905202115791297581
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSourceTags:
   - playerBullet
-  maxHealth: 100
+  invTime: 0
 --- !u!114 &286699948369033831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,4 +228,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ddc27ee0974f49bf743958a54f7416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eBar: {fileID: 0}
+--- !u!114 &1843161543546468304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7911480848025705824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28267b84cfe480fbf5397d49d3f0508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: ff78641edc060df45b8a03d626b6743d, type: 2}

@@ -24,7 +24,7 @@ namespace Services
         
         private void Update()
         {
-            if (!gameManager.GamePaused)
+            if (gameManager.GameState == GameState.Default)
             {
                 if (Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out var hit))
                     MouseMoved?.Invoke(hit.point);
@@ -34,7 +34,6 @@ namespace Services
             }
 
             if (Input.GetKeyUp(KeyCode.Escape)) PauseKeyUp?.Invoke();
-            
         }
     }
 }

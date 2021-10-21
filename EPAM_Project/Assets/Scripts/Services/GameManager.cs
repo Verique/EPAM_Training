@@ -81,10 +81,5 @@ namespace Services
         {
             SceneManager.LoadScene("MainMenu");
         }
-
-        private void Update()
-        {
-            Debug.Log($"GameState : {GameState}");
-        }
     }
 }

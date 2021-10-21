@@ -1,5 +1,6 @@
 using System;
 using Player;
+using Services;
 using Stats;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace Enemy
         {
             speed = GetComponent<StatLoader>().GetFloat("speed");
             GetComponent<Health>().IsDead += () => gameObject.SetActive(false);
+            GetComponent<Health>().IsDead += () => ServiceLocator.Instance.Get<PlayerManager>().GetExperience(1);
             rgbd = GetComponent<Rigidbody>();
             eTransform = transform;
         }

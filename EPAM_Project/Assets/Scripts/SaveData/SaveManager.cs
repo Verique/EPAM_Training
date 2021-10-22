@@ -1,26 +1,36 @@
-﻿
-
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Player;
-using Services;
 using UnityEngine;
 
 namespace SaveData
 {
     public static class SaveManager
     {
-        /*public static void Save()
+        public static void Save()
         {
             var formatter = new BinaryFormatter();
             var path = Application.persistentDataPath + "/saveData.dat";
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
-                var playerManager = ServiceLocator.Instance.GetComponent<PlayerManager>();
-                var data = new GameData(new PlayerData(playerManager.transform.position, playerManager.GetComponent<PlayerMovement>().Speed));
+                var data = new GameData();
                 formatter.Serialize(stream, data);
             }
-        }*/
+        }
+
+        public static GameData Load()
+        {
+            var path = Application.persistentDataPath + "/saveData.dat";
+
+            if (!File.Exists(path)) 
+                throw new FileNotFoundException();
+            
+            var formatter = new BinaryFormatter();
+
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                return formatter.Deserialize(stream) as GameData;
+            }
+        }
     }
 }

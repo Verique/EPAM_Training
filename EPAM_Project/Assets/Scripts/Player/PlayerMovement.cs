@@ -1,3 +1,4 @@
+using SaveData;
 using Services;
 using Stats;
 using UnityEngine;
@@ -57,6 +58,14 @@ namespace Player
             var dirToMouse = mousePos - rgbd.position;
             var angle = Mathf.Atan2(dirToMouse.y, dirToMouse.x) * Mathf.Rad2Deg - 90f;
             rgbd.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        public void TestLoad()
+        {
+            var data = SaveManager.Load();
+            Vector3 pos = data.position.ToVector3;
+            Debug.Log($"Loaded! NewPos : {pos}");
+            rgbd.position = pos;
         }
     }
 }

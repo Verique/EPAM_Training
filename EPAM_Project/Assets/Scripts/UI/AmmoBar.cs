@@ -19,9 +19,9 @@ namespace UI
 
             playerManager = ServiceLocator.Instance.Get<PlayerManager>();
             image = GetComponent<Image>();
-            MaxValue = playerManager.ClipSize;
-            playerManager.BulletCountChanged += UpdateBarHeight;
-            playerManager.Reloading += ReloadIndication;
+            MaxValue = playerManager.Weapon.ClipSize;
+            playerManager.Weapon.BulletCountChanged += UpdateBarHeight;
+            playerManager.Weapon.Reloading += ReloadIndication;
         }
 
         private void ReloadIndication(bool reloading)

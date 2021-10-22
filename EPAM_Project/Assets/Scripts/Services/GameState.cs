@@ -2,8 +2,10 @@
 {
     public enum GameState
     {
-        Default,
+        NewGame,
+        LoadGame,
         Pause,
-        GameOver
+        GameOver,
+        MainMenu
     }
 }

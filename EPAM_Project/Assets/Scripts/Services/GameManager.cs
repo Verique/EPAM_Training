@@ -14,7 +14,6 @@ namespace Services
         private PlayerManager playerManager;
         private Transform playerTransform;
         
-        public GameState GameState { get; private set; }
         
         private void Start()
         {
@@ -40,19 +39,19 @@ namespace Services
                 enemy.GetComponent<Enemy.Enemy>().Target = playerTransform;
             }
 
-            GameState = GameState.Default;
+            CurrentGameState.State = GameState.NewGame;
         }
 
         public void Pause()
         {
-            switch (GameState)
+            switch (CurrentGameState.State)
             {
-                case GameState.Default:
-                    GameState = GameState.Pause;
+                case GameState.NewGame:
+                    CurrentGameState.State = GameState.Pause;
                     pauseScreen.SetActive(true);
                     break;
                 case GameState.Pause:
-                    GameState = GameState.Default;
+                    CurrentGameState.State = GameState.NewGame;
                     pauseScreen.SetActive(false);
                     break;
             }
@@ -65,7 +64,7 @@ namespace Services
 
         private void EndGame()
         {
-            GameState = GameState.GameOver;
+            CurrentGameState.State = GameState.GameOver;
             enemySpawner.StopSpawning();
             cameraManager.enabled = false;
             
@@ -79,6 +78,7 @@ namespace Services
 
         public void ToMainMenu()
         {
+            CurrentGameState.State = GameState.MainMenu;
             SceneManager.LoadScene("MainMenu");
         }
     }

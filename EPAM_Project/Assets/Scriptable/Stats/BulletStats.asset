@@ -17,4 +17,6 @@ MonoBehaviour:
     - name: health
       value: 1
   floatStats:
-    statsList: []
+    statsList:
+    - name: speed
+      value: 120

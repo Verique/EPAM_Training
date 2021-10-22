@@ -8,7 +8,7 @@ namespace Stats
     [Serializable]
     public class StatSet<T> : ISerializationCallbackReceiver
     {
-        [SerializeField] private List<Stat<T>> statsList;
+        public List<Stat<T>> statsList;
         private Dictionary<string, Stat<T>> statsDict;
 
         public T Get(string statName)
@@ -29,7 +29,7 @@ namespace Stats
 
         public void OnBeforeSerialize()
         {
-            statsList = statsDict.Values.ToList();
+            statsList = statsDict?.Values.ToList();
         }
 
         public void OnAfterDeserialize()

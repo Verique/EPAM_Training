@@ -13,9 +13,15 @@ namespace Player
 
         private Vector3 mousePos;
         private Vector2 input;
+        private float speed;
+
+        public float Speed => speed;    
 
         private void Start()
         {
+            statLoader = GetComponent<StatLoader>();
+            speed = statLoader.GetFloat("speed");
+            
             rgbd = GetComponent<Rigidbody>();
             statLoader = GetComponent<StatLoader>();
             
@@ -42,7 +48,7 @@ namespace Player
         private void Move()
         {
             var dir = input.normalized;
-            var newPos = rgbd.position + statLoader.GetFloat("speed") * Time.fixedDeltaTime * (Vector3) dir;
+            var newPos = rgbd.position + speed * Time.fixedDeltaTime * (Vector3) dir;
             rgbd.MovePosition(newPos);
         }
 

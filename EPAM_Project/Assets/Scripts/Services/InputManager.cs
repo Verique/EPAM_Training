@@ -24,7 +24,7 @@ namespace Services
         
         private void Update()
         {
-            if (gameManager.GameState == GameState.Default)
+            if (CurrentGameState.State == GameState.NewGame)
             {
                 if (Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out var hit))
                     MouseMoved?.Invoke(hit.point);

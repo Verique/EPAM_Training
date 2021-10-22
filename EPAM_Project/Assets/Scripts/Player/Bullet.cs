@@ -1,15 +1,16 @@
 using System;
+using Stats;
 using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody), typeof(Health))]
+    [RequireComponent(typeof(Rigidbody), typeof(Health), typeof(StatLoader))]
     public class Bullet : MonoBehaviour
     {
-        [SerializeField] private float bulletSpeed = 60f;
+        private float bulletSpeed;
         private Rigidbody rgbd;
         private Transform bTransform;
-
+    
         private void Start()
         {
             GetComponent<Health>().IsDead += () => gameObject.SetActive(false);
@@ -17,6 +18,7 @@ namespace Player
 
         private void OnEnable()
         {           
+            bulletSpeed = GetComponent<StatLoader>().GetFloat("speed");
             rgbd = GetComponent<Rigidbody>();
             bTransform = GetComponent<Transform>();
             rgbd.velocity = bulletSpeed * bTransform.up;

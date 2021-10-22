@@ -1286,9 +1286,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2079521075}
-  rateOfFire: 0.2
-  reloadTime: 1.6
-  clipSize: 25
 --- !u!1 &926073920
 GameObject:
   m_ObjectHideFlags: 0
@@ -2702,6 +2699,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2141267820, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1961317625786382765, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -2750,13 +2751,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7867204570953302617, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: baseStats
-      value: 
-      objectReference: {fileID: 11400000, guid: 2ab3e5b573633c246a14e643d487f3df, type: 2}
-    - target: {fileID: 7867204570953302617, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: initialStats
-      value: 
-      objectReference: {fileID: 11400000, guid: 2ab3e5b573633c246a14e643d487f3df, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f41670956912b7241ae07bf51bdb241e, type: 3}

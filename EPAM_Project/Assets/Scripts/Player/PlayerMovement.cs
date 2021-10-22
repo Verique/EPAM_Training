@@ -63,7 +63,7 @@ namespace Player
         public void TestLoad()
         {
             var data = SaveManager.Load();
-            Vector3 pos = data.position.ToVector3;
+            var pos = data.position.ToVector3();
             Debug.Log($"Loaded! NewPos : {pos}");
             rgbd.position = pos;
         }

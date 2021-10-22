@@ -5,9 +5,10 @@ using UnityEngine;
 
 namespace Stats
 {
+    [Serializable]
     public class StatSet<T> : ISerializationCallbackReceiver
     {
-        [SerializeField] private List<Stat<T>> statsListForSerialization;
+        [SerializeField] private List<Stat<T>> statsList;
         private Dictionary<string, Stat<T>> statsDict;
 
         public T Get(string statName)
@@ -28,12 +29,12 @@ namespace Stats
 
         public void OnBeforeSerialize()
         {
-            statsListForSerialization = statsDict.Values.ToList();
+            statsList = statsDict.Values.ToList();
         }
 
         public void OnAfterDeserialize()
         {
-            statsDict = statsListForSerialization.ToDictionary(stat => stat.name);
+            statsDict = statsList.ToDictionary(stat => stat.name);
         }
 
         public StatSet(IEnumerable<Stat<T>> initialList)

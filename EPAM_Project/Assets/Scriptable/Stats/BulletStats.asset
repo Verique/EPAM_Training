@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BulletStats
   m_EditorClassIdentifier: 
   intStats:
-  - name: health
-    value: 1
+    statsList:
+    - name: health
+      value: 1
   floatStats:
-  - name: 
-    value: 0
+    statsList: []

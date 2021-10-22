@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Stats;
 using UnityEngine;
 using UnityEngine.Events;
 

@@ -7,16 +7,10 @@ namespace SaveData
     [Serializable]
     public class PlayerData
     {
-        [SerializeField] private float speed;
-        [SerializeField] private HealthData healthData;
-
-        public PlayerData(HealthData healthData, float speed)
-        {
-            this.healthData = healthData;
-            this.speed = speed;
-        }
-
-        public HealthData HealthData => healthData;
-        public float Speed => speed;
+        public SerializableVector3 position;
+        public SerializableVector3 rotation;
+        public int maxHealth;
+        public int currentHealth;
+        public int currentClip;
     }
 }

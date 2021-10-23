@@ -24,7 +24,7 @@ namespace Services
         {
             playerManager = ServiceLocator.Instance.Get<PlayerManager>();
             playerTransform = playerManager.Transform;
-            playerManager.Data.GetHealthData.IsDead += EndGame;
+            playerTransform.GetComponent<Health>().IsDead += EndGame;
 
             ServiceLocator.Instance.Get<InputManager>().PauseKeyUp += Pause;
             

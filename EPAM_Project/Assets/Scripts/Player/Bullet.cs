@@ -1,28 +1,27 @@
 using System;
-using SaveData;
 using Stats;
 using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody), typeof(BulletDataLoader))]
+    [RequireComponent(typeof(Rigidbody), typeof(Health), typeof(StatLoader))]
     public class Bullet : MonoBehaviour
     {
-        private BulletData bData;
+        private float bulletSpeed;
         private Rigidbody rgbd;
         private Transform bTransform;
-        
-        private void Awake()
+    
+        private void Start()
         {
-            rgbd = GetComponent<Rigidbody>();
-            bTransform = GetComponent<Transform>();
-            bData = GetComponent<BulletDataLoader>().Data;
-            bData.HealthData.IsDead += () => gameObject.SetActive(false);
+            GetComponent<Health>().IsDead += () => gameObject.SetActive(false);
         }
 
         private void OnEnable()
-        {          
-            rgbd.velocity = bData.Speed * bTransform.up;
+        {           
+            bulletSpeed = GetComponent<StatLoader>().GetFloat("speed");
+            rgbd = GetComponent<Rigidbody>();
+            bTransform = GetComponent<Transform>();
+            rgbd.velocity = bulletSpeed * bTransform.up;
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using SaveData;
 using Services;
 using Stats;
@@ -6,29 +5,41 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody), typeof(PlayerDataLoader))]
+    [RequireComponent(typeof(Rigidbody), typeof(StatLoader))]
     public class PlayerMovement : MonoBehaviour
     {
         private Rigidbody rgbd;
-        private PlayerData playerData;
         private InputManager inputManager;
+        private StatLoader statLoader;
 
         private Vector3 mousePos;
         private Vector2 input;
+        private float speed;
 
-        private void Awake()
-        {
-            rgbd = GetComponent<Rigidbody>();
-        }
+        public float Speed => speed;    
 
         private void Start()
         {
-            playerData = GetComponent<PlayerDataLoader>().playerData;
+            statLoader = GetComponent<StatLoader>();
+            speed = statLoader.GetFloat("speed");
+            
+            rgbd = GetComponent<Rigidbody>();
+            statLoader = GetComponent<StatLoader>();
+            
             inputManager = ServiceLocator.Instance.Get<InputManager>();
-            inputManager.MouseMoved += (newMousePos) => mousePos = newMousePos;
-            inputManager.WasdInput += (newInput) => input = newInput;
+            inputManager.MouseMoved += ChangeMousePos;
+            inputManager.WasdInput += ChangePlayerPos;
         }
 
+        private void ChangeMousePos(Vector3 mousePos)
+        {
+            this.mousePos = mousePos;
+        }
+        private void ChangePlayerPos(Vector2 input)
+        {
+            this.input = input;
+        }
+        
         private void FixedUpdate()
         {
             Move();
@@ -38,7 +49,7 @@ namespace Player
         private void Move()
         {
             var dir = input.normalized;
-            var newPos = rgbd.position + playerData.Speed * Time.fixedDeltaTime * (Vector3) dir;
+            var newPos = rgbd.position + speed * Time.fixedDeltaTime * (Vector3) dir;
             rgbd.MovePosition(newPos);
         }
 

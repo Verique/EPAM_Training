@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using SaveData;
 using Services;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Player
 {
-    public class PlayerWeapon : MonoBehaviour
+    public class PlayerWeapon : MonoBehaviour,ISaveable<int>
     {
         private enum State
         {
@@ -28,7 +29,7 @@ namespace Player
         private ObjectPool pool;
         private State state;
 
-        private int CurrentClip
+        public int CurrentClip
         {
             get => currentClip;
             set
@@ -94,6 +95,16 @@ namespace Player
 
             if (CurrentClip == 0)
                 state = State.NeedReload;
+        }
+
+        public int GetSaveData()
+        {
+            return currentClip;
+        }
+
+        public void LoadData(int data)
+        {
+            CurrentClip = data;
         }
     }
 }

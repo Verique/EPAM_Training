@@ -13,7 +13,7 @@ namespace UI
             base.SetupBar();
             health = ServiceLocator.Instance.Get<PlayerManager>().Health;
             MaxValue = health.MaxHealth;
-            health.DamageTaken += UpdateBarHeight;
+            health.HealthChanged += UpdateBarHeight;
         }
     }
 }

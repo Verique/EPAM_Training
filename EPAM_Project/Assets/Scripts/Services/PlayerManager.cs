@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Extensions;
 using Player;
 using SaveData;
 using Stats;
@@ -33,7 +34,7 @@ namespace Services
         private void InitHealth()
         {
             Health = player.GetComponent<Health>();
-            Health.DamageTaken += currentHealth => StartCoroutine(nameof(PlayerDamageTakenIndication));
+            Health.HealthChanged += currentHealth => StartCoroutine(nameof(PlayerDamageTakenIndication));
             Health.IsDead += () => player.gameObject.SetActive(false);
             playerRenderer = player.GetComponentInChildren<Renderer>();
         }
@@ -55,13 +56,24 @@ namespace Services
 
         public PlayerData GetSaveData()
         {
-            return new PlayerData(Transform.position, Transform.rotation.eulerAngles);
+            var (currentHealth, maxHealth) = Health.GetSaveData();
+
+            return new PlayerData
+            {
+                position = Transform.position.ToSerializable(),
+                rotation = Transform.rotation.eulerAngles.ToSerializable(),
+                currentHealth = currentHealth,
+                currentClip = Weapon.GetSaveData(),
+                maxHealth = maxHealth,
+            };
         }
 
         public void LoadData(PlayerData data)
         {
-            Transform.position = data.Position;
-            Transform.rotation = Quaternion.Euler(data.Rotation);
+            Transform.position = data.position;
+            Transform.rotation = Quaternion.Euler(data.rotation);
+            Health.LoadData((data.currentHealth, data.maxHealth).ToTuple());
+            Weapon.LoadData(data.currentClip);
         }
     }
 }

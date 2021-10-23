@@ -1,28 +1,41 @@
 using System;
 using System.Collections.Generic;
+using SaveData;
 using Stats;
 using UnityEngine;
 
 [RequireComponent(typeof(StatLoader))]
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, ISaveable<Tuple<int, int>>
 {
     [SerializeField] private List<string> damageSourceTags;
     [SerializeField] private float invTime = 0;
 
     private float timeSinceDamageTaken;
-    private int maxHealth;
 
     private const int MinHealth = 0;
     
-    public event Action<int> DamageTaken;
+    public event Action<int> HealthChanged;
     public event Action IsDead;
-    public int CurrentHealth { get; private set; }
-    public int MaxHealth => maxHealth;
+
+    private int currentHealth;
     
+    public int CurrentHealth
+    {
+        get => currentHealth;
+
+        private set
+        {
+            currentHealth = value;
+            HealthChanged?.Invoke(currentHealth);
+        }
+    }
+
+    public int MaxHealth { get; private set; }
+
     private void OnEnable()
     {
-        maxHealth = GetComponent<StatLoader>().GetInt("health");
-        CurrentHealth = maxHealth;
+        MaxHealth = GetComponent<StatLoader>().GetInt("health");
+        CurrentHealth = MaxHealth;
     }
 
     private void TakeDamage(int damage)
@@ -30,9 +43,8 @@ public class Health : MonoBehaviour
         if (Time.time - timeSinceDamageTaken < invTime)
             return;
         
-        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, MinHealth, maxHealth);
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, MinHealth, MaxHealth);
         timeSinceDamageTaken = Time.time;
-        DamageTaken?.Invoke(CurrentHealth);
         if (CurrentHealth <= MinHealth) IsDead?.Invoke();
     }
 
@@ -45,5 +57,17 @@ public class Health : MonoBehaviour
             return;
 
         if (otherObj.TryGetComponent(out DamageSource source)) TakeDamage(source.Damage);
+    }
+
+    public Tuple<int, int> GetSaveData()
+    {
+        return new Tuple<int, int>(CurrentHealth, MaxHealth);
+    }
+
+    public void LoadData(Tuple<int, int> data)
+    {
+        var (currentHealth, maxHealth) = data;
+        CurrentHealth = currentHealth;
+        MaxHealth = maxHealth;
     }
 }

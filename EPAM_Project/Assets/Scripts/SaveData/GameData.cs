@@ -7,10 +7,10 @@ namespace SaveData
     [Serializable]
     public class GameData
     {
-        public PlayerData PlayerData;
+        public PlayerData playerData;
         public GameData(PlayerData playerData)
         {
-            PlayerData = playerData;
+            this.playerData = playerData;
         }
     }
 }

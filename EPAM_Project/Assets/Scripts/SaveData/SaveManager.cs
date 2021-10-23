@@ -15,7 +15,7 @@ namespace SaveData
         public static void Load()
         {
             var gameData = LoadGameData();
-            PlayerLoadData(gameData.PlayerData); 
+            PlayerLoadData(gameData.playerData); 
         }
 
         private static PlayerData PlayerSaveData() => ServiceLocator.Instance.Get<PlayerManager>().GetSaveData();

@@ -11,7 +11,7 @@ namespace Services
         private const float SpawnHeight = -5f;
         private ObjectPool pool;
 
-        public List<GameObject> Enemys => pool.GetPooledObjects(EnemyPoolTag);
+        public IEnumerable<GameObject> Enemys => pool.GetPooledObjects(EnemyPoolTag);
         [SerializeField] private float timeToSpawn = 1f;
 
         private void Awake()

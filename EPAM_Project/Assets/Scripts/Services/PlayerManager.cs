@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using Player;
+using SaveData;
 using Stats;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Services
 {
-    public class PlayerManager : MonoBehaviour, IService
+    public class PlayerManager : MonoBehaviour, IService, ISaveable<PlayerData>
     {
         [SerializeField] private Transform player;
         public Transform Transform => player;
@@ -50,7 +51,17 @@ namespace Services
         }
         
         #endregion
-        
 
+
+        public PlayerData GetSaveData()
+        {
+            return new PlayerData(Transform.position, Transform.rotation.eulerAngles);
+        }
+
+        public void LoadData(PlayerData data)
+        {
+            Transform.position = data.Position;
+            Transform.rotation = Quaternion.Euler(data.Rotation);
+        }
     }
 }

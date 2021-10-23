@@ -7,10 +7,10 @@ namespace SaveData
     [Serializable]
     public class GameData
     {
-        public SerializableVector3 position;
-        public GameData()
+        public PlayerData PlayerData;
+        public GameData(PlayerData playerData)
         {
-            position = ServiceLocator.Instance.Get<PlayerManager>().Transform.position.ToSerializable();
+            PlayerData = playerData;
         }
     }
 }

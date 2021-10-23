@@ -15,6 +15,6 @@ namespace Extensions
             z = vector.z;
         }
 
-        public Vector3 ToVector3() => new Vector3(x, y, z);
+        public static implicit operator Vector3(SerializableVector3 vector) => new Vector3(vector.x, vector.y, vector.z);
     }
 }

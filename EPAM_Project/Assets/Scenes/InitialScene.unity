@@ -1283,7 +1283,7 @@ MonoBehaviour:
     size: 25
     parent: {fileID: 1385918809}
   - prefab: {fileID: 1529520565375724450, guid: e67480c4fe407434aba456177b9c2dd3, type: 3}
-    size: 100
+    size: 10
     parent: {fileID: 1632768335}
   - prefab: {fileID: 7911480848025705824, guid: dd7c71c9fe3b2dc428a390feeae43ca4, type: 3}
     size: 25
@@ -3127,10 +3127,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2141267820, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1961317625786382765, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
       propertyPath: m_RootOrder
       value: 5

@@ -9,16 +9,17 @@ namespace UI
         //this is terrible
         private Slider slider;
 
-        [SerializeField] private BaseStats stats;
+        [SerializeField] private EnemyDataLoader enemyData;
+
         private void Start()
         {
             slider = GetComponent<Slider>();
-            slider.value = stats.floatStats.Get("speed");
+            slider.value = enemyData.baseSpeed;
         }
 
         public void ChangeSetting(float value)
         {
-            stats.floatStats.Set("speed", value);
+            enemyData.baseSpeed = value;
         }
     }
 }

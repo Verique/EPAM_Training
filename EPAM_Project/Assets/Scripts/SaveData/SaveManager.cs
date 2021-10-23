@@ -9,17 +9,17 @@ namespace SaveData
     {
         public static void Save()
         {
-            SaveGameData(new GameData(PlayerSaveData()));
+            //SaveGameData(new GameData(PlayerSaveData()));
         }
 
         public static void Load()
         {
             var gameData = LoadGameData();
-            PlayerLoadData(gameData.playerData); 
+           // PlayerLoadData(gameData.playerSaveData); 
         }
 
-        private static PlayerData PlayerSaveData() => ServiceLocator.Instance.Get<PlayerManager>().GetSaveData();
-        private static void PlayerLoadData(PlayerData data) => ServiceLocator.Instance.Get<PlayerManager>().LoadData(data);
+        //private static PlayerSaveData PlayerSaveData() => ServiceLocator.Instance.Get<PlayerManager>().Data.GetSaveData();
+        //private static void PlayerLoadData(PlayerSaveData saveData) => ServiceLocator.Instance.Get<PlayerManager>().Data.LoadData(saveData);
 
         private static void SaveGameData(GameData data)
         {

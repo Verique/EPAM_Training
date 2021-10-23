@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1961317625786382765}
-  - component: {fileID: 7867204570953302617}
   - component: {fileID: 1993870456}
-  - component: {fileID: 1993870455}
+  - component: {fileID: 8454469034060203358}
   - component: {fileID: 6894782584571064451}
   - component: {fileID: 1961317626150761949}
   - component: {fileID: 2141267820}
+  - component: {fileID: 1993870455}
   - component: {fileID: 2141267819}
   m_Layer: 0
   m_Name: Player
@@ -38,19 +38,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7867204570953302617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961317625786382766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a28267b84cfe480fbf5397d49d3f0508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseStats: {fileID: 11400000, guid: 2ab3e5b573633c246a14e643d487f3df, type: 2}
 --- !u!54 &1993870456
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -67,7 +54,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 56
   m_CollisionDetection: 0
---- !u!114 &1993870455
+--- !u!114 &8454469034060203358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,9 +63,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1961317625786382766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2834f4f5c8360342a7565552366c2f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b33e7fec6a7445fa857e0abbbb29870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseSpeed: 50
+  baseMaxHealth: 10
+  baseDamageSourceTags:
+  - enemy
+  baseInvTime: 1
+  playerData:
+    speed: 0
+    healthData:
+      currentHealth: 0
+      maxHealth: 0
+      invTime: 0
+      damageSourceTags: []
 --- !u!136 &6894782584571064451
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -105,9 +104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2909771f0ac764e9e6cd49b0c68c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageSourceTags:
-  - enemy
-  invTime: 1
 --- !u!114 &2141267820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +114,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73f7827dae98437abb2643fd2ad86de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1993870455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961317625786382766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2834f4f5c8360342a7565552366c2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2141267819

@@ -2,23 +2,23 @@
 using System.Collections;
 using Extensions;
 using Player;
-using SaveData;
 using Stats;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Services
 {
-    public class PlayerManager : MonoBehaviour, IService, ISaveable<PlayerData>
+    public class PlayerManager : MonoBehaviour, IService
     {
         [SerializeField] private Transform player;
         public Transform Transform => player;
 
         public PlayerWeapon Weapon {get; private set; }
         public PlayerExperience Experience { get; private set; }
+        public PlayerDataLoader Data { get; private set; }
         
         private void Awake()
         {
+            Data = player.GetComponent<PlayerDataLoader>();
             Weapon = player.GetComponent<PlayerWeapon>();
             Experience = player.GetComponent<PlayerExperience>();
             InitHealth();
@@ -27,15 +27,14 @@ namespace Services
         #region Health
         
         private Renderer playerRenderer;
-        public Health Health { get; private set; }
         private const int FramesToLerp = 80;
         private const float ColorLerpSpeed = 1 / (float) FramesToLerp;
 
         private void InitHealth()
         {
-            Health = player.GetComponent<Health>();
-            Health.HealthChanged += currentHealth => StartCoroutine(nameof(PlayerDamageTakenIndication));
-            Health.IsDead += () => player.gameObject.SetActive(false);
+            var playerHealthData = ServiceLocator.Instance.Get<PlayerManager>().Data.GetHealthData;
+            playerHealthData.HealthChanged += currentHealth => StartCoroutine(nameof(PlayerDamageTakenIndication));
+            playerHealthData.IsDead += () => player.gameObject.SetActive(false);
             playerRenderer = player.GetComponentInChildren<Renderer>();
         }
         
@@ -52,28 +51,5 @@ namespace Services
         }
         
         #endregion
-
-
-        public PlayerData GetSaveData()
-        {
-            var (currentHealth, maxHealth) = Health.GetSaveData();
-
-            return new PlayerData
-            {
-                position = Transform.position.ToSerializable(),
-                rotation = Transform.rotation.eulerAngles.ToSerializable(),
-                currentHealth = currentHealth,
-                currentClip = Weapon.GetSaveData(),
-                maxHealth = maxHealth,
-            };
-        }
-
-        public void LoadData(PlayerData data)
-        {
-            Transform.position = data.position;
-            Transform.rotation = Quaternion.Euler(data.rotation);
-            Health.LoadData((data.currentHealth, data.maxHealth).ToTuple());
-            Weapon.LoadData(data.currentClip);
-        }
     }
 }

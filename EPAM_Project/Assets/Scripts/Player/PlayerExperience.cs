@@ -5,7 +5,7 @@ namespace Player
 {
     public class PlayerExperience : MonoBehaviour
     {
-        private void Start()
+        private void Awake()
         {
             InitExperience();
         }

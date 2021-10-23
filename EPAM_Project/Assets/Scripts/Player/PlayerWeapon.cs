@@ -3,11 +3,10 @@ using System.Collections;
 using SaveData;
 using Services;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Player
 {
-    public class PlayerWeapon : MonoBehaviour,ISaveable<int>
+    public class PlayerWeapon : MonoBehaviour
     {
         private enum State
         {
@@ -43,14 +42,19 @@ namespace Player
 
         private void Start()
         {
-            player = transform;
             inputManager = ServiceLocator.Instance.Get<InputManager>();
             inputManager.ReloadKeyUp += Reload;
             inputManager.LmbHold += FireBullet;
-            CurrentClip = clipSize;
-            state = State.NotFiring;
+            
             pool = ServiceLocator.Instance.Get<ObjectPool>();
             StartCoroutine(nameof(CantFireCoolDown));
+        }
+
+        private void Awake()
+        {
+            player = transform;
+            CurrentClip = clipSize;
+            state = State.NotFiring;
         }
 
         private IEnumerator CantFireCoolDown()
@@ -95,16 +99,6 @@ namespace Player
 
             if (CurrentClip == 0)
                 state = State.NeedReload;
-        }
-
-        public int GetSaveData()
-        {
-            return currentClip;
-        }
-
-        public void LoadData(int data)
-        {
-            CurrentClip = data;
         }
     }
 }

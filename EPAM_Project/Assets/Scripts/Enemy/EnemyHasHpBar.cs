@@ -1,39 +1,40 @@
 ﻿using System;
+using SaveData;
 using Services;
+using Stats;
 using UnityEngine;
 
 namespace Enemy
 {
-    [RequireComponent(typeof(Health))]
+    [RequireComponent(typeof(EnemyDataLoader))]
     public class EnemyHasHpBar : MonoBehaviour
     {
         private SpawnableUIManager infoManager;
         private readonly Vector3 offset = new Vector3(-30, 20, 0);
         private SpawnableUIManager.UIInfoPrefs prefs;
-        private Health health;
-        private Action<int> action;
-        
         private GameObject eBar;
+        private Action<int> action;
+        private EnemyData eData;
 
         private void Start()
         {
-            health = GetComponent<Health>();
+            eData = GetComponent<EnemyDataLoader>().Data;
             infoManager = ServiceLocator.Instance.Get<SpawnableUIManager>();
         }
 
         private void OnBecameVisible()
         {
-            prefs = new SpawnableUIManager.UIInfoPrefs(transform, offset, health.MaxHealth);
+            prefs = new SpawnableUIManager.UIInfoPrefs(transform, offset, eData.HealthData.maxHealth);
             eBar = infoManager.Link(prefs, "hbar", out action);
-            action(health.CurrentHealth);
-            health.HealthChanged += action;
+            action(eData.HealthData.CurrentHealth);
+            eData.HealthData.HealthChanged += action;
         }
 
         private void OnBecameInvisible()
         {
             if (eBar != null)
                 eBar.SetActive(false);
-            health.HealthChanged -= action;
+            eData.HealthData.HealthChanged -= action;
         }
     }
 }

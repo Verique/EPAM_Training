@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Enemy
 {
     [RequireComponent(typeof(Rigidbody), typeof(Health), typeof(StatLoader))]
-    public class Enemy : MonoBehaviour
+    public class EnemyBehaviour : MonoBehaviour
     {
         private const float Height = -5f;
 

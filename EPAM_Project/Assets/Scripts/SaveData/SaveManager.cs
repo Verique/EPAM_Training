@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Services;
 using UnityEngine;
@@ -9,17 +10,17 @@ namespace SaveData
     {
         public static void Save()
         {
-            SaveGameData(new GameData(PlayerSaveData()));
+            var playerData = ServiceLocator.Instance.Get<PlayerManager>().GetSaveData();
+            var enemyData = ServiceLocator.Instance.Get<EnemyManager>().GetSaveData();
+            SaveGameData(new GameData(playerData, enemyData));
         }
 
         public static void Load()
         {
             var gameData = LoadGameData();
-            PlayerLoadData(gameData.playerData); 
+            ServiceLocator.Instance.Get<PlayerManager>().LoadData(gameData.playerData); 
+            ServiceLocator.Instance.Get<EnemyManager>().LoadData(gameData.enemyData);
         }
-
-        private static PlayerData PlayerSaveData() => ServiceLocator.Instance.Get<PlayerManager>().GetSaveData();
-        private static void PlayerLoadData(PlayerData data) => ServiceLocator.Instance.Get<PlayerManager>().LoadData(data);
 
         private static void SaveGameData(GameData data)
         {

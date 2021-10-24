@@ -19,7 +19,7 @@ namespace Services
             Add(GetComponentInChildren<PlayerManager>());
             Add(GetComponentInChildren<ObjectPool>());
             Add(GetComponentInChildren<SpawnableUIManager>());
-            Add(GetComponentInChildren<EnemySpawner>());
+            Add(GetComponentInChildren<EnemyManager>());
             Add(GetComponentInChildren<GameManager>());
         }
 

@@ -9,7 +9,7 @@ namespace Services
         [SerializeField] private GameObject gameOverScreen;
         [SerializeField] private PauseScreen pauseScreen;
 
-        private EnemySpawner enemySpawner;
+        private EnemyManager enemyManager;
         private CameraManager cameraManager;
         private PlayerManager playerManager;
         private Transform playerTransform;
@@ -31,12 +31,12 @@ namespace Services
             cameraManager = ServiceLocator.Instance.Get<CameraManager>();
             cameraManager.Target = playerTransform;
             
-            enemySpawner = ServiceLocator.Instance.Get<EnemySpawner>();
-            enemySpawner.StartSpawning();
+            enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
+            enemyManager.StartSpawning();
             
-            foreach (var enemy in enemySpawner.Enemys)
+            foreach (var enemy in enemyManager.Enemys)
             {
-                enemy.GetComponent<Enemy.Enemy>().Target = playerTransform;
+                enemy.GetComponent<Enemy.EnemyBehaviour>().Target = playerTransform;
             }
 
             CurrentGameState.State = GameState.NewGame;
@@ -65,12 +65,12 @@ namespace Services
         private void EndGame()
         {
             CurrentGameState.State = GameState.GameOver;
-            enemySpawner.StopSpawning();
+            enemyManager.StopSpawning();
             cameraManager.enabled = false;
             
-            foreach (var enemy in enemySpawner.Enemys)
+            foreach (var enemy in enemyManager.Enemys)
             {
-                enemy.SetActive(false);
+                enemy.gameObject.SetActive(false);
             }
             
             gameOverScreen.SetActive(true);

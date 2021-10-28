@@ -13,7 +13,7 @@ namespace Stats
         protected void Awake()
         {
             Stats = ScriptableObject.CreateInstance<T>();
-            LoadStatsFrom(baseStats);
+            LoadStats(baseStats);
             
             if (Stats is IHasHealthStat hasHealthStat)
             {
@@ -23,12 +23,7 @@ namespace Stats
 
         public void LoadStats(T stats)
         {
-            LoadStatsFrom(stats);
-        }
-
-        private void LoadStatsFrom(T from)
-        {
-            var jsonString = JsonConvert.SerializeObject(from);
+            var jsonString = JsonConvert.SerializeObject(stats);
             
             JsonConvert.PopulateObject(jsonString, Stats);
         }

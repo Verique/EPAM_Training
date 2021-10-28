@@ -1,9 +1,10 @@
 ﻿using System;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Stats
 {
-    public class BaseStatLoader<T> : MonoBehaviour where T: ScriptableObject, IStats<T>
+    public class BaseStatLoader<T> : MonoBehaviour where T: ScriptableObject
     {
         [SerializeField] private T baseStats;
 
@@ -12,7 +13,7 @@ namespace Stats
         protected void Awake()
         {
             Stats = ScriptableObject.CreateInstance<T>();
-            Stats.Copy(baseStats);
+            LoadStatsFrom(baseStats);
             
             if (Stats is IHasHealthStat hasHealthStat)
             {
@@ -22,7 +23,14 @@ namespace Stats
 
         public void LoadStats(T stats)
         {
-            Stats.Copy(stats);
+            LoadStatsFrom(stats);
+        }
+
+        private void LoadStatsFrom(T from)
+        {
+            var jsonString = JsonConvert.SerializeObject(from);
+            
+            JsonConvert.PopulateObject(jsonString, Stats);
         }
     }
 }

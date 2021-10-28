@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d20f6c2b8e491bbea2358c70b255ce, type: 3}
   m_Name: BaseEnemyStats
   m_EditorClassIdentifier: 
-  speed:
-    value: 38
-    maxValue: 50
+  <Speed>k__BackingField:
     minValue: 20
-  health:
-    value: 100
-    maxValue: 100
+    maxValue: 50
+    value: 38
+  <Health>k__BackingField:
     minValue: 0
+    maxValue: 100
+    value: 100

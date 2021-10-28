@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c1aec603df4b1687330bc3a7eb5ccb, type: 3}
   m_Name: BaseBulletStats
   m_EditorClassIdentifier: 
-  speed:
-    value: 120
+  <Speed>k__BackingField:
+    minValue: 0
     maxValue: 200
+    value: 120
+  <Health>k__BackingField:
     minValue: 0
-  health:
-    value: 1
     maxValue: 1
-    minValue: 0
+    value: 1

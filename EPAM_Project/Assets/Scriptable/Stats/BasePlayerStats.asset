@@ -12,11 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85605677bd3055d4483a4398f0252b9c, type: 3}
   m_Name: BasePlayerStats
   m_EditorClassIdentifier: 
-  speed:
+  <Speed>k__BackingField:
     minValue: 0
     maxValue: 100
-    value: 60
-  health:
+    value: 40
+  <Health>k__BackingField:
     minValue: 0
     maxValue: 10
     value: 10
+  <Experience>k__BackingField:
+    minValue: 0
+    maxValue: 5
+    value: 0
+  <Level>k__BackingField:
+    minValue: 0
+    maxValue: 1000
+    value: 0
+  <Clip>k__BackingField:
+    minValue: 0
+    maxValue: 25
+    value: 25

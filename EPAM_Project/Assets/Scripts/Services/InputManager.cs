@@ -5,8 +5,7 @@ namespace Services
 {
     public class InputManager : MonoBehaviour, IService
     {
-        private Camera mainCam;
-        private GameManager gameManager;
+        private CameraManager cameraManager;
         
         public event Action<Vector2> WasdInput;
         public event Action<Vector3> MouseMoved;
@@ -16,24 +15,21 @@ namespace Services
 
         private void Start()
         {
-            mainCam = ServiceLocator.Instance.Get<CameraManager>().Cam;
-            gameManager = ServiceLocator.Instance.Get<GameManager>();
+            cameraManager = ServiceLocator.Instance.Get<CameraManager>();
         }
 
         private static Vector2 Wasd => new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         
         private void Update()
         {
-            if (CurrentGameState.State == GameState.NewGame)
-            {
-                if (Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out var hit))
-                    MouseMoved?.Invoke(hit.point);
-                WasdInput?.Invoke(Wasd);
-                if (Input.GetKeyUp(KeyCode.R)) ReloadKeyUp?.Invoke();
-                if (Input.GetMouseButton(0)) LmbHold?.Invoke();
-            }
-
+            if (cameraManager.TryGetPointerPosInWorld(Input.mousePosition, out var worldMousePos))
+                MouseMoved?.Invoke(worldMousePos);
+            
+            WasdInput?.Invoke(Wasd);
+            
+            if (Input.GetKeyUp(KeyCode.R)) ReloadKeyUp?.Invoke();
             if (Input.GetKeyUp(KeyCode.Escape)) PauseKeyUp?.Invoke();
+            if (Input.GetMouseButton(0)) LmbHold?.Invoke();
         }
     }
 }

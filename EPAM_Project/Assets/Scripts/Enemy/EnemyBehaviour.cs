@@ -14,7 +14,7 @@ namespace Enemy
         private Rigidbody rgbd;
         private Transform eTransform;
         
-        public Transform Target { get; set; }
+        public ITarget Target { get; set; }
 
         private float speed;
 
@@ -29,12 +29,9 @@ namespace Enemy
   
         private void FixedUpdate()
         {
-            if (Target is null)
-            {
-                return;
-            }
+            if (Target is null) return;
         
-            var lookPos = Target.position;
+            var lookPos = Target.Position;
             lookPos.z = Height;
             eTransform.LookAt(lookPos);
             rgbd.velocity = eTransform.forward * speed;

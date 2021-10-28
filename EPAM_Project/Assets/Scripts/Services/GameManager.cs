@@ -12,8 +12,6 @@ namespace Services
         private EnemyManager enemyManager;
         private CameraManager cameraManager;
         private PlayerManager playerManager;
-        private Transform playerTransform;
-        
         
         private void Start()
         {
@@ -23,21 +21,16 @@ namespace Services
         private void StartGame()
         {
             playerManager = ServiceLocator.Instance.Get<PlayerManager>();
-            playerTransform = playerManager.Transform;
-            playerTransform.GetComponent<Health>().IsDead += EndGame;
+            playerManager.Health.IsDead += EndGame;
 
             ServiceLocator.Instance.Get<InputManager>().PauseKeyUp += Pause;
             
             cameraManager = ServiceLocator.Instance.Get<CameraManager>();
-            cameraManager.Target = playerTransform;
+            cameraManager.Target = playerManager.PlayerTarget;
             
             enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
-            enemyManager.StartSpawning();
-            
-            foreach (var enemy in enemyManager.Enemys)
-            {
-                enemy.GetComponent<Enemy.EnemyBehaviour>().Target = playerTransform;
-            }
+            enemyManager.OnGameStart();
+            enemyManager.SetTarget(playerManager.PlayerTarget);
 
             CurrentGameState.State = GameState.NewGame;
         }
@@ -65,14 +58,9 @@ namespace Services
         private void EndGame()
         {
             CurrentGameState.State = GameState.GameOver;
-            enemyManager.StopSpawning();
             cameraManager.enabled = false;
             
-            foreach (var enemy in enemyManager.Enemys)
-            {
-                enemy.gameObject.SetActive(false);
-            }
-            
+            enemyManager.OnGameEnd();
             gameOverScreen.SetActive(true);
         }
 

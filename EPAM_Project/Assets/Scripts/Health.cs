@@ -30,6 +30,8 @@ public class Health : MonoBehaviour, ISaveable<Tuple<int, int>>
         }
     }
 
+    public float InvTime => invTime;
+
     public int MaxHealth { get; private set; }
 
     private void OnEnable()

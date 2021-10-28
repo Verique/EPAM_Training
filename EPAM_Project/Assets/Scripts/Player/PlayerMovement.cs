@@ -1,3 +1,4 @@
+using Enemy;
 using SaveData;
 using Services;
 using Stats;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody), typeof(StatLoader))]
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour, ITarget
     {
         private Rigidbody rgbd;
         private InputManager inputManager;
@@ -59,5 +60,7 @@ namespace Player
             var angle = Mathf.Atan2(dirToMouse.y, dirToMouse.x) * Mathf.Rad2Deg - 90f;
             rgbd.rotation = Quaternion.Euler(0, 0, angle);
         }
+
+        public Vector3 Position => rgbd.position;
     }
 }

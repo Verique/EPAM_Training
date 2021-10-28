@@ -1,3 +1,4 @@
+using Enemy;
 using UnityEngine;
 
 namespace Services
@@ -8,14 +9,22 @@ namespace Services
         [SerializeField] private Vector3 offset;
         [SerializeField] private Camera cam;
         
-        public Camera Cam => cam;
 
         private Transform cameraTransform;
-        public Transform Target { get; set; }
+        public ITarget Target { get; set; }
         
         private Vector3 camPos;
         private Vector3 mousePos;
         private Vector3 sDampVelocity = Vector3.zero;
+
+        public bool TryGetPointerPosInWorld(Vector2 pointerPos, out Vector3 worldPos)
+        {
+            var isPointerInWorld = Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out var hit);
+
+            worldPos = isPointerInWorld ? hit.point : Vector3.zero;
+
+            return isPointerInWorld;
+        }
 
         private void Start()
         {
@@ -30,7 +39,7 @@ namespace Services
 
         private void FixedUpdate()
         {
-            camPos = Vector3.Lerp(Target.position, mousePos, 0.2f) - offset;
+            camPos = Vector3.Lerp(Target.Position, mousePos, 0.2f) - offset;
             camPos = Vector3.SmoothDamp(cameraTransform.position, camPos, ref sDampVelocity, smoothTime);
         }
 
@@ -39,6 +48,6 @@ namespace Services
             cameraTransform.position = camPos;
         }
 
-        public Vector2 WorldPosToScreen(Vector3 worldPos) => Cam.WorldToScreenPoint(worldPos);
+        public Vector2 WorldPosToScreen(Vector3 worldPos) => cam.WorldToScreenPoint(worldPos);
     }
 }

@@ -17,7 +17,7 @@ namespace Services
         private const float SpawnHeight = -5f;
         private ObjectPool pool;
 
-        public IEnumerable<EnemyBehaviour> Enemys => 
+        private IEnumerable<EnemyBehaviour> Enemys => 
             pool.GetPooledObjects(EnemyPoolTag).Select(enemyGO => enemyGO.GetComponent<EnemyBehaviour>());
         [SerializeField] private float timeToSpawn = 1f;
 
@@ -37,12 +37,12 @@ namespace Services
             }
         }
 
-        public void StartSpawning()
+        private void StartSpawning()
         {
             StartCoroutine(nameof(SpawnEnemy));
         }
 
-        public void StopSpawning()
+        private void StopSpawning()
         {
             StopCoroutine(nameof(SpawnEnemy));
         }
@@ -69,6 +69,27 @@ namespace Services
                 var enemyGO = pool.Spawn(EnemyPoolTag, eData.position, Quaternion.identity);
                 var eHealth = enemyGO.GetComponent<Health>();
                 eHealth.LoadData(new Tuple<int, int>(eData.currentHealth, eHealth.MaxHealth));
+            }
+        }
+
+        public void OnGameStart()
+        {
+            StartSpawning();
+        }
+
+        public void SetTarget(ITarget target)
+        {
+            foreach (var enemy in Enemys)
+                enemy.GetComponent<EnemyBehaviour>().Target = target;
+        }
+
+        public void OnGameEnd()
+        {
+            StopSpawning();
+            
+            foreach (var enemy in Enemys)
+            {
+                enemy.gameObject.SetActive(false);
             }
         }
     }

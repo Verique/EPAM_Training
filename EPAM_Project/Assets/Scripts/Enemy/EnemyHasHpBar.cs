@@ -31,8 +31,8 @@ namespace Enemy
 
         private void OnBecameInvisible()
         {
-            if (eBar != null)
-                eBar.SetActive(false);
+            if (eBar != null) eBar.SetActive(false);
+            
             health.HealthChanged -= action;
         }
     }

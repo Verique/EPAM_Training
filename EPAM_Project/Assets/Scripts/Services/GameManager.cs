@@ -21,7 +21,7 @@ namespace Services
         private void StartGame()
         {
             playerManager = ServiceLocator.Instance.Get<PlayerManager>();
-            playerManager.Health.IsDead += EndGame;
+            playerManager.StatLoader.Stats.Health.MinValueReached += EndGame;
 
             ServiceLocator.Instance.Get<InputManager>().PauseKeyUp += Pause;
             

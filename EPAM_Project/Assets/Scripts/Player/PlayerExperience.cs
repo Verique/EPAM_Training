@@ -1,44 +1,32 @@
 ﻿using System;
+using SaveData;
+using Stats;
 using UnityEngine;
 
 namespace Player
 {
+    [RequireComponent(typeof(PlayerStatLoader))]
     public class PlayerExperience : MonoBehaviour
     {
+        private PlayerStats stats;
+        
         private void Start()
         {
-            InitExperience();
-        }
-
-        private int level;
-        private int experience;
-
-        public event Action<int> LevelUp;
-        public event Action<int> ExperienceGet;
-
-        private const int ToNextLevel = 2;
-
-        private void InitExperience()
-        {
-            LevelUp += (lvl) => Debug.Log($"Level Up! Current : {lvl} ");
-            ExperienceGet += (exp) => Debug.Log($"Got Exp! Current : {exp} ");
+            stats = GetComponent<PlayerStatLoader>().Stats;
+            stats.Experience.MaxValueReached += LevelUp;
+            stats.Experience.ValueChanged +=(exp) => Debug.Log($"Got Exp! Current : {exp} ");
+            stats.Level.ValueChanged +=(lvl) => Debug.Log($"Level Up! Current : {lvl} ");
         }
 
         public void GetExperience(int exp)
         {
-            experience += exp;
+            stats.Experience.Value += exp;
+        }
 
-            if (experience < ToNextLevel)
-            {
-                ExperienceGet?.Invoke(experience);
-                return;
-            }
-
-            level += experience / ToNextLevel;
-            LevelUp?.Invoke(level);
-
-            experience %= ToNextLevel;
-            ExperienceGet?.Invoke(experience);
+        private void LevelUp()
+        {
+            stats.Level.Value++;
+            stats.Experience.Value -= stats.Experience.maxValue;
         }
     }
 }

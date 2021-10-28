@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 1529520565375724454}
   - component: {fileID: 1529520565375724449}
   - component: {fileID: 1529520565375724448}
+  - component: {fileID: -1750001801774542531}
   - component: {fileID: 1529520565375724452}
   - component: {fileID: 1529520565375724451}
   - component: {fileID: 7635323618526835313}
-  - component: {fileID: 4118849170880573493}
   - component: {fileID: 3062987306476942978}
   - component: {fileID: 7114140506522271222}
   - component: {fileID: 4272465965564767559}
@@ -88,6 +88,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-1750001801774542531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529520565375724450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c270c7021e64e44b2158aa21297b163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStats: {fileID: 11400000, guid: 313d03bb89b06da40abf9e7c0b3c6bc6, type: 2}
+  currentStats: {fileID: 0}
 --- !u!114 &1529520565375724452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,19 +142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 50
---- !u!114 &4118849170880573493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529520565375724450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a28267b84cfe480fbf5397d49d3f0508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseStats: {fileID: 11400000, guid: 3ae0d237d7ff73248b879cfe5f730887, type: 2}
 --- !u!114 &3062987306476942978
 MonoBehaviour:
   m_ObjectHideFlags: 0

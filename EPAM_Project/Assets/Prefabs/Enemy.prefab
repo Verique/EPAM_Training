@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7911480848025705827}
   - component: {fileID: 7911480848025705826}
   - component: {fileID: 7911480848025705825}
-  - component: {fileID: 1843161543546468304}
+  - component: {fileID: 7544280799188501009}
   - component: {fileID: 9069952268280135938}
   - component: {fileID: 5905202115791297581}
   - component: {fileID: 1135450010748340162}
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1843161543546468304
+--- !u!114 &7544280799188501009
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,10 +118,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7911480848025705824}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a28267b84cfe480fbf5397d49d3f0508, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e653b864ea5408eaf6489d884da5624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStats: {fileID: 11400000, guid: ff78641edc060df45b8a03d626b6743d, type: 2}
+  baseStats: {fileID: 11400000, guid: e670cdb8bf2a14842baddddcc72318b1, type: 2}
+  currentStats: {fileID: 0}
 --- !u!114 &9069952268280135938
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -53,7 +53,7 @@ namespace Services
                 new EnemyData
                 {
                     position = behaviour.transform.position.ToSerializable(),
-                    currentHealth = behaviour.GetComponent<Health>().GetSaveData().Item1
+                    //currentHealth = behaviour.GetComponent<Health>().GetSaveData().Item1
                 }).ToList();
         }
 
@@ -68,7 +68,7 @@ namespace Services
             {
                 var enemyGO = pool.Spawn(EnemyPoolTag, eData.position, Quaternion.identity);
                 var eHealth = enemyGO.GetComponent<Health>();
-                eHealth.LoadData(new Tuple<int, int>(eData.currentHealth, eHealth.MaxHealth));
+                //eHealth.LoadData(new Tuple<int, int>(eData.currentHealth, eHealth.MaxHealth));
             }
         }
 

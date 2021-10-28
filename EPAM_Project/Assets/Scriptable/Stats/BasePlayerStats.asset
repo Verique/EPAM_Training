@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85605677bd3055d4483a4398f0252b9c, type: 3}
-  m_Name: PlayerStats
+  m_Name: BasePlayerStats
   m_EditorClassIdentifier: 
-  intStats:
-    statsList:
-    - name: health
-      value: 10
-  floatStats:
-    statsList:
-    - name: speed
-      value: 60
+  speed:
+    minValue: 0
+    maxValue: 100
+    value: 60
+  health:
+    minValue: 0
+    maxValue: 10
+    value: 10

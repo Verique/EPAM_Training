@@ -6,14 +6,12 @@ namespace UI
 {
     public class PlayerHealthbar : UIBar
     {
-        private Health health;
-        
         protected override void SetupBar()
         {
             base.SetupBar();
-            health = ServiceLocator.Instance.Get<PlayerManager>().Health;
-            MaxValue = health.MaxHealth;
-            health.HealthChanged += UpdateBarHeight;
+            var stats = ServiceLocator.Instance.Get<PlayerManager>().StatLoader.Stats;
+            MaxValue = stats.Health.maxValue;
+            stats.Health.ValueChanged += UpdateBarHeight;
         }
     }
 }

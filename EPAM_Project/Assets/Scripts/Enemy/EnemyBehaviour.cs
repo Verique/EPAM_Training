@@ -6,13 +6,14 @@ using UnityEngine;
 
 namespace Enemy
 {
-    [RequireComponent(typeof(Rigidbody), typeof(Health), typeof(StatLoader))]
+    [RequireComponent(typeof(Rigidbody), typeof(Health), typeof(EnemyStatLoader))]
     public class EnemyBehaviour : MonoBehaviour
     {
         private const float Height = -5f;
 
         private Rigidbody rgbd;
         private Transform eTransform;
+        private EnemyStats stats;
         
         public ITarget Target { get; set; }
 
@@ -20,13 +21,18 @@ namespace Enemy
 
         private void Awake()
         {
-            speed = GetComponent<StatLoader>().GetFloat("speed");
-            GetComponent<Health>().IsDead += () => gameObject.SetActive(false);
-            GetComponent<Health>().IsDead += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(1);
             rgbd = GetComponent<Rigidbody>();
             eTransform = transform;
         }
-  
+
+        private void Start()
+        {
+            stats = GetComponent<EnemyStatLoader>().Stats;
+            stats.Health.MinValueReached += () => gameObject.SetActive(false);
+            stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(5);
+            speed = stats.Speed.Value;
+        }
+
         private void FixedUpdate()
         {
             if (Target is null) return;

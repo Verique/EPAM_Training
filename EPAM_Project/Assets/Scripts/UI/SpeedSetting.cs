@@ -6,19 +6,18 @@ namespace UI
 {
     public class SpeedSetting : MonoBehaviour
     {
-        //this is terrible
         private Slider slider;
 
-        [SerializeField] private BaseStats stats;
+        [SerializeField] private EnemyStats baseStats;
         private void Start()
         {
             slider = GetComponent<Slider>();
-            slider.value = stats.floatStats.Get("speed");
+            slider.value = baseStats.Speed.Value;
         }
 
         public void ChangeSetting(float value)
         {
-            stats.floatStats.Set("speed", value);
+            baseStats.Speed.Value = value;
         }
     }
 }

@@ -1,17 +1,51 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Stats
 {
     [Serializable]
-    public struct Stat<T>
+    public class Stat<T> 
     {
-        public string name;
-        public T value;
+        public T minValue;
+        public T maxValue;
+        [SerializeField] private T value;
 
-        public Stat(string name, T value)
+        public event Action<T> ValueChanged;
+        public event Action MinValueReached;
+        public event Action MaxValueReached;
+
+        public Stat(T value, T minValue, T maxValue)
         {
-            this.name = name;
             this.value = value;
+            this.maxValue = maxValue;
+            this.minValue = minValue;
+        }
+
+        public Stat<T> Copy()
+        {
+            return new Stat<T>(value, minValue, maxValue);
+        }
+
+        public T Value
+        {
+            get => value;
+            set
+            {
+                var comparer = Comparer<T>.Default;
+                this.value = value;
+                ValueChanged?.Invoke(this.value);
+                
+                if (comparer.Compare(value, maxValue) >= 0)
+                {
+                    MaxValueReached?.Invoke();
+                } 
+                else if (comparer.Compare(value, minValue) <= 0)
+                {
+                    MinValueReached?.Invoke();
+                }
+            }
         }
     }
 }

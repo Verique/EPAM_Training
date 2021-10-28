@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody), typeof(StatLoader))]
+    [RequireComponent(typeof(Rigidbody), typeof(PlayerStatLoader))]
     public class PlayerMovement : MonoBehaviour, ITarget
     {
         private Rigidbody rgbd;
         private InputManager inputManager;
-        private StatLoader statLoader;
+        private PlayerStatLoader statLoader;
 
         private Vector3 mousePos;
         private Vector2 input;
@@ -21,11 +21,10 @@ namespace Player
 
         private void Start()
         {
-            statLoader = GetComponent<StatLoader>();
-            speed = statLoader.GetFloat("speed");
+            statLoader = GetComponent<PlayerStatLoader>();
+            speed = statLoader.Stats.Speed.Value;
             
             rgbd = GetComponent<Rigidbody>();
-            statLoader = GetComponent<StatLoader>();
             
             inputManager = ServiceLocator.Instance.Get<InputManager>();
             inputManager.MouseMoved += ChangeMousePos;

@@ -10,7 +10,7 @@ namespace Stats
     {
         public T minValue;
         public T maxValue;
-        [SerializeField] private T value;
+        private T value;
 
         public event Action<T> ValueChanged;
         public event Action MinValueReached;
@@ -24,13 +24,6 @@ namespace Stats
         }
 
         public Stat() { }
-
-        public void Copy(Stat<T> from)
-        {
-            value = from.value;
-            minValue = from.minValue;
-            maxValue = from.maxValue;
-        }
 
         public T Value
         {

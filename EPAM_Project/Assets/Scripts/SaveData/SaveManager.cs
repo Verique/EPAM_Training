@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using Services;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -38,27 +37,6 @@ namespace SaveData
             using var reader = new JsonTextReader(sw);
 
             return new JsonSerializer().Deserialize<GameData>(reader);
-        }
-
-        private void SaveGameDataBinary(GameData data)
-        {
-            var formatter = new BinaryFormatter();
-            var path = Application.persistentDataPath + "/saveData.dat";
-
-            using var stream = new FileStream(path, FileMode.Create);
-            formatter.Serialize(stream, data);
-        }
-        
-        private GameData LoadGameDataBinary()
-        {
-            var path = Application.persistentDataPath + "/saveData.dat";
-
-            if (!File.Exists(path)) throw new FileNotFoundException();
-            
-            var formatter = new BinaryFormatter();
-
-            using var stream = new FileStream(path, FileMode.Open);
-            return formatter.Deserialize(stream) as GameData;
         }
     }
 }

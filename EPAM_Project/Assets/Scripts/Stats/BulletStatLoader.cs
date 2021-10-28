@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Stats
+﻿namespace Stats
 {
     public class BulletStatLoader : BaseStatLoader<BulletStats> { }
 }

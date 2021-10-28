@@ -1,5 +1,3 @@
-using System;
-using Player;
 using Services;
 using Stats;
 using UnityEngine;
@@ -13,7 +11,7 @@ namespace Enemy
 
         private Rigidbody rgbd;
         private Transform eTransform;
-        private EnemyStatLoader statLoader;
+        private EnemyStats stats;
         
         public ITarget Target { get; set; }
 
@@ -25,9 +23,9 @@ namespace Enemy
 
         private void Start()
         {
-            statLoader = GetComponent<EnemyStatLoader>();
-            statLoader.Stats.Health.MinValueReached += () => gameObject.SetActive(false);
-            statLoader.Stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(5);
+            stats = GetComponent<EnemyStatLoader>().Stats;
+            stats.Health.MinValueReached += () => gameObject.SetActive(false);
+            stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(5);
         }
 
         private void FixedUpdate()
@@ -37,7 +35,7 @@ namespace Enemy
             var lookPos = Target.Position;
             lookPos.z = Height;
             eTransform.LookAt(lookPos);
-            rgbd.velocity = eTransform.forward * statLoader.Stats.Speed.Value;
+            rgbd.velocity = eTransform.forward * stats.Speed.Value;
         }
 
     }

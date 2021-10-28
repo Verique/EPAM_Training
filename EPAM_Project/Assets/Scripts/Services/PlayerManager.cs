@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using Enemy;
+﻿using System.Collections;
 using Extensions;
 using Player;
 using SaveData;
 using Stats;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Services
 {
@@ -15,6 +12,7 @@ namespace Services
         private const float DamageTakenAnimTime = 1f;
         
         private Transform player;
+        private Health health;
         
         private Renderer playerRenderer;
 
@@ -30,13 +28,14 @@ namespace Services
             Experience = player.GetComponent<PlayerExperience>();
             playerRenderer = player.GetComponentInChildren<Renderer>();
             StatLoader = player.GetComponent<PlayerStatLoader>();
+            health = player.GetComponent<Health>();
+            health.DamageTaken += currentHealth => StartCoroutine(nameof(PlayerDamageTakenIndication));
         }
 
         private void Start()
         {
             var stats = StatLoader.Stats;
             stats.Health.MinValueReached += () => player.gameObject.SetActive(false);
-            stats.Health.ValueChanged += currentHealth => StartCoroutine(nameof(PlayerDamageTakenIndication));
         }
 
         private IEnumerator PlayerDamageTakenIndication()
@@ -51,7 +50,6 @@ namespace Services
                 currentTimeDiff = Time.time - startTime;
             } 
         }
-        
 
         public PlayerData GetSaveData()
         {

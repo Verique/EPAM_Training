@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace Stats
+﻿namespace Stats
 {
     public class EnemyStatLoader : BaseStatLoader<EnemyStats> { }
 }

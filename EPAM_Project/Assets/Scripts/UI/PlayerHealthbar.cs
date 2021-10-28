@@ -1,6 +1,4 @@
-using System;
 using Services;
-using UnityEngine;
 
 namespace UI
 {
@@ -9,9 +7,9 @@ namespace UI
         protected override void SetupBar()
         {
             base.SetupBar();
-            var stats = ServiceLocator.Instance.Get<PlayerManager>().StatLoader.Stats;
-            MaxValue = stats.Health.maxValue;
-            stats.Health.ValueChanged += UpdateBarHeight;
+            var healthStat = ServiceLocator.Instance.Get<PlayerManager>().StatLoader.Stats.Health;
+            MaxValue = healthStat.maxValue;
+            healthStat.ValueChanged += UpdateBarHeight;
         }
     }
 }

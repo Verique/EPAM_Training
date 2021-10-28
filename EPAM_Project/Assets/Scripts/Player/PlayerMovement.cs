@@ -1,6 +1,3 @@
-using System;
-using Enemy;
-using SaveData;
 using Services;
 using Stats;
 using UnityEngine;
@@ -15,7 +12,7 @@ namespace Player
 
         private Vector3 mousePos;
         private Vector2 input;
-        private PlayerStats stats;
+        private Stat<float> speedStat;
 
         private void Awake()
         {
@@ -24,7 +21,7 @@ namespace Player
 
         private void Start()
         {
-            stats = GetComponent<PlayerStatLoader>().Stats;
+            speedStat = GetComponent<PlayerStatLoader>().Stats.Speed;
             
             inputManager = ServiceLocator.Instance.Get<InputManager>();
             inputManager.MouseMoved += ChangeMousePos;
@@ -49,7 +46,7 @@ namespace Player
         private void Move()
         {
             var dir = input.normalized;
-            var newPos = rgbd.position + stats.Speed.Value * Time.fixedDeltaTime * (Vector3) dir;
+            var newPos = rgbd.position + speedStat.Value * Time.fixedDeltaTime * (Vector3) dir;
             rgbd.MovePosition(newPos);
         }
 

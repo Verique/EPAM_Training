@@ -12,6 +12,8 @@ namespace UI
         private void Start()
         {
             slider = GetComponent<Slider>();
+            slider.maxValue = baseStats.Speed.maxValue;
+            slider.minValue = baseStats.Speed.minValue;
             slider.value = baseStats.Speed.Value;
         }
 

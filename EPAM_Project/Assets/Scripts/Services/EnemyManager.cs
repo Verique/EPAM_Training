@@ -15,11 +15,11 @@ namespace Services
         private const string EnemyPoolTag = "enemy";
         private const float LevelSize = 500f;
         private const float SpawnHeight = -5f;
+        private const float TimeToSpawn = 1f;
         private ObjectPool pool;
 
         private IEnumerable<EnemyBehaviour> Enemys => 
             pool.GetPooledObjects(EnemyPoolTag).Select(enemyGO => enemyGO.GetComponent<EnemyBehaviour>());
-        [SerializeField] private float timeToSpawn = 1f;
 
         private void Awake()
         {
@@ -33,7 +33,7 @@ namespace Services
                 var spawnPos = new Vector3(Random.Range(-LevelSize, LevelSize), Random.Range(-LevelSize, LevelSize),
                     SpawnHeight);
                 pool.Spawn(EnemyPoolTag, spawnPos, Quaternion.identity);
-                yield return new WaitForSeconds(timeToSpawn);
+                yield return new WaitForSeconds(TimeToSpawn);
             }
         }
 
@@ -80,7 +80,9 @@ namespace Services
         public void SetTarget(ITarget target)
         {
             foreach (var enemy in Enemys)
+            {
                 enemy.GetComponent<EnemyBehaviour>().Target = target;
+            }
         }
 
         public void OnGameEnd()

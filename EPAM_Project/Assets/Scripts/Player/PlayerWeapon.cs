@@ -61,22 +61,22 @@ namespace Player
                     case State.Firing:
                         pool.Spawn("bullet", player.position, player.rotation);
                         CurrentClip--;
-                        yield return new WaitForSecondsRealtime(rateOfFire);
-
-                        if (state == State.Firing)
-                            state = State.NotFiring;
-
+                        yield return new WaitForSeconds(rateOfFire);
+                        if (state == State.Firing) state = State.NotFiring;
                         break;
+                    
                     case State.NeedReload:
                         Reloading?.Invoke(true);
-                        yield return new WaitForSecondsRealtime(reloadTime);
+                        yield return new WaitForSeconds(reloadTime);
                         CurrentClip = clipSize;
                         Reloading?.Invoke(false);
                         state = State.NotFiring;
                         break;
+                    
                     case State.NotFiring:
                         yield return new WaitForEndOfFrame();
                         break;
+
                     default:
                         yield return new WaitForEndOfFrame();
                         break;
@@ -90,11 +90,8 @@ namespace Player
 
         private void FireBullet()
         {
-            if (state == State.NotFiring && CurrentClip > 0)
-                state = State.Firing;
-
-            if (CurrentClip == 0)
-                state = State.NeedReload;
+            if (state == State.NotFiring && CurrentClip > 0) state = State.Firing;
+            if (CurrentClip == 0) state = State.NeedReload;
         }
 
         public int GetSaveData()

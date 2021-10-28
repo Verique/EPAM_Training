@@ -12,9 +12,9 @@ namespace Services
 {
     public class PlayerManager : MonoBehaviour, IService, ISaveable<PlayerData>
     {
-        private const float damageTakenAnimTime = 1f;
+        private const float DamageTakenAnimTime = 1f;
         
-        [SerializeField] private Transform player;
+        private Transform player;
         
         private Renderer playerRenderer;
         public PlayerWeapon Weapon {get; private set; }
@@ -25,6 +25,7 @@ namespace Services
         
         private void Awake()
         {
+            player = FindObjectOfType<PlayerMovement>().transform;
             PlayerTarget = player.GetComponent<ITarget>();
             Weapon = player.GetComponent<PlayerWeapon>();
             Experience = player.GetComponent<PlayerExperience>();
@@ -44,9 +45,9 @@ namespace Services
             var startTime = Time.time;
             var currentTimeDiff = 0f;
             
-            while (currentTimeDiff < damageTakenAnimTime)
+            while (currentTimeDiff < DamageTakenAnimTime)
             {
-                playerRenderer.material.color = Color.Lerp(Color.red, Color.white, currentTimeDiff / damageTakenAnimTime);
+                playerRenderer.material.color = Color.Lerp(Color.red, Color.white, currentTimeDiff / DamageTakenAnimTime);
                 yield return new WaitForEndOfFrame();
                 currentTimeDiff = Time.time - startTime;
             } 

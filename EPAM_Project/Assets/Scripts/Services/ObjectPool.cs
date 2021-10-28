@@ -80,8 +80,7 @@ namespace Services
         {
             obj.SetActive(false);
             
-            if (poolActiveDict.ContainsKey(tag))
-                poolActiveDict[tag].Remove(obj);
+            if (poolActiveDict.ContainsKey(tag)) poolActiveDict[tag].Remove(obj);
         }
 
         private GameObject GetNonActiveInQueue(IEnumerable<GameObject> list)

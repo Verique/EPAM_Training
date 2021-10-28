@@ -6,23 +6,23 @@ using UnityEngine;
 
 namespace SaveData
 {
-    public static class SaveManager
+    public class SaveManager : MonoBehaviour, IService
     {
-        public static void Save()
+        public void Save()
         {
             var playerData = ServiceLocator.Instance.Get<PlayerManager>().GetSaveData();
             var enemyData = ServiceLocator.Instance.Get<EnemyManager>().GetSaveData();
             SaveGameData(new GameData(playerData, enemyData));
         }
 
-        public static void Load()
+        public void Load()
         {
             var gameData = LoadGameData();
             ServiceLocator.Instance.Get<PlayerManager>().LoadData(gameData.playerData); 
             ServiceLocator.Instance.Get<EnemyManager>().LoadData(gameData.enemyData);
         }
 
-        private static void SaveGameData(GameData data)
+        private void SaveGameData(GameData data)
         {
             var formatter = new BinaryFormatter();
             var path = Application.persistentDataPath + "/saveData.dat";
@@ -31,12 +31,11 @@ namespace SaveData
             formatter.Serialize(stream, data);
         }
         
-        private static GameData LoadGameData()
+        private GameData LoadGameData()
         {
             var path = Application.persistentDataPath + "/saveData.dat";
 
-            if (!File.Exists(path)) 
-                throw new FileNotFoundException();
+            if (!File.Exists(path)) throw new FileNotFoundException();
             
             var formatter = new BinaryFormatter();
 

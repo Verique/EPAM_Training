@@ -25,8 +25,7 @@ public class Health : MonoBehaviour
 
     private void TakeDamage(int damage)
     {
-        if (Time.time - timeSinceDamageTaken < invTime)
-            return;
+        if (Time.time - timeSinceDamageTaken < invTime) return;
 
         healthStat.Value -= damage;
         timeSinceDamageTaken = Time.time;
@@ -36,8 +35,7 @@ public class Health : MonoBehaviour
     {
         var otherObj = other.gameObject;
 
-        if (!damageSourceTags.Contains(otherObj.tag))
-            return;
+        if (!damageSourceTags.Contains(otherObj.tag)) return;
 
         if (otherObj.TryGetComponent(out DamageSource source)) TakeDamage(source.Damage);
     }

@@ -10,7 +10,13 @@ namespace Player
         [SerializeField] private float bulletSpeed;
         private Rigidbody rgbd;
         private Transform bTransform;
-    
+
+        private void Awake()
+        {
+            rgbd = GetComponent<Rigidbody>();
+            bTransform = GetComponent<Transform>();
+        }
+
         private void Start()
         {
             GetComponent<BulletStatLoader>().Stats.Health.MinValueReached += () => gameObject.SetActive(false);
@@ -18,8 +24,6 @@ namespace Player
 
         private void OnEnable()
         {           
-            rgbd = GetComponent<Rigidbody>();
-            bTransform = GetComponent<Transform>();
             rgbd.velocity = bulletSpeed * bTransform.up;
         }
     }

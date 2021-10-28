@@ -13,6 +13,8 @@ namespace Services
         private CameraManager cameraManager;
         private PlayerManager playerManager;
         
+        public GameState State { get; private set; }
+        
         private void Start()
         {
             StartGame();
@@ -32,19 +34,20 @@ namespace Services
             enemyManager.OnGameStart();
             enemyManager.SetTarget(playerManager.PlayerTarget);
 
-            CurrentGameState.State = GameState.NewGame;
+            State = GameState.NewGame;
         }
 
         public void Pause()
         {
-            switch (CurrentGameState.State)
+            switch (State)
             {
                 case GameState.NewGame:
-                    CurrentGameState.State = GameState.Pause;
+                    State = GameState.Pause;
                     pauseScreen.SetActive(true);
                     break;
+                
                 case GameState.Pause:
-                    CurrentGameState.State = GameState.NewGame;
+                    State = GameState.NewGame;
                     pauseScreen.SetActive(false);
                     break;
             }
@@ -57,7 +60,7 @@ namespace Services
 
         private void EndGame()
         {
-            CurrentGameState.State = GameState.GameOver;
+            State = GameState.GameOver;
             cameraManager.enabled = false;
             
             enemyManager.OnGameEnd();
@@ -66,7 +69,7 @@ namespace Services
 
         public void ToMainMenu()
         {
-            CurrentGameState.State = GameState.MainMenu;
+            State = GameState.MainMenu;
             SceneManager.LoadScene("MainMenu");
         }
     }

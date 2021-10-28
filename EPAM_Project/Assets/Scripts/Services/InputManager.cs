@@ -22,11 +22,8 @@ namespace Services
         
         private void Update()
         {
-            if (cameraManager.TryGetPointerPosInWorld(Input.mousePosition, out var worldMousePos))
-                MouseMoved?.Invoke(worldMousePos);
-            
             WasdInput?.Invoke(Wasd);
-            
+            if (cameraManager.TryGetPointerPosInWorld(Input.mousePosition, out var worldMousePos)) MouseMoved?.Invoke(worldMousePos);
             if (Input.GetKeyUp(KeyCode.R)) ReloadKeyUp?.Invoke();
             if (Input.GetKeyUp(KeyCode.Escape)) PauseKeyUp?.Invoke();
             if (Input.GetMouseButton(0)) LmbHold?.Invoke();

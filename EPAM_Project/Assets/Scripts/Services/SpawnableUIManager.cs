@@ -32,8 +32,7 @@ namespace Services
             var go = pool.Spawn(tag, Vector3.zero, Quaternion.identity);
             var uiElement = go.GetComponent<SpawnableUIElement>();
 
-            if (uiElement == null)
-                throw new ArgumentException($"GameObject with tag {tag} doesn't have a uiElement");
+            if (uiElement == null) throw new ArgumentException($"GameObject with tag {tag} doesn't have a uiElement");
 
             uiElement.Prefs = prefs;
             action = uiElement.EventHandler;

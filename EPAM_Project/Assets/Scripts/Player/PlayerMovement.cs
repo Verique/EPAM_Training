@@ -1,3 +1,4 @@
+using System;
 using Enemy;
 using SaveData;
 using Services;
@@ -11,20 +12,19 @@ namespace Player
     {
         private Rigidbody rgbd;
         private InputManager inputManager;
-        private PlayerStatLoader statLoader;
 
         private Vector3 mousePos;
         private Vector2 input;
-        private float speed;
+        private PlayerStats stats;
 
-        public float Speed => speed;    
+        private void Awake()
+        {
+            rgbd = GetComponent<Rigidbody>();
+        }
 
         private void Start()
         {
-            statLoader = GetComponent<PlayerStatLoader>();
-            speed = statLoader.Stats.Speed.Value;
-            
-            rgbd = GetComponent<Rigidbody>();
+            stats = GetComponent<PlayerStatLoader>().Stats;
             
             inputManager = ServiceLocator.Instance.Get<InputManager>();
             inputManager.MouseMoved += ChangeMousePos;
@@ -49,7 +49,7 @@ namespace Player
         private void Move()
         {
             var dir = input.normalized;
-            var newPos = rgbd.position + speed * Time.fixedDeltaTime * (Vector3) dir;
+            var newPos = rgbd.position + stats.Speed.Value * Time.fixedDeltaTime * (Vector3) dir;
             rgbd.MovePosition(newPos);
         }
 

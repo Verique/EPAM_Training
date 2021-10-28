@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Enemy;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 namespace Services
@@ -8,24 +9,21 @@ namespace Services
     public class ServiceLocator : MonoBehaviour
     {
         public static ServiceLocator Instance;
-        
+
+        public ServiceLocator(Dictionary<string, IService> services)
+        {
+            this.services = services;
+        }
+
         private void Awake()
         {
             Instance = this;
             services = new Dictionary<string, IService>();
-            
-            Add(GetComponentInChildren<InputManager>());
-            Add(GetComponentInChildren<CameraManager>());
-            Add(GetComponentInChildren<PlayerManager>());
-            Add(GetComponentInChildren<ObjectPool>());
-            Add(GetComponentInChildren<SpawnableUIManager>());
-            Add(GetComponentInChildren<EnemyManager>());
-            Add(GetComponentInChildren<GameManager>());
         }
 
         private Dictionary<string, IService> services;
 
-        private void Add<T>(T service) where T: Component, IService 
+        private void Add<T>(T service) where T: IService 
         {
             var key = typeof(T).Name;
 
@@ -44,23 +42,29 @@ namespace Services
             services.Add(key, service); 
         }
 
-        public T Get<T>() where T : Component, IService
+        public T Get<T>() where T : class, IService
         {
             var key = typeof(T).Name;
 
-            if (services.ContainsKey(key)) 
+            if (services.ContainsKey(key))
+            {
                 return (T) services[key];
-            
-            Debug.LogError($"{key} not registered with {GetType().Name}");
-            throw new InvalidOperationException();
+            }
+            else
+            {
+                var newService = GetComponentInChildren<T>() ?? CreateMono<T>();
+                Add(newService);
+
+                return newService;
+            }
         }
 
-        private T CreateComponent<T>() where T : Component, IService
+        private T CreateMono<T>() where T : class, IService
         {
             var gObject = new GameObject(typeof(T).Name);
             gObject.transform.parent = transform;
-            var component = gObject.AddComponent<T>();
-            return component;
+            var component = gObject.AddComponent(typeof(T));
+            return component as T;
         }
     }
 }

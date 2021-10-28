@@ -1,5 +1,7 @@
 ﻿using System;
 using Extensions;
+using Stats;
+using UnityEngine;
 
 namespace SaveData
 {
@@ -8,8 +10,18 @@ namespace SaveData
     {
         public SerializableVector3 position;
         public SerializableVector3 rotation;
-        public int maxHealth;
-        public int currentHealth;
-        public int currentClip;
+        public PlayerStats stats;
+
+        public PlayerData(SerializableVector3 position, SerializableVector3 rotation, PlayerStats stats)
+        {
+            this.position = position;
+            this.rotation = rotation;
+            this.stats = stats;
+        }
+
+        public PlayerData()
+        {
+            stats = ScriptableObject.CreateInstance<PlayerStats>();
+        }
     }
 }

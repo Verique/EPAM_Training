@@ -5,12 +5,13 @@ using System.Linq;
 using Enemy;
 using Extensions;
 using SaveData;
+using Stats;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Services
 {
-    public class EnemyManager : MonoBehaviour, IService, ISaveable<List<EnemyData>>
+    public class EnemyManager : MonoBehaviour, IService
     {
         private const string EnemyPoolTag = "enemy";
         private const float LevelSize = 500f;
@@ -49,12 +50,10 @@ namespace Services
 
         public List<EnemyData> GetSaveData()
         {
-            return Enemys.Where((behaviour => behaviour.isActiveAndEnabled)).Select(behaviour =>
-                new EnemyData
-                {
-                    position = behaviour.transform.position.ToSerializable(),
-                    //currentHealth = behaviour.GetComponent<Health>().GetSaveData().Item1
-                }).ToList();
+            return Enemys
+                .Where((behaviour => behaviour.isActiveAndEnabled))
+                .Select(behaviour => new EnemyData(behaviour.transform.position.ToSerializable(), behaviour.GetComponent<EnemyStatLoader>().Stats))
+                .ToList();
         }
 
         public void LoadData(List<EnemyData> data)
@@ -67,8 +66,7 @@ namespace Services
             foreach (var eData in data)
             {
                 var enemyGO = pool.Spawn(EnemyPoolTag, eData.position, Quaternion.identity);
-                var eHealth = enemyGO.GetComponent<Health>();
-                //eHealth.LoadData(new Tuple<int, int>(eData.currentHealth, eHealth.MaxHealth));
+                enemyGO.GetComponent<EnemyStatLoader>().LoadStats(eData.stats);
             }
         }
 

@@ -23,9 +23,13 @@ namespace Stats
             this.minValue = minValue;
         }
 
-        public Stat<T> Copy()
+        public Stat() { }
+
+        public void Copy(Stat<T> from)
         {
-            return new Stat<T>(value, minValue, maxValue);
+            value = from.value;
+            minValue = from.minValue;
+            maxValue = from.maxValue;
         }
 
         public T Value

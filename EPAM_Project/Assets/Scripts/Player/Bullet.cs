@@ -7,12 +7,13 @@ namespace Player
     [RequireComponent(typeof(Rigidbody), typeof(BulletStatLoader))]
     public class Bullet : MonoBehaviour
     {
-        [SerializeField] private float bulletSpeed;
         private Rigidbody rgbd;
         private Transform bTransform;
+        private Stat<float> speedStat;
 
         private void Awake()
         {
+            speedStat = GetComponent<BulletStatLoader>().Stats.Speed;
             rgbd = GetComponent<Rigidbody>();
             bTransform = GetComponent<Transform>();
         }
@@ -24,7 +25,7 @@ namespace Player
 
         private void OnEnable()
         {           
-            rgbd.velocity = bulletSpeed * bTransform.up;
+            rgbd.velocity = speedStat.Value * bTransform.up;
         }
     }
 }

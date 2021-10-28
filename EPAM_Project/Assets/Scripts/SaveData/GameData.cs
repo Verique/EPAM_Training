@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using UnityEngine;
 
 namespace SaveData
 {
-    [Serializable]
+    [JsonObject]
     public class GameData
     {
         public PlayerData playerData;

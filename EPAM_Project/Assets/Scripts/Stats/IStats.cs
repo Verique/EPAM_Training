@@ -2,6 +2,6 @@
 {
     public interface IStats<T>
     {
-        T Copy();
+        void Copy(T from);
     }
 }

@@ -3,22 +3,26 @@ using UnityEngine;
 
 namespace Stats
 {
-    public class BaseStatLoader<T> : MonoBehaviour where T: IStats<T>
+    public class BaseStatLoader<T> : MonoBehaviour where T: ScriptableObject, IStats<T>
     {
         [SerializeField] private T baseStats;
 
-        private T currentStats;
-
-        public T Stats => currentStats;
+        public T Stats { get; private set; }
 
         protected void Awake()
         {
-            currentStats = baseStats.Copy();
+            Stats = ScriptableObject.CreateInstance<T>();
+            Stats.Copy(baseStats);
             
-            if (currentStats is IHasHealthStat hasHealthStat)
+            if (Stats is IHasHealthStat hasHealthStat)
             {
                 GetComponent<Health>().Init(hasHealthStat.Health);
             }
+        }
+
+        public void LoadStats(T stats)
+        {
+            Stats.Copy(stats);
         }
     }
 }

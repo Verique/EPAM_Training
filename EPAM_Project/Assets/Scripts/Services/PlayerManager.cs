@@ -10,14 +10,14 @@ using UnityEngine.Events;
 
 namespace Services
 {
-    public class PlayerManager : MonoBehaviour, IService, ISaveable<PlayerData>
+    public class PlayerManager : MonoBehaviour, IService
     {
         private const float DamageTakenAnimTime = 1f;
         
         private Transform player;
         
         private Renderer playerRenderer;
-        public PlayerWeapon Weapon {get; private set; }
+
         public PlayerExperience Experience { get; private set; }
         public ITarget PlayerTarget { get; private set; }
         public PlayerStatLoader StatLoader { get; private set; }
@@ -27,7 +27,6 @@ namespace Services
         {
             player = FindObjectOfType<PlayerMovement>().transform;
             PlayerTarget = player.GetComponent<ITarget>();
-            Weapon = player.GetComponent<PlayerWeapon>();
             Experience = player.GetComponent<PlayerExperience>();
             playerRenderer = player.GetComponentInChildren<Renderer>();
             StatLoader = player.GetComponent<PlayerStatLoader>();
@@ -56,24 +55,14 @@ namespace Services
 
         public PlayerData GetSaveData()
         {
-            //var (currentHealth, maxHealth) = Health.GetSaveData();
-
-            return new PlayerData
-            {
-                position = player.position.ToSerializable(),
-                rotation = player.rotation.eulerAngles.ToSerializable(),
-                //currentHealth = currentHealth,
-                currentClip = Weapon.GetSaveData(),
-                //maxHealth = maxHealth,
-            };
+            return new PlayerData (player.position.ToSerializable(), player.rotation.eulerAngles.ToSerializable(), StatLoader.Stats);
         }
 
         public void LoadData(PlayerData data)
         {
             player.position = data.position;
             player.rotation = Quaternion.Euler(data.rotation);
-           // Health.LoadData((data.currentHealth, data.maxHealth).ToTuple());
-            Weapon.LoadData(data.currentClip);
+            StatLoader.LoadStats(data.stats);
         }
     }
 }

@@ -75,17 +75,5 @@ namespace Services
 
             return obj;
         }
-
-        public void Despawn(string tag, GameObject obj)
-        {
-            obj.SetActive(false);
-            
-            if (poolActiveDict.ContainsKey(tag)) poolActiveDict[tag].Remove(obj);
-        }
-
-        private GameObject GetNonActiveInQueue(IEnumerable<GameObject> list)
-        {
-            return list.FirstOrDefault(go => !go.activeInHierarchy);
-        }
     }
 }

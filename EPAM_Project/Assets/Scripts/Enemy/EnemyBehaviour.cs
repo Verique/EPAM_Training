@@ -13,11 +13,9 @@ namespace Enemy
 
         private Rigidbody rgbd;
         private Transform eTransform;
-        private EnemyStats stats;
+        private EnemyStatLoader statLoader;
         
         public ITarget Target { get; set; }
-
-        private float speed;
 
         private void Awake()
         {
@@ -27,10 +25,9 @@ namespace Enemy
 
         private void Start()
         {
-            stats = GetComponent<EnemyStatLoader>().Stats;
-            stats.Health.MinValueReached += () => gameObject.SetActive(false);
-            stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(5);
-            speed = stats.Speed.Value;
+            statLoader = GetComponent<EnemyStatLoader>();
+            statLoader.Stats.Health.MinValueReached += () => gameObject.SetActive(false);
+            statLoader.Stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(5);
         }
 
         private void FixedUpdate()
@@ -40,7 +37,7 @@ namespace Enemy
             var lookPos = Target.Position;
             lookPos.z = Height;
             eTransform.LookAt(lookPos);
-            rgbd.velocity = eTransform.forward * speed;
+            rgbd.velocity = eTransform.forward * statLoader.Stats.Speed.Value;
         }
 
     }

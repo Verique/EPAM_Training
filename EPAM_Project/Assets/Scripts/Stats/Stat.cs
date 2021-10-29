@@ -10,7 +10,7 @@ namespace Stats
     {
         public T minValue;
         public T maxValue;
-        private T value;
+        [SerializeField] private T value;
 
         public event Action<T> ValueChanged;
         public event Action MinValueReached;

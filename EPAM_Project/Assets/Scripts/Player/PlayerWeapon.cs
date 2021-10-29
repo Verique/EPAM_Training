@@ -21,18 +21,21 @@ namespace Player
         private Transform player;
         private Stat<int> clipStat;
         private InputManager inputManager;
+        private GameManager gameManager;
         private ObjectPool pool;
         private State state;
 
         private void Start()
         {
             player = transform;
+            gameManager = ServiceLocator.Instance.Get<GameManager>();
             inputManager = ServiceLocator.Instance.Get<InputManager>();
-            inputManager.ReloadKeyUp += Reload;
-            inputManager.LmbHold += FireBullet;
-            state = State.NotFiring;
             pool = ServiceLocator.Instance.Get<ObjectPool>();
             clipStat = GetComponent<PlayerStatLoader>().Stats.Clip;
+            inputManager.ReloadKeyUp += Reload;
+            clipStat.MinValueReached += Reload;
+            inputManager.LmbHold += FireBullet;
+            state = State.NotFiring;
             StartCoroutine(nameof(WeaponRoutine));
         }
 
@@ -66,11 +69,13 @@ namespace Player
 
         private void Reload()
         {
-            state = State.NeedReload;
+            if (gameManager.State == GameState.Default) state = State.NeedReload;
         }
 
         private void FireBullet()
         {
+            if (gameManager.State != GameState.Default) return;
+            
             if (state == State.NotFiring && clipStat.Value > clipStat.minValue) state = State.Firing;
             if (clipStat.Value == clipStat.minValue) state = State.NeedReload;
         }

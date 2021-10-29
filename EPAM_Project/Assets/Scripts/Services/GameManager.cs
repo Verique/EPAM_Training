@@ -34,20 +34,20 @@ namespace Services
             enemyManager.OnGameStart();
             enemyManager.SetTarget(playerManager.PlayerTarget);
 
-            State = GameState.NewGame;
+            State = GameState.Default;
         }
 
         public void Pause()
         {
             switch (State)
             {
-                case GameState.NewGame:
+                case GameState.Default:
                     State = GameState.Pause;
                     pauseScreen.SetActive(true);
                     break;
                 
                 case GameState.Pause:
-                    State = GameState.NewGame;
+                    State = GameState.Default;
                     pauseScreen.SetActive(false);
                     break;
             }

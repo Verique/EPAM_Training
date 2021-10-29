@@ -25,7 +25,7 @@ namespace Enemy
         {
             stats = GetComponent<EnemyStatLoader>().Stats;
             stats.Health.MinValueReached += () => gameObject.SetActive(false);
-            stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(5);
+            stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(1);
         }
 
         private void FixedUpdate()

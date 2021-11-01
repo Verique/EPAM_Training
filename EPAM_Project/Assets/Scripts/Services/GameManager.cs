@@ -1,4 +1,5 @@
-﻿using UI;
+﻿using SaveData;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,6 +36,10 @@ namespace Services
             enemyManager.SetTarget(playerManager.PlayerTarget);
 
             State = GameState.Default;
+
+            var saveName = PlayerPrefs.GetString("saveName");
+            if (saveName != "")
+                ServiceLocator.Instance.Get<SaveManager>().Load(saveName);
         }
 
         public void Pause()

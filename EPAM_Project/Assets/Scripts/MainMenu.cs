@@ -12,8 +12,10 @@ public class MainMenu : MonoBehaviour
         #endif 
     }
 
+
     public void StartNewGame()
     {
+        PlayerPrefs.SetString("saveName", "");
         SceneManager.LoadScene("InitialScene");
     }
 }

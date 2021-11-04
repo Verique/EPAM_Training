@@ -60,6 +60,12 @@ namespace Services
 
         public void Restart()
         {
+            PlayerPrefs.SetString("saveName", "");
+            SceneManager.LoadScene("InitialScene");
+        }
+
+        public void RestartFromLastSave()
+        {
             SceneManager.LoadScene("InitialScene");
         }
 

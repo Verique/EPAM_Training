@@ -49,21 +49,21 @@ namespace Services
             }
         }
 
-        public List<GameObject> GetPooledObjects(string tag) => poolDict[tag];
+        public List<GameObject> GetPooledObjects(string poolTag) => poolDict[poolTag];
 
-        public GameObject Spawn(string tag, Vector3 position, Quaternion rotation)
+        public GameObject Spawn(string poolTag, Vector3 position, Quaternion rotation)
         {
-            if (!poolDict.ContainsKey(tag))
+            if (!poolDict.ContainsKey(poolTag))
             {
                 return null;
             }
 
-            var obj = poolDict[tag].FirstOrDefault(go => !go.activeInHierarchy);
+            var obj = poolDict[poolTag].FirstOrDefault(go => !go.activeInHierarchy);
 
             if (obj is null)
             {
-                obj = poolActiveDict[tag][0];
-                poolActiveDict[tag].RemoveAt(0);
+                obj = poolActiveDict[poolTag][0];
+                poolActiveDict[poolTag].RemoveAt(0);
                 obj.SetActive(false);
             }
             
@@ -71,7 +71,7 @@ namespace Services
             obj.transform.rotation = rotation;
             obj.SetActive(true);
 
-            poolActiveDict[tag].Add(obj);
+            poolActiveDict[poolTag].Add(obj);
 
             return obj;
         }

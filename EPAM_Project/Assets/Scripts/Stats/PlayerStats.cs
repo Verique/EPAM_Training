@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Stats
 {
-    [CreateAssetMenu(fileName = "NewBasePlayerStats", menuName = "Scriptable/PlayerStats")]
+    [CreateAssetMenu(fileName = "NewBasePlayerStats", menuName = "Scriptable/Stats/PlayerStats")]
     [Serializable]
     public class PlayerStats : ScriptableObject, IHasHealthStat
     {
@@ -11,6 +11,5 @@ namespace Stats
         [field: SerializeField] public Stat<int> Health { get; private set; } = new Stat<int>();
         [field: SerializeField] public Stat<int> Experience { get; private set; } = new Stat<int>();
         [field: SerializeField] public Stat<int> Level { get; private set; } = new Stat<int>();
-        [field: SerializeField] public Stat<int> Clip { get; private set; } = new Stat<int>();
     }
 }

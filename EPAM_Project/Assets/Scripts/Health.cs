@@ -6,7 +6,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] private List<string> damageSourceTags;
-    [SerializeField] private float invTime = 0;
+    [SerializeField] private float invTime;
 
     public event Action<int> DamageTaken; 
 

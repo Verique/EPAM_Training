@@ -1,4 +1,5 @@
 using Services;
+using UnityEngine;
 
 namespace UI
 {
@@ -9,6 +10,7 @@ namespace UI
             base.SetupBar();
             var healthStat = ServiceLocator.Instance.Get<PlayerManager>().StatLoader.Stats.Health;
             MaxValue = healthStat.maxValue;
+            UpdateBarHeight(healthStat.Value);
             healthStat.ValueChanged += UpdateBarHeight;
         }
     }

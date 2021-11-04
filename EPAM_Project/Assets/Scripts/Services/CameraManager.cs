@@ -28,9 +28,9 @@ namespace Services
             ServiceLocator.Instance.Get<InputManager>().MouseMoved += ChangeMousePos;
         }
 
-        private void ChangeMousePos(Vector3 mousePos)
+        private void ChangeMousePos(Vector3 newMousePos)
         {
-            this.mousePos = mousePos;
+            mousePos = newMousePos;
         }
 
         private void FixedUpdate()

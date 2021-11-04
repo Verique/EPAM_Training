@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &205353552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 205353553}
+  m_Layer: 0
+  m_Name: Hand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &205353553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205353552}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 27, y: 75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1961317625786382765}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1961317625786382766
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,7 +45,6 @@ GameObject:
   - component: {fileID: 1993870455}
   - component: {fileID: 1961317626150761949}
   - component: {fileID: 2141267820}
-  - component: {fileID: 2141267819}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -35,6 +64,7 @@ Transform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 8780937407643772725}
+  - {fileID: 205353553}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,7 +111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: ef1b8cfc6526dc843a8f55e95a47ec4c, type: 2}
-  currentStats: {fileID: 0}
 --- !u!114 &1993870455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,21 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f7827dae98437abb2643fd2ad86de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2141267819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961317625786382766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 371b49c7e43a4e8e938682b3aa48dbee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rateOfFire: 0.233
-  reloadTime: 2.47
-  clipSize: 25
 --- !u!1 &7658581623556639793
 GameObject:
   m_ObjectHideFlags: 0

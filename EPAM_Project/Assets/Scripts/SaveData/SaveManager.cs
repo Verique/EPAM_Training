@@ -9,8 +9,6 @@ namespace SaveData
 {
     public class SaveManager : MonoBehaviour, IService
     {
-        private const string saveNamesFileName = "saveFileNames";
-        
         public void Save(string saveName)
         {
             var playerData = ServiceLocator.Instance.Get<PlayerManager>().GetSaveData();
@@ -41,15 +39,6 @@ namespace SaveData
             using var writer = new JsonTextWriter(sw);
             
             new JsonSerializer().Serialize(writer, data);
-        }
-
-        public static void NewSaveFile(string name)
-        {
-            var saveFiles = LoadJson<List<string>>(saveNamesFileName);
-            
-            saveFiles.Add(name);
-            
-            SaveJson(saveFiles, saveNamesFileName);
         }
 
         public static List<string> GetSaveFiles()

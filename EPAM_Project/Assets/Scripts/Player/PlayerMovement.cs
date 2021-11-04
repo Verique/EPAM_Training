@@ -28,13 +28,13 @@ namespace Player
             inputManager.WasdInput += ChangePlayerPos;
         }
 
-        private void ChangeMousePos(Vector3 mousePos)
+        private void ChangeMousePos(Vector3 newMousePos)
         {
-            this.mousePos = mousePos;
+            mousePos = newMousePos;
         }
-        private void ChangePlayerPos(Vector2 input)
+        private void ChangePlayerPos(Vector2 newInput)
         {
-            this.input = input;
+            input = newInput;
         }
         
         private void FixedUpdate()

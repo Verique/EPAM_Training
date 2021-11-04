@@ -2,7 +2,7 @@ using Stats;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Menus
 {
     public class SpeedSetting : MonoBehaviour
     {

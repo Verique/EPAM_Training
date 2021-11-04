@@ -13,7 +13,7 @@ namespace Services
         public event Action ReloadKeyUp;
         public event Action PauseKeyUp;
 
-        private void Start()
+        private void Awake()
         {
             cameraManager = ServiceLocator.Instance.Get<CameraManager>();
         }

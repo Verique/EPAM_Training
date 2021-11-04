@@ -3,7 +3,6 @@
     public enum GameState
     {
         Default,
-        LoadGame,
         Pause,
         GameOver,
         MainMenu

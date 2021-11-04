@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Stats
 {
-    [CreateAssetMenu(fileName = "NewBaseBulletStats", menuName = "Scriptable/BulletStats")]
+    [CreateAssetMenu(fileName = "NewBaseBulletStats", menuName = "Scriptable/Stats/BulletStats")]
     [Serializable]
     public class BulletStats : ScriptableObject, IHasHealthStat
     {

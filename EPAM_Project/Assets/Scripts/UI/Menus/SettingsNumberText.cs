@@ -2,7 +2,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Menus
 {
     [RequireComponent(typeof(Text))]
     public class SettingsNumberText : MonoBehaviour

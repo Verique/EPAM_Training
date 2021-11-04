@@ -34,6 +34,10 @@ namespace Services
 
         private void Start()
         {
+            var hand = player.Find("Hand");
+            var weaponManager = ServiceLocator.Instance.Get<WeaponManager>();
+            weaponManager.BindToPlayerHand(hand);
+            
             var stats = StatLoader.Stats;
             stats.Health.MinValueReached += () => player.gameObject.SetActive(false);
         }

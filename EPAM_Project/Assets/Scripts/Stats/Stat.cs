@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Stats
 {
@@ -18,12 +19,12 @@ namespace Stats
 
         public Stat(T value, T minValue, T maxValue)
         {
-            this.value = value;
+            Value = value;
             this.maxValue = maxValue;
             this.minValue = minValue;
         }
 
-        public Stat() { }
+        public Stat() { ValueChanged?.Invoke(value); }
 
         public T Value
         {

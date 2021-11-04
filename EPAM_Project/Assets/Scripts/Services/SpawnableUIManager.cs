@@ -27,12 +27,12 @@ namespace Services
             pool = ServiceLocator.Instance.Get<ObjectPool>();
         }
 
-        public GameObject Link<T>(UIInfoPrefs prefs, string tag, out Action<T> action) 
+        public GameObject Link<T>(UIInfoPrefs prefs, string poolTag, out Action<T> action) 
         {
-            var go = pool.Spawn(tag, Vector3.zero, Quaternion.identity);
+            var go = pool.Spawn(poolTag, Vector3.zero, Quaternion.identity);
             var uiElement = go.GetComponent<SpawnableUIElement>();
 
-            if (uiElement == null) throw new ArgumentException($"GameObject with tag {tag} doesn't have a uiElement");
+            if (uiElement == null) throw new ArgumentException($"GameObject with tag {poolTag} doesn't have a uiElement");
 
             uiElement.Prefs = prefs;
             action = uiElement.EventHandler;

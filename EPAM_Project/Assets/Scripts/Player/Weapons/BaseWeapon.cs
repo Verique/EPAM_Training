@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Services;
 using Stats;
 using UnityEngine;
@@ -9,8 +8,13 @@ namespace Player.Weapons
     [RequireComponent(typeof(WeaponStatLoader))]
     public abstract class BaseWeapon : MonoBehaviour
     {
+        [SerializeField] private Sprite icon;
+        public Sprite WeaponIcon => icon;
+
         private float cooldownTime;
         private float lastActionTime;
+
+        private bool isReloading;
         
         private WeaponStats stats;
         private ObjectPool pool;
@@ -32,20 +36,15 @@ namespace Player.Weapons
         public void Fire()
         {
             if (Time.time - lastActionTime < cooldownTime) return;
+
+            if (isReloading)
+            {
+                isReloading = false;   
+                stats.Clip.Value = stats.Clip.maxValue;
+            }
             
             if (stats.Clip.Value > stats.Clip.minValue) FireShot();
             else if (stats.Clip.Value == stats.Clip.minValue) Reload();
-        }
-
-        private IEnumerator ReloadCoroutine(float reloadTime)
-        {
-            lastActionTime = Time.time;
-            cooldownTime = reloadTime;
-            WeaponReloading?.Invoke(cooldownTime);
-            
-            yield return new WaitForSeconds(reloadTime);
-            
-            stats.Clip.Value = stats.Clip.maxValue;
         }
 
         protected virtual void FireShot()
@@ -58,9 +57,14 @@ namespace Player.Weapons
             pool.Spawn(ObjectPoolTag, wTransform.position, wTransform.rotation);
         }
 
-        public void Reload()
+        public void Reload() => SetReload(true, stats.ReloadTime.Value);
+        public void PrepareToSwitch() => SetReload(false, 0); 
+        private void SetReload(bool reloading, float cooldown)
         {
-            StartCoroutine(ReloadCoroutine(stats.ReloadTime.Value));
+            isReloading = reloading;
+            lastActionTime = Time.time;
+            cooldownTime = cooldown;
+            WeaponReloading?.Invoke(cooldown);
         }
     }
 }   

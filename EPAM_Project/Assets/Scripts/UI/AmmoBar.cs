@@ -14,6 +14,7 @@ namespace UI
         private readonly Color reloadColor = Color.black;
         private readonly Color defaultColor = new Color32(219, 164, 99, 255);
         private BaseWeapon currentWeapon;
+        private WeaponManager weaponManager;
 
         private void Awake()
         {
@@ -24,7 +25,7 @@ namespace UI
         {
             base.SetupBar();
 
-            var weaponManager = ServiceLocator.Instance.Get<WeaponManager>();
+            weaponManager = ServiceLocator.Instance.Get<WeaponManager>();
 
             weaponManager.WeaponSwitched += OnWeaponSwitched;
             weaponManager.WeaponReloading += StartReloadIndication;
@@ -35,8 +36,13 @@ namespace UI
             StartCoroutine(nameof(ReloadIndication), reloadTime);
         }
 
-        private void OnWeaponSwitched(BaseWeapon newWeapon)
+        private void OnWeaponSwitched(int index)
         {
+            StopCoroutine(nameof(ReloadIndication));
+            image.color = defaultColor;
+            
+            var newWeapon = weaponManager.GetWeapon(index);
+            
             if (currentWeapon != null)
             {
                 currentWeapon.ClipStat.ValueChanged -= UpdateBarHeight;
@@ -58,11 +64,11 @@ namespace UI
             var startAmmo = currentWeapon.ClipStat.Value;
             var ammoDiff = currentWeapon.ClipStat.maxValue - startAmmo;
 
-            while (timeDiff < reloadTime)
+            while (timeDiff <= reloadTime)
             {
                 var ratio = timeDiff / reloadTime;
                 image.color = Color.Lerp(reloadColor, defaultColor, ratio);
-                UpdateBarHeight(startAmmo + (int)(ratio * ammoDiff));
+                UpdateBarHeight(startAmmo + Mathf.CeilToInt(ratio * ammoDiff));
                 yield return new WaitForEndOfFrame();
                 timeDiff = Time.time - startTime;
             }

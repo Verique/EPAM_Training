@@ -16,8 +16,9 @@ namespace Services
         private GameManager gameManager;
 
         private BaseWeapon CurrentWeapon => weapons[currentWeaponIndex];
+        public BaseWeapon GetWeapon(int index) => weapons[ConvertIndex(index)];
 
-        public event Action<BaseWeapon> WeaponSwitched;
+        public event Action<int> WeaponSwitched;
         public event Action<float> WeaponReloading;
 
         private void Awake()
@@ -64,9 +65,10 @@ namespace Services
         private void SwitchWeapon(int index)
         {
             CurrentWeapon.WeaponReloading -= OnReload;
+            CurrentWeapon.PrepareToSwitch();
             currentWeaponIndex = index;
             CurrentWeapon.WeaponReloading += OnReload;
-            WeaponSwitched?.Invoke(CurrentWeapon);
+            WeaponSwitched?.Invoke(index);
         }
 
         private void OnReload(float reloadTime)
@@ -76,9 +78,14 @@ namespace Services
 
         private void OnMouseScrolled(float scrollDelta)
         {
-            var newIndex = (currentWeaponIndex + (int) scrollDelta + weapons.Count) % weapons.Count;
-            Debug.Log(newIndex);
+            var newIndex = ConvertIndex(currentWeaponIndex + (int) scrollDelta);
             SwitchWeapon(newIndex);
+        }
+
+        private int ConvertIndex(int index)
+        {
+            var tmpIndex = index % weapons.Count;
+            return index < 0 ? weapons.Count + tmpIndex : tmpIndex;
         }
     }
 }

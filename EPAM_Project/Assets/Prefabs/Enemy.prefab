@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 9069952268280135938}
   - component: {fileID: 5905202115791297581}
   - component: {fileID: 1135450010748340162}
-  - component: {fileID: 286699948369033831}
   - component: {fileID: 8020010861880868316}
   - component: {fileID: 7905830551187980708}
   - component: {fileID: 892661954812771970}
@@ -122,7 +121,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: e670cdb8bf2a14842baddddcc72318b1, type: 2}
-  currentStats: {fileID: 0}
 --- !u!114 &9069952268280135938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,19 +164,6 @@ MonoBehaviour:
   damageSourceTags:
   - playerBullet
   invTime: 0
---- !u!114 &286699948369033831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7911480848025705824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec3e12ee3adecb24188ce29b7dc03744, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
 --- !u!222 &8020010861880868316
 CanvasRenderer:
   m_ObjectHideFlags: 0

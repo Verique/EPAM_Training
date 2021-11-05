@@ -1,5 +1,6 @@
 using System.Collections;
 using Player;
+using Player.Weapons;
 using Services;
 using UnityEngine;
 using UnityEngine.UI;

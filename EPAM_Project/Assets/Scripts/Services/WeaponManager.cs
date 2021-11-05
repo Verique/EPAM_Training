@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Player;
+using Player.Weapons;
 using UnityEngine;
 
 namespace Services

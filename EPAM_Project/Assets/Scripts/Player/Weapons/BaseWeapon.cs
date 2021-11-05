@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections;
+using Services;
 using Stats;
 using UnityEngine;
 
-namespace Player
+namespace Player.Weapons
 {
     [RequireComponent(typeof(WeaponStatLoader))]
-    public class BaseWeapon : MonoBehaviour
+    public abstract class BaseWeapon : MonoBehaviour
     {
         private float cooldownTime;
         private float lastActionTime;
         
         private WeaponStats stats;
+        private ObjectPool pool;
+
+        protected abstract string ObjectPoolTag { get; }
         public Stat<int> ClipStat { get; private set; }
 
         public event Action<float> WeaponReloading;
 
         protected virtual void Awake()
         {
+            pool = ServiceLocator.Instance.Get<ObjectPool>();
             stats = GetComponent<WeaponStatLoader>().Stats;
             ClipStat = stats.Clip;
             cooldownTime = 0;
@@ -48,6 +53,9 @@ namespace Player
             lastActionTime = Time.time;
             cooldownTime = stats.RateOfFire.Value;
             stats.Clip.Value--;
+            
+            var wTransform = transform;
+            pool.Spawn(ObjectPoolTag, wTransform.position, wTransform.rotation);
         }
 
         public void Reload()

@@ -1448,6 +1448,9 @@ MonoBehaviour:
   - prefab: {fileID: 7911480848025705824, guid: dd7c71c9fe3b2dc428a390feeae43ca4, type: 3}
     size: 25
     parent: {fileID: 237683234}
+  - prefab: {fileID: 4188617292751161904, guid: 8eb0771d85e262d40a7696b4b85a552a, type: 3}
+    size: 5
+    parent: {fileID: 1632768335}
 --- !u!1 &605227862
 GameObject:
   m_ObjectHideFlags: 0
@@ -2986,7 +2989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefabs:
-  - {fileID: 1619810970261846526, guid: 214076c2c76425849bc48b4668c721a1, type: 3}
+  - {fileID: 5004554297835392197, guid: f145593d973b3c140b0f9489a52abec0, type: 3}
 --- !u!1 &1150930638
 GameObject:
   m_ObjectHideFlags: 0

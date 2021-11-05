@@ -26,21 +26,13 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject damageSourceObject)
     {
+        if (!damageSourceTags.Contains(damageSourceObject.tag)) return;
         if (Time.time - timeSinceDamageTaken < invTime) return;
         
         healthStat.Value -= damage;
         DamageTaken?.Invoke(damage);
         timeSinceDamageTaken = Time.time;
-    }
-
-    private void OnCollisionStay(Collision other)
-    {
-        var otherObj = other.gameObject;
-
-        if (!damageSourceTags.Contains(otherObj.tag)) return;
-
-        if (otherObj.TryGetComponent(out DamageSource source)) TakeDamage(source.Damage);
     }
 }

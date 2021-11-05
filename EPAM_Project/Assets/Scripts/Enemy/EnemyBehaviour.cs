@@ -37,6 +37,11 @@ namespace Enemy
             eTransform.LookAt(lookPos);
             rgbd.velocity = eTransform.forward * stats.Speed.Value;
         }
-
+        
+        private void OnCollisionStay(Collision other)
+        {
+            if (!other.gameObject.TryGetComponent(out Health health)) return;
+            health.TakeDamage(stats.Damage.Value, gameObject);
+        }
     }
 }

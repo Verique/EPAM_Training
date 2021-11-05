@@ -14,8 +14,6 @@ GameObject:
   - component: {fileID: -1750001801774542531}
   - component: {fileID: 1529520565375724452}
   - component: {fileID: 1529520565375724451}
-  - component: {fileID: 7635323618526835313}
-  - component: {fileID: 3062987306476942978}
   - component: {fileID: 7114140506522271222}
   - component: {fileID: 4272465965564767559}
   m_Layer: 0
@@ -101,7 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 313d03bb89b06da40abf9e7c0b3c6bc6, type: 2}
-  currentStats: {fileID: 0}
 --- !u!114 &1529520565375724452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,7 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7211bce355c61f042a48618ee38267a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 120
 --- !u!136 &1529520565375724451
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -129,34 +125,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7635323618526835313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529520565375724450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec3e12ee3adecb24188ce29b7dc03744, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 50
---- !u!114 &3062987306476942978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529520565375724450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d2909771f0ac764e9e6cd49b0c68c94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageSourceTags:
-  - enemy
-  invTime: 0
 --- !u!114 &7114140506522271222
 MonoBehaviour:
   m_ObjectHideFlags: 0

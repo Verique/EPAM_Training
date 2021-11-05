@@ -9,18 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9d20f6c2b8e491bbea2358c70b255ce, type: 3}
-  m_Name: BaseEnemyStats
+  m_Script: {fileID: 11500000, guid: 23c1aec603df4b1687330bc3a7eb5ccb, type: 3}
+  m_Name: BaseBulletStats
   m_EditorClassIdentifier: 
   <Speed>k__BackingField:
-    minValue: 20
-    maxValue: 50
-    value: 38
-  <Health>k__BackingField:
     minValue: 0
-    maxValue: 100
-    value: 100
+    maxValue: 200
+    value: 120
   <Damage>k__BackingField:
     minValue: 0
-    maxValue: 1
-    value: 1
+    maxValue: 100
+    value: 30

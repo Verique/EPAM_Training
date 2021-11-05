@@ -1,4 +1,5 @@
-﻿using SaveData;
+﻿using System;
+using SaveData;
 using UI.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,7 +16,12 @@ namespace Services
         private PlayerManager playerManager;
         
         public GameState State { get; private set; }
-        
+
+        private void Awake()
+        {
+            State = GameState.Setup;
+        }
+
         private void Start()
         {
             StartGame();
@@ -35,11 +41,11 @@ namespace Services
             enemyManager.OnGameStart();
             enemyManager.SetTarget(playerManager.PlayerTarget);
 
-            State = GameState.Default;
-
             var saveName = PlayerPrefs.GetString("saveName");
             if (saveName != "")
                 ServiceLocator.Instance.Get<SaveManager>().Load(saveName);
+            
+            State = GameState.Default;
         }
 
         public void Pause()

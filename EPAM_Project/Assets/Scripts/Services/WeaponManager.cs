@@ -30,6 +30,8 @@ namespace Services
         {
             gameManager = ServiceLocator.Instance.Get<GameManager>();
             inputManager = ServiceLocator.Instance.Get<InputManager>();
+
+            inputManager.MouseScrolled += OnMouseScrolled;
             inputManager.ReloadKeyUp += ReloadCurrentWeapon;
             inputManager.LmbHold += FireCurrentWeapon;
         }
@@ -70,6 +72,13 @@ namespace Services
         private void OnReload(float reloadTime)
         {
             WeaponReloading?.Invoke(reloadTime);
+        }
+
+        private void OnMouseScrolled(float scrollDelta)
+        {
+            var newIndex = (currentWeaponIndex + (int) scrollDelta + weapons.Count) % weapons.Count;
+            Debug.Log(newIndex);
+            SwitchWeapon(newIndex);
         }
     }
 }

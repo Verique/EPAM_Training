@@ -6,12 +6,10 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] private List<string> damageSourceTags;
-    [SerializeField] private float invTime;
 
     public event Action<int> DamageTaken; 
 
     private Stat<int> healthStat;
-    private float timeSinceDamageTaken;
 
     public void Init(Stat<int> health)
     {
@@ -29,10 +27,8 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage, GameObject damageSourceObject)
     {
         if (!damageSourceTags.Contains(damageSourceObject.tag)) return;
-        if (Time.time - timeSinceDamageTaken < invTime) return;
         
         healthStat.Value -= damage;
         DamageTaken?.Invoke(damage);
-        timeSinceDamageTaken = Time.time;
     }
 }

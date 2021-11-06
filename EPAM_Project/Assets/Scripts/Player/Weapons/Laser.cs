@@ -7,16 +7,15 @@ namespace Player.Weapons
     {
         private const int BufferSize = 100;
         
-        [SerializeField] private float laserLength = 100f; 
-        [SerializeField] private float laserWidth = 5f;
         [SerializeField] private float laserFadeOutTime = .2f;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            if (Stats == null) return;
             
             var results = new RaycastHit[BufferSize];
+            var laserWidth = Stats.ShotRadius.Value;
+            var laserLength = Stats.ShotLength.Value;
             var hitCount = Physics.SphereCastNonAlloc(STransform.position, laserWidth, STransform.up, results, laserLength);
             STransform.localScale = new Vector3(laserWidth, laserLength, laserWidth);
             STransform.transform.position += STransform.up * laserLength / 2;
@@ -42,6 +41,7 @@ namespace Player.Weapons
             while (diffTime < laserFadeOutTime)
             {
                 scale.x = Mathf.Lerp(startWidth, 0f, diffTime / laserFadeOutTime);
+                scale.z = Mathf.Lerp(startWidth, 0f, diffTime / laserFadeOutTime);
                 STransform.localScale = scale;
 
                 yield return new WaitForEndOfFrame();

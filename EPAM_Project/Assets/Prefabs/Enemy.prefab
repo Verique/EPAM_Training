@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3636274987774754163
 RectTransform:
   m_ObjectHideFlags: 0
@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSourceTags:
   - playerBullet
+  - damageAll
   invTime: 0
 --- !u!222 &8020010861880868316
 CanvasRenderer:

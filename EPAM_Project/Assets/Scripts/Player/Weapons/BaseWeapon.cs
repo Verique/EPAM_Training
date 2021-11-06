@@ -33,7 +33,7 @@ namespace Player.Weapons
             lastActionTime = 0;
         }
 
-        public void Fire()
+        public void Fire(Vector3 destination)
         {
             if (Time.time - lastActionTime < cooldownTime) return;
 
@@ -43,18 +43,19 @@ namespace Player.Weapons
                 stats.Clip.Value = stats.Clip.maxValue;
             }
             
-            if (stats.Clip.Value > stats.Clip.minValue) FireShot();
+            if (stats.Clip.Value > stats.Clip.minValue) FireShot(destination);
             else if (stats.Clip.Value == stats.Clip.minValue) Reload();
         }
 
-        protected virtual void FireShot()
+        protected virtual void FireShot(Vector3 destination)
         {
-            lastActionTime = Time.time;
-            cooldownTime = stats.RateOfFire.Value;
+            ActionDone(stats.RateOfFire.Value);
             stats.Clip.Value--;
             
             var wTransform = transform;
-            pool.Spawn(ObjectPoolTag, wTransform.position, wTransform.rotation);
+            var shot = pool.SpawnDisabled<BaseShot>(ObjectPoolTag, wTransform.position, wTransform.rotation);
+            shot.Destination = destination;
+            shot.gameObject.SetActive(true);
         }
 
         public void Reload() => SetReload(true, stats.ReloadTime.Value);
@@ -62,9 +63,14 @@ namespace Player.Weapons
         private void SetReload(bool reloading, float cooldown)
         {
             isReloading = reloading;
-            lastActionTime = Time.time;
-            cooldownTime = cooldown;
+            ActionDone(cooldown);
             WeaponReloading?.Invoke(cooldown);
+        }
+
+        private void ActionDone(float coolDownTime)
+        {
+            lastActionTime = Time.time;
+            cooldownTime = coolDownTime;
         }
     }
 }   

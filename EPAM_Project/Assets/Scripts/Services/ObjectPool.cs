@@ -31,8 +31,8 @@ namespace Services
 
                 for (var i = 0; i < pool.size; i++)
                 {
+                    pool.prefab.SetActive(false);
                     var obj = Instantiate(pool.prefab, pool.parent);
-                    obj.SetActive(false);
                     objectPool.Add(obj);
                 }
 
@@ -51,7 +51,7 @@ namespace Services
 
         public List<GameObject> GetPooledObjects(string poolTag) => poolDict[poolTag];
 
-        public GameObject Spawn(string poolTag, Vector3 position, Quaternion rotation)
+        public GameObject SpawnDisabled(string poolTag, Vector3 position, Quaternion rotation)
         {
             if (!poolDict.ContainsKey(poolTag))
             {
@@ -69,11 +69,36 @@ namespace Services
             
             obj.transform.position = position;
             obj.transform.rotation = rotation;
+            poolActiveDict[poolTag].Add(obj);
+            
+            return obj;
+        }
+        
+        public GameObject Spawn(string poolTag, Vector3 position, Quaternion rotation)
+        {
+            var obj = SpawnDisabled(poolTag, position, rotation);
+            
             obj.SetActive(true);
 
-            poolActiveDict[poolTag].Add(obj);
-
             return obj;
+        }
+
+        public T Spawn<T>(string poolTag, Vector3 position, Quaternion rotation) where T : Component
+        {
+            var go = Spawn(poolTag, position, rotation);
+            
+            if (go.TryGetComponent(out T component)) return component;
+            
+            throw new InvalidOperationException($"No component {nameof(T)} at {poolTag} object");
+        }
+        
+        public T SpawnDisabled<T>(string poolTag, Vector3 position, Quaternion rotation) where T : Component
+        {
+            var go = SpawnDisabled(poolTag, position, rotation);
+            
+            if (go.TryGetComponent(out T component)) return component;
+            
+            throw new InvalidOperationException($"No component {nameof(T)} at {poolTag} object");
         }
     }
 }

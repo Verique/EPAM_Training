@@ -6,6 +6,7 @@ TagManager:
   tags:
   - playerBullet
   - enemy
+  - damageAll
   layers:
   - Default
   - TransparentFX

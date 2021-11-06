@@ -8,18 +8,18 @@ namespace Player.Weapons
     public abstract class BaseShot : MonoBehaviour
     {
         protected Transform STransform;
-        protected ShotStatLoader StatLoader;
         protected ShotStats Stats;
         
+        public Vector3 Destination { get; set; }
+
         protected virtual void Awake()
         {
-            StatLoader = GetComponent<ShotStatLoader>();
             STransform = GetComponent<Transform>();
         }
 
         protected virtual void OnEnable()
         {
-            Stats = StatLoader.Stats;
+            Stats = GetComponent<ShotStatLoader>().Stats;
         }
     }
 }

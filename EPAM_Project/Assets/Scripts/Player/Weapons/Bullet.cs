@@ -16,8 +16,6 @@ namespace Player.Weapons
         protected override void OnEnable()
         {
             base.OnEnable();
-            if (Stats == null) return;
-            
             rgbd.velocity = Stats.Speed.Value * STransform.up;
         }
 

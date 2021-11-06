@@ -16,6 +16,14 @@ MonoBehaviour:
     minValue: 0
     maxValue: 0
     value: 0
+  <ShotLength>k__BackingField:
+    minValue: 0
+    maxValue: 250
+    value: 300
+  <ShotRadius>k__BackingField:
+    minValue: 0
+    maxValue: 7
+    value: 10
   <Damage>k__BackingField:
     minValue: 0
     maxValue: 200

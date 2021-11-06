@@ -12,6 +12,7 @@ namespace Enemy
         private Rigidbody rgbd;
         private Transform eTransform;
         private EnemyStats stats;
+        private float lastAttackTime;
         
         public ITarget Target { get; set; }
 
@@ -41,7 +42,10 @@ namespace Enemy
         private void OnCollisionStay(Collision other)
         {
             if (!other.gameObject.TryGetComponent(out Health health)) return;
+            if (Time.time - lastAttackTime < stats.AttackTime.Value) return;
+            
             health.TakeDamage(stats.Damage.Value, gameObject);
+            lastAttackTime = Time.time;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Services
 
             inputManager.MouseScrolled += OnMouseScrolled;
             inputManager.ReloadKeyUp += ReloadCurrentWeapon;
-            inputManager.LmbHold += FireCurrentWeapon;
+            inputManager.PrimaryFire += FireCurrentWeapon;
         }
 
         public void BindToPlayerHand(Transform handTransform)
@@ -57,9 +57,9 @@ namespace Services
             if (gameManager.State == GameState.Default) CurrentWeapon.Reload();
         }
 
-        private void FireCurrentWeapon()
+        private void FireCurrentWeapon(Vector3 destination)
         {
-            if (gameManager.State == GameState.Default) CurrentWeapon.Fire();
+            if (gameManager.State == GameState.Default) CurrentWeapon.Fire(destination);
         }
 
         private void SwitchWeapon(int index)

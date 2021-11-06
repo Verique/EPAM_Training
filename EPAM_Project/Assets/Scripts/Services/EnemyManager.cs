@@ -64,8 +64,7 @@ namespace Services
             
             foreach (var eData in data)
             {
-                var enemyGO = pool.Spawn(EnemyPoolTag, eData.position, Quaternion.identity);
-                enemyGO.GetComponent<EnemyStatLoader>().LoadStats(eData.stats);
+                pool.Spawn<EnemyStatLoader>(EnemyPoolTag, eData.position, Quaternion.identity).LoadStats(eData.stats);
             }
         }
 

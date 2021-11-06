@@ -10,7 +10,7 @@ namespace Services
         public event Action<Vector2> WasdInput;
         public event Action<Vector3> MouseMoved;
         public event Action<float> MouseScrolled; 
-        public event Action LmbHold; 
+        public event Action<Vector3> PrimaryFire; 
         public event Action ReloadKeyUp;
         public event Action PauseKeyUp;
 
@@ -26,6 +26,7 @@ namespace Services
             WasdInput?.Invoke(Wasd);
             
             if (Input.mouseScrollDelta != Vector2.zero) MouseScrolled?.Invoke(Input.mouseScrollDelta.y);
+
             
             if (cameraManager.TryGetPointerPosInWorld(Input.mousePosition, out var worldMousePos))
             {
@@ -33,7 +34,7 @@ namespace Services
             }
            
             if (Input.GetKeyUp(KeyCode.R)) ReloadKeyUp?.Invoke();
-            if (Input.GetMouseButton(0)) LmbHold?.Invoke();
+            if (Input.GetMouseButton(0)) PrimaryFire?.Invoke(worldMousePos);
             if (Input.GetKeyUp(KeyCode.Escape)) PauseKeyUp?.Invoke();
         }
     }

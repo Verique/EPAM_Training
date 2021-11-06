@@ -29,14 +29,11 @@ namespace Services
 
         public GameObject Link<T>(UIInfoPrefs prefs, string poolTag, out Action<T> action) 
         {
-            var go = pool.Spawn(poolTag, Vector3.zero, Quaternion.identity);
-            var uiElement = go.GetComponent<SpawnableUIElement>();
-
-            if (uiElement == null) throw new ArgumentException($"GameObject with tag {poolTag} doesn't have a uiElement");
+            var uiElement = pool.Spawn<SpawnableUIElement>(poolTag, Vector3.zero, Quaternion.identity);
 
             uiElement.Prefs = prefs;
             action = uiElement.EventHandler;
-            return go;
+            return uiElement.gameObject;
         }
     }
 }

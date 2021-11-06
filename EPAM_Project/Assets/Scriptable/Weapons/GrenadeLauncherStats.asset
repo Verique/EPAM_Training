@@ -9,14 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23c1aec603df4b1687330bc3a7eb5ccb, type: 3}
-  m_Name: BaseBulletStats
+  m_Script: {fileID: 11500000, guid: b736da526422426ab7070681710fcf9b, type: 3}
+  m_Name: GrenadeLauncherStats
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField:
+  <Clip>k__BackingField:
     minValue: 0
-    maxValue: 200
-    value: 120
-  <Damage>k__BackingField:
+    maxValue: 3
+    value: 3
+  <RateOfFire>k__BackingField:
+    minValue: 1
+    maxValue: 5
+    value: 2
+  <ReloadTime>k__BackingField:
     minValue: 0
-    maxValue: 100
-    value: 30
+    maxValue: 10
+    value: 5

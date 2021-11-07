@@ -1491,8 +1491,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+      - m_Target: {fileID: 1945076912}
+        m_TargetAssemblyTypeName: UI.Menus.MainMenu, Assembly-CSharp
         m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
@@ -1667,8 +1667,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9020453513338f4d8ba444abfa66858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollRect: {fileID: 501697350}
   buttonPrefab: {fileID: 4370736997481397932, guid: 67eac0ab5d72c9143a9b2c1fb2b9cdf2, type: 3}
+  scrollRect: {fileID: 501697350}
 --- !u!1 &1183796877
 GameObject:
   m_ObjectHideFlags: 0

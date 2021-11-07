@@ -13,6 +13,9 @@ namespace Services
         public event Action<Vector3> PrimaryFire; 
         public event Action ReloadKeyUp;
         public event Action PauseKeyUp;
+        public event Action WeaponOne;
+        public event Action WeaponTwo;
+        public event Action WeaponThree;
 
         private void Awake()
         {
@@ -26,13 +29,16 @@ namespace Services
             WasdInput?.Invoke(Wasd);
             
             if (Input.mouseScrollDelta != Vector2.zero) MouseScrolled?.Invoke(Input.mouseScrollDelta.y);
-
             
             if (cameraManager.TryGetPointerPosInWorld(Input.mousePosition, out var worldMousePos))
             {
                 MouseMoved?.Invoke(worldMousePos);
             }
            
+            if (Input.GetKeyUp(KeyCode.Alpha1)) WeaponOne?.Invoke();
+            if (Input.GetKeyUp(KeyCode.Alpha2)) WeaponTwo?.Invoke();
+            if (Input.GetKeyUp(KeyCode.Alpha3)) WeaponThree?.Invoke();
+            
             if (Input.GetKeyUp(KeyCode.R)) ReloadKeyUp?.Invoke();
             if (Input.GetMouseButton(0)) PrimaryFire?.Invoke(worldMousePos);
             if (Input.GetKeyUp(KeyCode.Escape)) PauseKeyUp?.Invoke();

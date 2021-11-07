@@ -60,7 +60,12 @@ namespace Player.Weapons
                 baseShot => baseShot.Destination = destination);
         }
 
-        public void Reload() => SetReload(true, stats.ReloadTime.Value);
+        public void Reload()
+        { 
+            if (isReloading) return;
+            SetReload(true, stats.ReloadTime.Value);
+        }
+
         public void PrepareToSwitch() => SetReload(false, 0); 
         private void SetReload(bool reloading, float cooldown)
         {

@@ -35,6 +35,9 @@ namespace Services
             inputManager.MouseScrolled += OnMouseScrolled;
             inputManager.ReloadKeyUp += ReloadCurrentWeapon;
             inputManager.PrimaryFire += FireCurrentWeapon;
+            inputManager.WeaponOne += () => SwitchWeapon(0);
+            inputManager.WeaponTwo += () => SwitchWeapon(1);
+            inputManager.WeaponThree += () => SwitchWeapon(2);
         }
 
         public void BindToPlayerHand(Transform handTransform)

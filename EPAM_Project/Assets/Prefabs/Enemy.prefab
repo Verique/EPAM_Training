@@ -164,7 +164,6 @@ MonoBehaviour:
   damageSourceTags:
   - playerBullet
   - damageAll
-  invTime: 0
 --- !u!222 &8020010861880868316
 CanvasRenderer:
   m_ObjectHideFlags: 0

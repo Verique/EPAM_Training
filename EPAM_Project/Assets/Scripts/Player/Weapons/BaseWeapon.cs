@@ -53,9 +53,11 @@ namespace Player.Weapons
             stats.Clip.Value--;
             
             var wTransform = transform;
-            var shot = pool.SpawnDisabled<BaseShot>(ObjectPoolTag, wTransform.position, wTransform.rotation);
-            shot.Destination = destination;
-            shot.gameObject.SetActive(true);
+            pool.SpawnWithSetup<BaseShot>(
+                ObjectPoolTag, 
+                wTransform.position, 
+                wTransform.rotation, 
+                baseShot => baseShot.Destination = destination);
         }
 
         public void Reload() => SetReload(true, stats.ReloadTime.Value);

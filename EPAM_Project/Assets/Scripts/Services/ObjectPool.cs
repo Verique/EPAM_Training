@@ -18,6 +18,8 @@ namespace Services
         private Dictionary<string, List<GameObject>> poolDict;
         private Dictionary<string, List<GameObject>> poolActiveDict;
         public List<Pool> poolList;
+        
+        public List<GameObject> GetPooledObjects(string poolTag) => poolDict[poolTag];
 
         private void Awake()
         {
@@ -49,52 +51,72 @@ namespace Services
             }
         }
 
-        public List<GameObject> GetPooledObjects(string poolTag) => poolDict[poolTag];
+        private GameObject GetNextPoolableObject(string poolTag)
+        {
+            var obj = poolDict[poolTag].FirstOrDefault(go => !go.activeInHierarchy);
 
-        public GameObject SpawnDisabled(string poolTag, Vector3 position, Quaternion rotation)
+            if (obj is {}) return obj;
+            
+            obj = poolActiveDict[poolTag][0];
+            poolActiveDict[poolTag].RemoveAt(0);
+            obj.SetActive(false);
+
+            return obj;
+        }
+
+        private void ActivateObject(GameObject obj, string poolTag)
+        {
+            obj.SetActive(true);
+            poolActiveDict[poolTag].Add(obj);
+        }
+
+        private GameObject SpawnObject(string poolTag, Vector3 position, Quaternion rotation)
         {
             if (!poolDict.ContainsKey(poolTag))
             {
-                return null;
-            }
-
-            var obj = poolDict[poolTag].FirstOrDefault(go => !go.activeInHierarchy);
-
-            if (obj is null)
-            {
-                obj = poolActiveDict[poolTag][0];
-                poolActiveDict[poolTag].RemoveAt(0);
-                obj.SetActive(false);
+                throw new InvalidOperationException($"No {poolTag} tag in pool");
             }
             
+            var obj = GetNextPoolableObject(poolTag);
             obj.transform.position = position;
             obj.transform.rotation = rotation;
-            poolActiveDict[poolTag].Add(obj);
+
+            return obj;
+        }
+        
+        public GameObject SpawnWithSetup(string poolTag, Vector3 position, Quaternion rotation, Action<GameObject> setup)
+        {
+            var obj = SpawnObject(poolTag, position, rotation);
+            
+            setup?.Invoke(obj);
+            
+            ActivateObject(obj, poolTag);
             
             return obj;
         }
         
-        public GameObject Spawn(string poolTag, Vector3 position, Quaternion rotation)
+        public T SpawnWithSetup<T>(string poolTag, Vector3 position, Quaternion rotation, Action<T> setup) where T:Component
         {
-            var obj = SpawnDisabled(poolTag, position, rotation);
-            
-            obj.SetActive(true);
+            var obj = SpawnObject(poolTag, position, rotation);
 
-            return obj;
+            if (!obj.TryGetComponent(out T component))
+            {
+                throw new InvalidOperationException($"No component {nameof(T)} at {poolTag} object");
+            }
+            
+            setup?.Invoke(component);
+            
+            ActivateObject(obj, poolTag);
+            
+            return component;
         }
+        
+        public GameObject Spawn(string poolTag, Vector3 position, Quaternion rotation)
+            => SpawnWithSetup(poolTag, position, rotation, null);
 
         public T Spawn<T>(string poolTag, Vector3 position, Quaternion rotation) where T : Component
         {
             var go = Spawn(poolTag, position, rotation);
-            
-            if (go.TryGetComponent(out T component)) return component;
-            
-            throw new InvalidOperationException($"No component {nameof(T)} at {poolTag} object");
-        }
-        
-        public T SpawnDisabled<T>(string poolTag, Vector3 position, Quaternion rotation) where T : Component
-        {
-            var go = SpawnDisabled(poolTag, position, rotation);
             
             if (go.TryGetComponent(out T component)) return component;
             

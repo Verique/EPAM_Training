@@ -30,8 +30,11 @@ namespace Services
         {
             while (true)
             {
-                var spawnPos = new Vector3(Random.Range(-LevelSize, LevelSize), Random.Range(-LevelSize, LevelSize),
-                    SpawnHeight);
+                var spawnPos = new Vector3(
+                    Random.Range(-LevelSize, LevelSize), 
+                    SpawnHeight,
+                    Random.Range(-LevelSize, LevelSize));
+                
                 pool.Spawn(EnemyPoolTag, spawnPos, Quaternion.identity);
                 yield return new WaitForSeconds(TimeToSpawn);
             }

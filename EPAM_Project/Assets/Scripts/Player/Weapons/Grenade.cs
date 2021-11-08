@@ -37,15 +37,15 @@ namespace Player.Weapons
             var maxLandingPoint = direction.normalized * Stats.ShotLength.Value;
             
             landingPoint = direction.sqrMagnitude < maxLandingPoint.sqrMagnitude ? destination : position + maxLandingPoint;
-            landingPoint.z = -5f;
-
+            landingPoint.y = position.y;
+            
             landingPointCalculated = true;
         }
 
         private void FixedUpdate()
         {
             if (!landingPointCalculated) return;
-
+            
             if ((rgbd.position - landingPoint).sqrMagnitude < SquaredDistanceToExplode)
             {
                 rgbd.velocity = Vector3.zero;

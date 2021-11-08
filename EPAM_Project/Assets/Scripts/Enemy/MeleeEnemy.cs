@@ -5,11 +5,13 @@ using UnityEngine.AI;
 
 namespace Enemy
 {
-    [RequireComponent(typeof(Rigidbody), typeof(Health), typeof(EnemyStatLoader))]
+    [RequireComponent(typeof(Health), typeof(EnemyStatLoader))]
     [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(Rigidbody))]
     public class MeleeEnemy : MonoBehaviour
     {
         private NavMeshAgent agent;
+        private Rigidbody rgbd;
         private EnemyStats stats;
         private float lastAttackTime;
         
@@ -18,6 +20,7 @@ namespace Enemy
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
+            rgbd = GetComponent<Rigidbody>();
         }
 
         private void Start()

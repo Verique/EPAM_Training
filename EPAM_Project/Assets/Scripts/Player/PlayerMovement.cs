@@ -1,3 +1,4 @@
+using Extensions;
 using Services;
 using Stats;
 using UnityEngine;
@@ -46,17 +47,17 @@ namespace Player
         private void Move()
         {
             var dir = input.normalized;
-            var newPos = rgbd.position + speedStat.Value * Time.fixedDeltaTime * (Vector3) dir;
+            var newPos = rgbd.position + speedStat.Value * Time.fixedDeltaTime * dir.ToVector3();
             rgbd.MovePosition(newPos);
         }
 
         private void Rotate()
         {
             var dirToMouse = mousePos - rgbd.position;
-            var angle = Mathf.Atan2(dirToMouse.y, dirToMouse.x) * Mathf.Rad2Deg - 90f;
-            rgbd.rotation = Quaternion.Euler(0, 0, angle);
+            var angle = Mathf.Atan2(dirToMouse.x, dirToMouse.z) * Mathf.Rad2Deg;
+            rgbd.rotation = Quaternion.Euler(0, angle, 0);
         }
 
-        public Vector3 Position => rgbd.position;
+        public Vector3 Position => transform.position;
     }
 }

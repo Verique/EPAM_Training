@@ -24,11 +24,12 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage, GameObject damageSourceObject)
+    public bool TakeDamage(int damage, GameObject damageSourceObject)
     {
-        if (!damageSourceTags.Contains(damageSourceObject.tag)) return;
+        if (!damageSourceTags.Contains(damageSourceObject.tag)) return false;
         
         healthStat.Value -= damage;
         DamageTaken?.Invoke(damage);
+        return true;
     }
 }

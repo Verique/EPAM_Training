@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Player.Weapons
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class Bullet : BaseShot
+    public class AutoBullet : BaseShot
     {
         private Rigidbody rgbd;
 
@@ -22,8 +22,8 @@ namespace Player.Weapons
         private void OnCollisionEnter(Collision other)
         {
             if (!other.gameObject.TryGetComponent(out Health health)) return;
-            health.TakeDamage(Stats.Damage.Value, gameObject);
-            gameObject.SetActive(false);
+            var hit = health.TakeDamage(Stats.Damage.Value, gameObject);
+            gameObject.SetActive(!hit);
         }
     }
 }

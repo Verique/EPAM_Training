@@ -1,16 +1,15 @@
 using Services;
 using Stats;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Enemy
 {
     [RequireComponent(typeof(Rigidbody), typeof(Health), typeof(EnemyStatLoader))]
-    public class EnemyBehaviour : MonoBehaviour
+    [RequireComponent(typeof(NavMeshAgent))]
+    public class MeleeEnemy : MonoBehaviour
     {
-        private const float Height = -5f;
-
-        private Rigidbody rgbd;
-        private Transform eTransform;
+        private NavMeshAgent agent;
         private EnemyStats stats;
         private float lastAttackTime;
         
@@ -18,13 +17,14 @@ namespace Enemy
 
         private void Awake()
         {
-            rgbd = GetComponent<Rigidbody>();
-            eTransform = transform;
+            agent = GetComponent<NavMeshAgent>();
         }
 
         private void Start()
         {
             stats = GetComponent<EnemyStatLoader>().Stats;
+            agent.speed = stats.Speed.Value;
+            stats.Speed.ValueChanged += value => agent.speed = stats.Speed.Value; 
             stats.Health.MinValueReached += () => gameObject.SetActive(false);
             stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(1);
         }
@@ -32,11 +32,8 @@ namespace Enemy
         private void FixedUpdate()
         {
             if (Target is null) return;
-        
-            var lookPos = Target.Position;
-            lookPos.z = Height;
-            eTransform.LookAt(lookPos);
-            rgbd.velocity = eTransform.forward * stats.Speed.Value;
+            
+            agent.destination = Target.Position;
         }
         
         private void OnCollisionStay(Collision other)

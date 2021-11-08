@@ -18,8 +18,8 @@ namespace Services
         private const float TimeToSpawn = 1f;
         private ObjectPool pool;
 
-        private IEnumerable<EnemyBehaviour> Enemys => 
-            pool.GetPooledObjects(EnemyPoolTag).Select(enemyGO => enemyGO.GetComponent<EnemyBehaviour>());
+        private IEnumerable<MeleeEnemy> Enemys => 
+            pool.GetPooledObjects(EnemyPoolTag).Select(enemyGO => enemyGO.GetComponent<MeleeEnemy>());
 
         private void Awake()
         {
@@ -77,7 +77,7 @@ namespace Services
         {
             foreach (var enemy in Enemys)
             {
-                enemy.GetComponent<EnemyBehaviour>().Target = target;
+                enemy.GetComponent<MeleeEnemy>().Target = target;
             }
         }
 

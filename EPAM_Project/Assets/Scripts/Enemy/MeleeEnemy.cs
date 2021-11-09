@@ -1,3 +1,5 @@
+using System;
+using Extensions;
 using Services;
 using Stats;
 using UnityEngine;
@@ -7,11 +9,10 @@ namespace Enemy
 {
     [RequireComponent(typeof(Health), typeof(EnemyStatLoader))]
     [RequireComponent(typeof(NavMeshAgent))]
-    [RequireComponent(typeof(Rigidbody))]
     public class MeleeEnemy : MonoBehaviour
     {
-        private NavMeshAgent agent;
         private Rigidbody rgbd;
+        private NavMeshAgent agent;
         private EnemyStats stats;
         private float lastAttackTime;
         
@@ -19,15 +20,14 @@ namespace Enemy
 
         private void Awake()
         {
-            agent = GetComponent<NavMeshAgent>();
             rgbd = GetComponent<Rigidbody>();
+            agent = GetComponent<NavMeshAgent>();
+            agent.updatePosition = false;
         }
 
         private void Start()
         {
             stats = GetComponent<EnemyStatLoader>().Stats;
-            agent.speed = stats.Speed.Value;
-            stats.Speed.ValueChanged += value => agent.speed = stats.Speed.Value; 
             stats.Health.MinValueReached += () => gameObject.SetActive(false);
             stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(1);
         }
@@ -35,10 +35,13 @@ namespace Enemy
         private void FixedUpdate()
         {
             if (Target is null) return;
-            
+
             agent.destination = Target.Position;
+            agent.speed = stats.Speed.Value;
+
+            rgbd.MovePosition(agent.nextPosition);
         }
-        
+
         private void OnCollisionStay(Collision other)
         {
             if (!other.gameObject.TryGetComponent(out Health health)) return;

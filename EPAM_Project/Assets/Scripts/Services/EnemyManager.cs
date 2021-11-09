@@ -14,7 +14,7 @@ namespace Services
     {
         private const string EnemyPoolTag = "enemy";
         private const float LevelSize = 500f;
-        private const float SpawnHeight = -5f;
+        private const float SpawnHeight = 5f;
         private const float TimeToSpawn = 1f;
         private ObjectPool pool;
 

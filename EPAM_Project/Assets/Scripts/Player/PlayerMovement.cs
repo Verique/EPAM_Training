@@ -6,10 +6,10 @@ using UnityEngine.AI;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody), typeof(PlayerStatLoader))]
+    [RequireComponent(typeof(NavMeshAgent), typeof(PlayerStatLoader))]
     public class PlayerMovement : MonoBehaviour, ITarget
     {
-        private Rigidbody rgbd;
+        private NavMeshAgent agent;
         private InputManager inputManager;
 
         private Vector3 mousePos;
@@ -18,7 +18,7 @@ namespace Player
 
         private void Awake()
         {
-            rgbd = GetComponent<Rigidbody>();
+            agent = GetComponent<NavMeshAgent>();
         }
 
         private void Start()
@@ -39,7 +39,7 @@ namespace Player
             input = newInput;
         }
         
-        private void FixedUpdate()
+        private void Update()
         {
             Move();
             Rotate();
@@ -48,15 +48,16 @@ namespace Player
         private void Move()
         {
             var dir = input.normalized;
-            rgbd.velocity = speedStat.Value * dir.ToVector3();
+            agent.velocity = speedStat.Value * dir.ToVector3();
         }
 
         private void Rotate()
         {
-            var dirToMouse = mousePos - rgbd.position;
-            rgbd.rotation = dirToMouse.ToRotation();
+            var dirToMouse = mousePos - transform.position;
+            transform.rotation = dirToMouse.ToRotation();
         }
 
         public Vector3 Position => transform.position;
+        public GameObject GameObject => gameObject;
     }
 }

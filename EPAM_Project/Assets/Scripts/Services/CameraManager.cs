@@ -33,7 +33,7 @@ namespace Services
             mousePos = newMousePos;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             camPos = Vector3.Lerp(Target.Position, mousePos, 0.2f) - offset;
             camPos = Vector3.SmoothDamp(cam.transform.position, camPos, ref sDampVelocity, SmoothTime);

@@ -20,6 +20,10 @@ MonoBehaviour:
     minValue: 0
     maxValue: 2
     value: 1
+  <AttackDistance>k__BackingField:
+    minValue: 0
+    maxValue: 10
+    value: 10
   <Health>k__BackingField:
     minValue: 0
     maxValue: 100

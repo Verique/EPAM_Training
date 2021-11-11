@@ -1,53 +1,31 @@
-using System;
-using Extensions;
-using Services;
-using Stats;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Enemy
 {
-    [RequireComponent(typeof(Health), typeof(EnemyStatLoader))]
-    [RequireComponent(typeof(NavMeshAgent))]
-    public class MeleeEnemy : MonoBehaviour
+
+    public class MeleeEnemy : BaseEnemy
     {
-        private Rigidbody rgbd;
-        private NavMeshAgent agent;
-        private EnemyStats stats;
         private float lastAttackTime;
-        
-        public ITarget Target { get; set; }
 
-        private void Awake()
+        protected override void Move()
         {
-            rgbd = GetComponent<Rigidbody>();
-            agent = GetComponent<NavMeshAgent>();
-            agent.updatePosition = false;
+            if (Player is null) return;
+
+            Agent.destination = Player.Position;
+
+            if (Agent.isStopped)
+            {
+                Agent.transform.LookAt(Player.Position);
+            }
         }
 
-        private void Start()
+        protected override void Attack()
         {
-            stats = GetComponent<EnemyStatLoader>().Stats;
-            stats.Health.MinValueReached += () => gameObject.SetActive(false);
-            stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(1);
-        }
-
-        private void FixedUpdate()
-        {
-            if (Target is null) return;
-
-            agent.destination = Target.Position;
-            agent.speed = stats.Speed.Value;
-
-            rgbd.MovePosition(agent.nextPosition);
-        }
-
-        private void OnCollisionStay(Collision other)
-        {
-            if (!other.gameObject.TryGetComponent(out Health health)) return;
-            if (Time.time - lastAttackTime < stats.AttackTime.Value) return;
+            if (Time.time - lastAttackTime < Stats.AttackTime.Value) return;
+            if (!Player.GameObject.TryGetComponent(out Health health)) return;
             
-            health.TakeDamage(stats.Damage.Value, gameObject);
+            
+            health.TakeDamage(Stats.Damage.Value, gameObject);
             lastAttackTime = Time.time;
         }
     }

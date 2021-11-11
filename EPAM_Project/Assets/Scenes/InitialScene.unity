@@ -5978,32 +5978,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 54848058, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: m_Radius
-      value: 42.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 54848058, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 54848058, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
       propertyPath: avoidancePriority
-      value: 51
-      objectReference: {fileID: 0}
-    - target: {fileID: 1993870456, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: m_Drag
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1993870456, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1993870456, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: m_AngularDrag
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1993870456, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1961317625786382765, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
       propertyPath: m_RootOrder
@@ -6053,6 +6029,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 54848058, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
+    - target: {fileID: 6894782584571064451, guid: f41670956912b7241ae07bf51bdb241e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f41670956912b7241ae07bf51bdb241e, type: 3}

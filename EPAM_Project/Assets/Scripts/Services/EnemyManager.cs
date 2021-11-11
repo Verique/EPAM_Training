@@ -80,7 +80,7 @@ namespace Services
         {
             foreach (var enemy in Enemys)
             {
-                enemy.GetComponent<MeleeEnemy>().Target = target;
+                enemy.GetComponent<MeleeEnemy>().Player = target;
             }
         }
 

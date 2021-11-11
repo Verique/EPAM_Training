@@ -1,5 +1,4 @@
-﻿using System;
-using Stats;
+﻿using Stats;
 using UnityEngine;
 
 namespace Player.Weapons

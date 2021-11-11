@@ -1,3 +1,4 @@
+using System;
 using Extensions;
 using Services;
 using Stats;
@@ -13,42 +14,111 @@ namespace Enemy
     {
         protected NavMeshAgent Agent;
         protected EnemyStats Stats;
+        private EnemyState state;
+
         private float squaredAttackDistance;
-        
-        public ITarget Player { get; set; }
-        
+        private float squaredSkillDistance;
+        private float lastAttackTime;
+        private float lastSkillTime;
+
+        public ITarget Player { get; set;}
+
         protected virtual void Init()
         {
             Stats = GetComponent<EnemyStatLoader>().Stats;
             Agent = GetComponent<NavMeshAgent>();
+            var playerManager = ServiceLocator.Instance.Get<PlayerManager>();
+            var primDistance = Stats.AttackDistance.Value;
+            var scndDistance = Stats.SkillDistance.Value;
+            squaredAttackDistance = primDistance * primDistance;
+            squaredSkillDistance = scndDistance * scndDistance;
             Agent.speed = Stats.Speed.Value;
-            var stopDistance = Stats.AttackDistance.Value;
-            squaredAttackDistance = stopDistance * stopDistance;
             Stats.Speed.ValueChanged += newSpeed => Agent.speed = newSpeed;
             Stats.Health.MinValueReached += () => gameObject.SetActive(false);
-            Stats.Health.MinValueReached += () => ServiceLocator.Instance.Get<PlayerManager>().Experience.GetExperience(1);
+            Stats.Health.MinValueReached += () => playerManager.Experience.GetExperience(1);
         }
 
-        protected abstract void Move();
-        protected abstract void Attack();
+        private void SwitchState(EnemyState newState)
+        {
+            state = newState;
+        }
 
-        protected virtual bool AttackIsPossible => 
-            (Player.Position.ToVector2() - transform.position.ToVector2()).sqrMagnitude <= squaredAttackDistance;
+        protected virtual void Move()
+        { }
+
+        protected virtual void Attack()
+        { }
+
+        protected virtual void Skill()
+        { }
+
+        protected virtual void StartSkill()
+        {
+            SwitchState(EnemyState.UsingSkill);
+            lastSkillTime = Time.time;
+        }
+
+        protected virtual void StartAttack()
+        {
+            SwitchState(EnemyState.Attacking);
+            lastAttackTime = Time.time;
+        }
+
+        protected virtual void StartMove() => SwitchState(EnemyState.Moving);
+
+        protected Vector2 VectorTo(Vector3 position) =>
+            (position - transform.position).ToVector2();
+
+        protected static bool CheckDistance(Vector2 current, float maxDistance) =>
+            current.sqrMagnitude <= maxDistance;
+
+        private static bool CheckTime(ref float lastTime, float coolDownTime)
+        {
+            if (lastTime == 0) return true;
+            var timePossible = Time.time - lastTime >= coolDownTime;
+            if (timePossible) lastTime = Time.time;
+            return timePossible;
+        }
+
+        private bool CheckAttack =>
+            CheckTime(ref lastAttackTime, Stats.AttackTime.Value) &&
+            AttackIsPossible;
+
+        private bool CheckSkill =>
+            CheckTime(ref lastSkillTime, Stats.SkillCooldown.Value) &&
+            SkillIsPossible;
+        
+        private bool AttackIsPossible =>
+            !Agent.Raycast(Player.Position, out _) &&
+            CheckDistance(VectorTo(Player.Position), squaredAttackDistance);
+        
+        private bool SkillIsPossible => 
+            !Agent.Raycast(Player.Position, out _) &&
+            CheckDistance(VectorTo(Player.Position), squaredSkillDistance);
 
         private void Start()
         {
             Init();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
-            Move();
-            if (AttackIsPossible)
+            switch (state)
             {
-                Attack();
+                case EnemyState.Moving:
+                    Move();
+                    if (CheckSkill) StartSkill();
+                    else if (CheckAttack) StartAttack();
+                    break;
+                case EnemyState.Attacking:
+                    Attack();
+                    break;
+                case EnemyState.UsingSkill:
+                    Skill();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-
-            Agent.isStopped = AttackIsPossible;
         }
     }
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9d20f6c2b8e491bbea2358c70b255ce, type: 3}
-  m_Name: BaseEnemyStats
+  m_Name: DashEnemyStats
   m_EditorClassIdentifier: 
   <Speed>k__BackingField:
     minValue: 20
@@ -26,8 +26,12 @@ MonoBehaviour:
     value: 10
   <SkillDistance>k__BackingField:
     minValue: 0
-    maxValue: 0
-    value: 0
+    maxValue: 100
+    value: 100
+  <SkillCooldown>k__BackingField:
+    minValue: 0
+    maxValue: 10
+    value: 10
   <Health>k__BackingField:
     minValue: 0
     maxValue: 100

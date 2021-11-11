@@ -16,6 +16,7 @@ namespace Services
         private const float LevelSize = 500f;
         private const float SpawnHeight = 5f;
         private const float TimeToSpawn = 1f;
+        private bool isSpawning;
         private ObjectPool pool;
 
         private IEnumerable<MeleeEnemy> Enemys => 
@@ -24,11 +25,12 @@ namespace Services
         private void Awake()
         {
             pool = ServiceLocator.Instance.Get<ObjectPool>();
+            isSpawning = true;
         }
 
         private IEnumerator SpawnEnemy()
         {
-            while (true)
+            while (isSpawning)
             {
                 var spawnPos = new Vector3(
                     Random.Range(-LevelSize, LevelSize), 

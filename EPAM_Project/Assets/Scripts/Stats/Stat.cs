@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Stats
 {
     [Serializable]
-    public class Stat<T> 
+    public class Stat<T> where T : IComparable<T>
     {
         public T minValue;
         public T maxValue;
@@ -31,18 +28,21 @@ namespace Stats
             get => value;
             set
             {
-                var comparer = Comparer<T>.Default;
                 this.value = value;
                 ValueChanged?.Invoke(this.value);
-                
-                if (comparer.Compare(value, maxValue) >= 0)
-                {
-                    MaxValueReached?.Invoke();
-                } 
-                else if (comparer.Compare(value, minValue) <= 0)
-                {
-                    MinValueReached?.Invoke();
-                }
+                CheckBorders(this.value);
+            }
+        }
+
+        private void CheckBorders(T valueForCheck)
+        {
+            if (valueForCheck.CompareTo(maxValue) >= 0)
+            {
+                MaxValueReached?.Invoke();
+            } 
+            if (valueForCheck.CompareTo(minValue) <= 0)
+            {
+                MinValueReached?.Invoke();
             }
         }
     }

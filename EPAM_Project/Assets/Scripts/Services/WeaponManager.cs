@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Player;
+using System.Linq;
 using Player.Weapons;
 using UnityEngine;
 
@@ -42,10 +42,9 @@ namespace Services
 
         public void BindToPlayerHand(Transform handTransform)
         {
-            foreach (var weaponGamePbject in weaponPrefabs)
+            foreach (var weaponGameObject in weaponPrefabs.Where(go => go.TryGetComponent(out BaseWeapon _)))
             {
-                if (!weaponGamePbject.TryGetComponent<BaseWeapon>(out var s)) continue;
-                var go = Instantiate(weaponGamePbject, handTransform);
+                var go = Instantiate(weaponGameObject, handTransform);
                 weapons.Add(go.GetComponent<BaseWeapon>());
             }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using SaveData;
+﻿using SaveData;
 using UI.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;

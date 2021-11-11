@@ -16,9 +16,11 @@ namespace Player.Weapons
             var results = new RaycastHit[BufferSize];
             var laserWidth = Stats.ShotRadius.Value;
             var laserLength = Stats.ShotLength.Value;
-            var hitCount = Physics.SphereCastNonAlloc(STransform.position, laserWidth, STransform.up, results, laserLength);
+            var up = STransform.up;
+            
+            var hitCount = Physics.SphereCastNonAlloc(STransform.position, laserWidth, up, results, laserLength);
             STransform.localScale = new Vector3(laserWidth, laserLength, laserWidth);
-            STransform.transform.position += STransform.up * laserLength / 2;
+            STransform.transform.position += up * laserLength / 2;
 
             for (var i = 0; i < hitCount; i++)
             {

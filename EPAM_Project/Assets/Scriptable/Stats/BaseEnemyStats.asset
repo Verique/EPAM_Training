@@ -28,10 +28,18 @@ MonoBehaviour:
     minValue: 0
     maxValue: 0
     value: 0
+  <SkillCooldown>k__BackingField:
+    minValue: 0
+    maxValue: 0
+    value: 0
   <Health>k__BackingField:
     minValue: 0
     maxValue: 100
     value: 100
+  <Experience>k__BackingField:
+    minValue: 0
+    maxValue: 1
+    value: 1
   <Damage>k__BackingField:
     minValue: 0
     maxValue: 50

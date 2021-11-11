@@ -28,21 +28,23 @@ namespace Stats
             get => value;
             set
             {
-                this.value = value;
-                ValueChanged?.Invoke(this.value);
-                CheckBorders(this.value);
-            }
-        }
-
-        private void CheckBorders(T valueForCheck)
-        {
-            if (valueForCheck.CompareTo(maxValue) >= 0)
-            {
-                MaxValueReached?.Invoke();
-            } 
-            if (valueForCheck.CompareTo(minValue) <= 0)
-            {
-                MinValueReached?.Invoke();
+                if (value.CompareTo(maxValue) >= 0)
+                {
+                    this.value = maxValue;
+                    ValueChanged?.Invoke(value);
+                    MaxValueReached?.Invoke();
+                }
+                else if (value.CompareTo(minValue) <= 0)
+                {
+                    this.value = minValue;
+                    ValueChanged?.Invoke(value);
+                    MinValueReached?.Invoke();
+                }
+                else
+                {
+                    this.value = value;
+                    ValueChanged?.Invoke(this.value);
+                }
             }
         }
     }

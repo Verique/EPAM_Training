@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcb02d19baa47babf1040a6c73b92c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DashSpeed: 100
+  dashSpeed: 100
 --- !u!114 &1135450010748340162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,8 +172,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageSourceTags:
-  - playerBullet
-  - damageAll
+  - player
+  - explosion
 --- !u!222 &8020010861880868316
 CanvasRenderer:
   m_ObjectHideFlags: 0

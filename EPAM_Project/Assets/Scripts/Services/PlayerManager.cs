@@ -15,17 +15,18 @@ namespace Services
         private Health health;
         
         private Renderer playerRenderer;
+        private PlayerExperience experience;
 
-        public PlayerExperience Experience { get; private set; }
         public ITarget PlayerTarget { get; private set; }
         public PlayerStatLoader StatLoader { get; private set; }
-        
+
+        public void GetExp(int exp) => experience.GetExperience(exp);
         
         private void Awake()
         {
             player = FindObjectOfType<PlayerMovement>().transform;
             PlayerTarget = player.GetComponent<ITarget>();
-            Experience = player.GetComponent<PlayerExperience>();
+            experience = player.GetComponent<PlayerExperience>();
             playerRenderer = player.GetComponentInChildren<Renderer>();
             StatLoader = player.GetComponent<PlayerStatLoader>();
             health = player.GetComponent<Health>();

@@ -171,8 +171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageSourceTags:
-  - playerBullet
-  - damageAll
+  - player
+  - explosion
 --- !u!222 &8020010861880868316
 CanvasRenderer:
   m_ObjectHideFlags: 0

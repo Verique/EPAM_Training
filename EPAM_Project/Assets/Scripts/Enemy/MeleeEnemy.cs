@@ -15,7 +15,7 @@ namespace Enemy
             base.StartAttack();
             if (!Player.GameObject.TryGetComponent(out Health health)) return;
             
-            health.TakeDamage(Stats.Damage.Value, gameObject);
+            health.TakeDamage(Stats.Damage.Value, "enemy");
             
             StartMove();
         }

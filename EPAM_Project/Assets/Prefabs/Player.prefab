@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageSourceTags:
   - enemy
-  - damageAll
+  - explosion
 --- !u!114 &2141267820
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,6 +14,8 @@ namespace Enemy
     {
         protected NavMeshAgent Agent;
         protected EnemyStats Stats;
+        
+        private PlayerManager pManager;
         private EnemyState state;
 
         private float squaredAttackDistance;
@@ -27,15 +29,21 @@ namespace Enemy
         {
             Stats = GetComponent<EnemyStatLoader>().Stats;
             Agent = GetComponent<NavMeshAgent>();
-            var playerManager = ServiceLocator.Instance.Get<PlayerManager>();
+            pManager = ServiceLocator.Instance.Get<PlayerManager>();
+            var healthComp = GetComponent<Health>();
             var primDistance = Stats.AttackDistance.Value;
             var scndDistance = Stats.SkillDistance.Value;
             squaredAttackDistance = primDistance * primDistance;
             squaredSkillDistance = scndDistance * scndDistance;
             Agent.speed = Stats.Speed.Value;
             Stats.Speed.ValueChanged += newSpeed => Agent.speed = newSpeed;
+            healthComp.KilledBy += OnKill;
             Stats.Health.MinValueReached += () => gameObject.SetActive(false);
-            Stats.Health.MinValueReached += () => playerManager.Experience.GetExperience(1);
+        }
+
+        private void OnKill(string dmgTag)
+        {
+            if (dmgTag == "player" || dmgTag == "explosion") pManager.GetExp(Stats.Experience.Value);
         }
 
         private void SwitchState(EnemyState newState)

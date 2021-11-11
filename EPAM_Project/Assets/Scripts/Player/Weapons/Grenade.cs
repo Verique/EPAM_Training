@@ -11,6 +11,7 @@ namespace Player.Weapons
         [SerializeField] private float explosionDelay;
         
         private Rigidbody rgbd;
+        private ObjectPool pool;
         private const int BufferSize = 100;
 
         private Vector3 landingPoint;
@@ -26,16 +27,26 @@ namespace Player.Weapons
         {
             base.OnEnable();
             CalculateLandingPoint(Destination);
+            pool = ServiceLocator.Instance.Get<ObjectPool>();
         }
 
-        private void CalculateLandingPoint(Vector3 destination)
+        private void CalculateLandingPoint(Vector3 desiredPoint)
         {
             var position = transform.position;
-            var direction = (destination - position);
+            desiredPoint.y = position.y;
+            var desiredDistance = desiredPoint - position;
+            var dir = desiredDistance.normalized;
             
-            var maxLandingPoint = direction.normalized * Stats.ShotLength.Value;
+            var maxLandingDistance = desiredDistance.normalized * Stats.ShotLength.Value;
+            var maxLandingPoint = position + maxLandingDistance;
+
+            if (Physics.Raycast(position, dir, out var hit, Stats.ShotLength.Value, ~LayerMask.NameToLayer("Terrain")))
+            {
+                maxLandingPoint = hit.point;
+                maxLandingDistance = maxLandingPoint - position;
+            }
             
-            landingPoint = direction.sqrMagnitude < maxLandingPoint.sqrMagnitude ? destination : position + maxLandingPoint;
+            landingPoint = desiredDistance.sqrMagnitude < maxLandingDistance.sqrMagnitude ? desiredPoint : maxLandingPoint;
             landingPoint.y = position.y;
             
             landingPointCalculated = true;
@@ -62,7 +73,7 @@ namespace Player.Weapons
 
             var t = transform;
             
-            var pSystem = ServiceLocator.Instance.Get<ObjectPool>().Spawn<ParticleSystem>("effect", t.position, t.rotation);
+            var pSystem = pool.Spawn<ParticleSystem>("effect", t.position, t.rotation);
             var sh = pSystem.shape;
             sh.radius = Stats.ShotRadius.Value;
             pSystem.Play();
@@ -75,7 +86,7 @@ namespace Player.Weapons
                 var hit = results[i];
                 if (!hit.transform.TryGetComponent(out Health enemyHealth)) continue;
 
-                enemyHealth.TakeDamage(Stats.Damage.Value, gameObject);
+                enemyHealth.TakeDamage(Stats.Damage.Value, "explosion");
             }
             
             gameObject.SetActive(false);

@@ -27,7 +27,7 @@ namespace Player.Weapons
                 var hit = results[i];
                 if (!hit.transform.TryGetComponent(out Health enemyHealth)) continue;
 
-                enemyHealth.TakeDamage(Stats.Damage.Value, gameObject);
+                enemyHealth.TakeDamage(Stats.Damage.Value, "player");
             }
 
             StartCoroutine(FadeOut());

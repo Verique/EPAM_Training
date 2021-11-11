@@ -7,7 +7,8 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private List<string> damageSourceTags;
 
-    public event Action<int> DamageTaken; 
+    public event Action<int> DamageTaken;
+    public event Action<string> KilledBy;
 
     private Stat<int> healthStat;
 
@@ -24,11 +25,13 @@ public class Health : MonoBehaviour
         }
     }
 
-    public bool TakeDamage(int damage, GameObject damageSourceObject)
+    public bool TakeDamage(int damage, string dmgTag)
     {
-        if (!damageSourceTags.Contains(damageSourceObject.tag)) return false;
+        if (!damageSourceTags.Contains(dmgTag)) return false;
         
         healthStat.Value -= damage;
+        
+        if (healthStat.Value == healthStat.minValue) KilledBy?.Invoke(dmgTag);
         DamageTaken?.Invoke(damage);
         return true;
     }

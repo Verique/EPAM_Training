@@ -36,6 +36,10 @@ MonoBehaviour:
     minValue: 0
     maxValue: 100
     value: 100
+  <Experience>k__BackingField:
+    minValue: 0
+    maxValue: 3
+    value: 3
   <Damage>k__BackingField:
     minValue: 0
     maxValue: 50

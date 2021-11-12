@@ -11,6 +11,7 @@ namespace Player
     {
         private NavMeshAgent agent;
         private InputManager inputManager;
+        private GameManager gameManager;
 
         private Vector3 mousePos;
         private Vector2 input;
@@ -24,6 +25,7 @@ namespace Player
         private void Start()
         {
             speedStat = GetComponent<PlayerStatLoader>().Stats.Speed;
+            gameManager = ServiceLocator.Instance.Get<GameManager>();
             
             inputManager = ServiceLocator.Instance.Get<InputManager>();
             inputManager.MouseMoved += ChangeMousePos;
@@ -41,6 +43,12 @@ namespace Player
         
         private void Update()
         {
+            if (gameManager.State != GameState.Default)
+            {
+                agent.velocity = Vector3.zero;
+                return;
+            }
+            
             Move();
             Rotate();
         }
@@ -54,7 +62,7 @@ namespace Player
         private void Rotate()
         {
             var dirToMouse = mousePos - transform.position;
-            transform.rotation = dirToMouse.ToRotation();
+            agent.transform.rotation = dirToMouse.ToRotation();
         }
 
         public Vector3 Position => transform.position;

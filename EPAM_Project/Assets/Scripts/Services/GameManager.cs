@@ -1,4 +1,5 @@
-﻿using SaveData;
+﻿using System;
+using SaveData;
 using UI.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,10 +10,23 @@ namespace Services
     {
         [SerializeField] private GameObject gameOverScreen;
         [SerializeField] private PauseScreen pauseScreen;
+        [SerializeField] private int killGoal = 4;
 
         private EnemyManager enemyManager;
         private CameraManager cameraManager;
         private PlayerManager playerManager;
+
+        private int kills;
+        public event Action GoalReached;
+        public event Action<int, int> EnemyKilled;
+
+        public void AddKill()
+        {
+            kills++;
+            
+            EnemyKilled?.Invoke(kills, killGoal);
+            if (kills == killGoal) GoalReached?.Invoke();
+        }
         
         public GameState State { get; private set; }
 
@@ -39,6 +53,9 @@ namespace Services
             enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
             enemyManager.OnGameStart();
             enemyManager.SetTarget(playerManager.PlayerTarget);
+
+            GoalReached += EndGame;
+            EnemyKilled?.Invoke(0, killGoal);
 
             var saveName = PlayerPrefs.GetString("saveName");
             if (saveName != "")

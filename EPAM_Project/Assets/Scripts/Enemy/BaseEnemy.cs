@@ -16,6 +16,7 @@ namespace Enemy
         protected EnemyStats Stats;
         
         private PlayerManager pManager;
+        private GameManager gameManager;
         private EnemyState state;
 
         private float squaredAttackDistance;
@@ -23,13 +24,14 @@ namespace Enemy
         private float lastAttackTime;
         private float lastSkillTime;
 
-        public ITarget Player { get; set;}
+        public ITarget Player { get; set; }
 
         protected virtual void Init()
         {
             Stats = GetComponent<EnemyStatLoader>().Stats;
             Agent = GetComponent<NavMeshAgent>();
             pManager = ServiceLocator.Instance.Get<PlayerManager>();
+            gameManager = ServiceLocator.Instance.Get<GameManager>();
             var healthComp = GetComponent<Health>();
             var primDistance = Stats.AttackDistance.Value;
             var scndDistance = Stats.SkillDistance.Value;
@@ -43,7 +45,10 @@ namespace Enemy
 
         private void OnKill(string dmgTag)
         {
-            if (dmgTag == "player" || dmgTag == "explosion") pManager.GetExp(Stats.Experience.Value);
+            if (dmgTag != "player" && dmgTag != "explosion") return;
+            
+            pManager.GetExp(Stats.Experience.Value);
+            gameManager.AddKill();
         }
 
         private void SwitchState(EnemyState newState)

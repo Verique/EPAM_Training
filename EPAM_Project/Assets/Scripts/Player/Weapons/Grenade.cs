@@ -7,7 +7,7 @@ namespace Player.Weapons
     [RequireComponent(typeof(Rigidbody))]
     public class Grenade : BaseShot
     {
-        private const int SquaredDistanceToExplode = 50;
+        private const int SquaredDistanceToExplode = 10;
         [SerializeField] private float explosionDelay;
         
         private Rigidbody rgbd;

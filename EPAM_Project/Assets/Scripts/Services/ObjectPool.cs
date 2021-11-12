@@ -19,7 +19,7 @@ namespace Services
         private Dictionary<string, List<GameObject>> poolActiveDict;
         public List<Pool> poolList;
         
-        public List<GameObject> GetPooledObjects(string poolTag) => poolDict[poolTag];
+        public IEnumerable<GameObject> GetPooledObjects(string poolTag) => poolDict[poolTag];
 
         private void Awake()
         {

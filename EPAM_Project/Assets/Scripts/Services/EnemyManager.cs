@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,33 @@ namespace Services
 {
     public class EnemyManager : MonoBehaviour, IService
     {
-        private const string EnemyPoolTag = "enemy";
+        private readonly Tuple<string, int>[] poolTagWeights = new[]
+        {
+            ("meleeEnemy", 5).ToTuple(),
+            ("dashEnemy", 1).ToTuple()
+        };
+
         private const float LevelSize = 500f;
         private const float SpawnHeight = 5f;
         private const float TimeToSpawn = 1f;
         private bool isSpawning;
         private ObjectPool pool;
 
-        private IEnumerable<MeleeEnemy> Enemys => 
-            pool.GetPooledObjects(EnemyPoolTag).Select(enemyGO => enemyGO.GetComponent<MeleeEnemy>());
+        private IEnumerable<GameObject> Enemys
+        {
+            get
+            {
+                var result = new List<GameObject>();
+                foreach (var (poolTag, _) in poolTagWeights)
+                {
+                    var enemys = pool.GetPooledObjects(poolTag);
+
+                    result.AddRange(enemys);
+                }
+
+                return result;
+            }
+        }
 
         private void Awake()
         {
@@ -36,10 +55,28 @@ namespace Services
                     Random.Range(-LevelSize, LevelSize), 
                     SpawnHeight,
                     Random.Range(-LevelSize, LevelSize));
-                
-                pool.Spawn(EnemyPoolTag, spawnPos, Quaternion.identity);
+
+                var poolTagToSpawn = ChooseEnemy();
+                pool.Spawn(poolTagToSpawn, spawnPos, Quaternion.identity);
                 yield return new WaitForSeconds(TimeToSpawn);
             }
+        }
+
+        private string ChooseEnemy()
+        {
+            var overallWeight = poolTagWeights.Select(pair => pair.Item2).Sum();
+
+            var roll = Random.Range(1, overallWeight + 1);
+
+            var currentArea = 0;
+            
+            foreach (var (poolTag, weight) in poolTagWeights)
+            {
+                currentArea += weight;
+                if (roll <= currentArea) return poolTag;
+            }
+
+            return "";
         }
 
         private void StartSpawning()
@@ -55,21 +92,20 @@ namespace Services
         public List<EnemyData> GetSaveData()
         {
             return Enemys
+                .Select(obj => obj.GetComponent<MeleeEnemy>())
                 .Where((behaviour => behaviour.isActiveAndEnabled))
-                .Select(behaviour => new EnemyData(behaviour.transform.position.ToSerializable(), behaviour.GetComponent<EnemyStatLoader>().Stats))
+                .Select(behaviour => new EnemyData(
+                    behaviour.transform.position.ToSerializable(), 
+                    behaviour.GetComponent<EnemyStatLoader>().Stats,
+                    behaviour.GetComponent<Poolable>().PoolTag))
                 .ToList();
         }
 
-        public void LoadData(List<EnemyData> data)
+        public void LoadData(IEnumerable<EnemyData> data)
         {
-            foreach (var enemy in Enemys)
-            {
-                enemy.gameObject.SetActive(false);
-            }
-            
             foreach (var eData in data)
             {
-                pool.Spawn<EnemyStatLoader>(EnemyPoolTag, eData.position, Quaternion.identity).LoadStats(eData.stats);
+                pool.Spawn<EnemyStatLoader>(eData.poolTag, eData.position, Quaternion.identity).LoadStats(eData.stats);
             }
         }
 
@@ -92,7 +128,7 @@ namespace Services
             
             foreach (var enemy in Enemys)
             {
-                enemy.gameObject.SetActive(false);
+                enemy.SetActive(false);
             }
         }
     }

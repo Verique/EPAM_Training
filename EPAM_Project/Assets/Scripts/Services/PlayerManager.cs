@@ -64,6 +64,7 @@ namespace Services
         public void LoadData(PlayerData data)
         {
             player.position = data.position;
+            Debug.Log($"{(Vector3)data.position} - {player.position}");
             player.rotation = Quaternion.Euler(data.rotation);
             StatLoader.LoadStats(data.stats);
         }

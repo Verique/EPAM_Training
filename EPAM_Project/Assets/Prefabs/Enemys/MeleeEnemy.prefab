@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca83be6a8e6246c1bfdcac1d0772cfb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolTag: enemy
+  poolTag: meleeEnemy
 --- !u!114 &2661200161338826453
 MonoBehaviour:
   m_ObjectHideFlags: 0

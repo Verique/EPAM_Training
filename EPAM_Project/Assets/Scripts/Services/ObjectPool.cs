@@ -10,6 +10,7 @@ namespace Services
         [Serializable]
         public class Pool
         {
+            public string poolTag;
             public GameObject prefab;
             public int size;
             public Transform parent;
@@ -17,7 +18,10 @@ namespace Services
 
         private Dictionary<string, List<GameObject>> poolDict;
         private Dictionary<string, List<GameObject>> poolActiveDict;
-        public List<Pool> poolList;
+        public List<Pool> enemyPool;
+        public List<Pool> uiFxPool;
+        public List<Pool> projectilePool;
+        public List<Pool> otherPool;
         
         public IEnumerable<GameObject> GetPooledObjects(string poolTag) => poolDict[poolTag];
 
@@ -25,7 +29,14 @@ namespace Services
         {
             poolDict = new Dictionary<string, List<GameObject>>();
             poolActiveDict = new Dictionary<string, List<GameObject>>();
+            InitPool(enemyPool);
+            InitPool(uiFxPool);
+            InitPool(projectilePool);
+            InitPool(otherPool);
+        }
 
+        private void InitPool(IEnumerable<Pool> poolList)
+        {
             foreach (var pool in poolList)
             {
                 var objectPool = new List<GameObject>();
@@ -38,16 +49,8 @@ namespace Services
                     objectPool.Add(obj);
                 }
 
-                var poolableComponent = pool.prefab.GetComponent<Poolable>();
-
-                if (poolableComponent is null)
-                {
-                    Debug.LogError($"There is no Poolable component on prefab {pool.prefab.name}");
-                    continue;
-                }
-
-                poolDict.Add(poolableComponent.PoolTag, objectPool);
-                poolActiveDict.Add(poolableComponent.PoolTag, objectActiveList);
+                poolDict.Add(pool.poolTag, objectPool);
+                poolActiveDict.Add(pool.poolTag, objectActiveList);
             }
         }
 

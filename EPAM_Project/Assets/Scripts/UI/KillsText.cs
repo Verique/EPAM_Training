@@ -11,7 +11,9 @@ namespace UI
         private void Start()
         {
             text = GetComponent<Text>();
-            ServiceLocator.Instance.Get<GameManager>().EnemyKilled += UpdateText;
+            var gManager = ServiceLocator.Instance.Get<GameManager>();
+            gManager.EnemyKilled += UpdateText;
+            UpdateText(0, gManager.KillGoal);
         }
 
         private void UpdateText(int kills, int goal)

@@ -108,7 +108,7 @@ namespace Services
                 .Select(behaviour => new EnemyData(
                     behaviour.transform.position.ToSerializable(), 
                     behaviour.GetComponent<EnemyStatLoader>().Stats,
-                    behaviour.GetComponent<Poolable>().PoolTag))
+                    behaviour.PoolTag))
                 .ToList();
         }
 

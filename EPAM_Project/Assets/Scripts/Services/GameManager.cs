@@ -16,6 +16,7 @@ namespace Services
         private CameraManager cameraManager;
         private PlayerManager playerManager;
 
+        public int KillGoal => killGoal;
         private int kills;
         public event Action<int, int> EnemyKilled;
 
@@ -55,8 +56,6 @@ namespace Services
             enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
             enemyManager.SetTarget(playerManager.PlayerTarget);
             enemyManager.OnGameStart();
-
-            EnemyKilled?.Invoke(0, killGoal);
 
             var saveName = PlayerPrefs.GetString("saveName");
             if (saveName != "")

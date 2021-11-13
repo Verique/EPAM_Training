@@ -3,6 +3,8 @@ namespace Enemy
 
     public class MeleeEnemy : BaseEnemy
     {
+        public override string PoolTag => "meleeEnemy";
+
         protected override void Move()
         {
             if (Player is null) return;

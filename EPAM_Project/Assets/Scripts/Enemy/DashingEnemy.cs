@@ -4,6 +4,8 @@ namespace Enemy
 {
     public class DashingEnemy : MeleeEnemy
     {
+        public override string PoolTag => "dashEnemy";
+
         [SerializeField] private float dashSpeed = 100f;
 
         protected override void StartSkill()

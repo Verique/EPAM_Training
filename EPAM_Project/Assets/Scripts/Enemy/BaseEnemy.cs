@@ -15,8 +15,8 @@ namespace Enemy
         protected NavMeshAgent Agent;
         protected EnemyStats Stats;
         
-        private PlayerManager pManager;
         private GameManager gameManager;
+        private PlayerManager pManager;
         private EnemyState state;
 
         private float squaredAttackDistance;
@@ -43,7 +43,7 @@ namespace Enemy
             Stats.Health.MinValueReached += () => gameObject.SetActive(false);
         }
 
-        private void OnKill(string dmgTag)
+        protected virtual void OnKill(string dmgTag)
         {
             if (dmgTag != "player" && dmgTag != "explosion") return;
             

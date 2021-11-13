@@ -13,7 +13,7 @@ namespace Services
 {
     public class EnemyManager : MonoBehaviour, IService
     {
-        private readonly Tuple<string, int>[] poolTagWeights = new[]
+        private readonly Tuple<string, int>[] poolTagWeights = 
         {
             ("meleeEnemy", 5).ToTuple(),
             ("dashEnemy", 1).ToTuple()
@@ -22,6 +22,7 @@ namespace Services
         private const float LevelSize = 500f;
         private const float SpawnHeight = 5f;
         private const float TimeToSpawn = 1f;
+        private ITarget player;
         private bool isSpawning;
         private ObjectPool pool;
 
@@ -51,17 +52,27 @@ namespace Services
         {
             while (isSpawning)
             {
-                var spawnPos = new Vector3(
-                    Random.Range(-LevelSize, LevelSize), 
-                    SpawnHeight,
-                    Random.Range(-LevelSize, LevelSize));
-
                 var poolTagToSpawn = ChooseEnemy();
-                pool.Spawn(poolTagToSpawn, spawnPos, Quaternion.identity);
+                Spawn<MeleeEnemy>(poolTagToSpawn);
                 yield return new WaitForSeconds(TimeToSpawn);
             }
         }
 
+        private T Spawn<T>(string poolTag) where T : BaseEnemy
+        {
+            var spawnPos = RandomSpawnLocation;
+            var enemy = pool.Spawn<T>(poolTag, spawnPos, Quaternion.identity);
+            enemy.Player = player;
+            return enemy;
+        }
+
+        public Boss SpawnBoss() => Spawn<Boss>("boss");
+        
+        private static Vector3 RandomSpawnLocation => new Vector3( 
+            Random.Range(-LevelSize, LevelSize), 
+            SpawnHeight, 
+            Random.Range(-LevelSize, LevelSize));
+        
         private string ChooseEnemy()
         {
             var overallWeight = poolTagWeights.Select(pair => pair.Item2).Sum();
@@ -116,10 +127,7 @@ namespace Services
 
         public void SetTarget(ITarget target)
         {
-            foreach (var enemy in Enemys)
-            {
-                enemy.GetComponent<MeleeEnemy>().Player = target;
-            }
+            player = target;
         }
 
         public void OnGameEnd()

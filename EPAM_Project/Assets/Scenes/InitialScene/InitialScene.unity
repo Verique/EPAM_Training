@@ -1562,7 +1562,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Kills : 0 KillGoal: 0'
+  m_Text: 'Kills : 0 Goal: 0'
 --- !u!222 &536655138
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1647,6 +1647,9 @@ MonoBehaviour:
     parent: {fileID: 2134195207}
   - prefab: {fileID: 7911480848025705824, guid: dd7c71c9fe3b2dc428a390feeae43ca4, type: 3}
     size: 25
+    parent: {fileID: 237683234}
+  - prefab: {fileID: 524643650594533072, guid: e79517315e3b08d41a3e994a0408ad95, type: 3}
+    size: 1
     parent: {fileID: 237683234}
 --- !u!1 &605227862
 GameObject:

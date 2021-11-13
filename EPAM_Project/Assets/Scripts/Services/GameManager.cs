@@ -17,7 +17,6 @@ namespace Services
         private PlayerManager playerManager;
 
         private int kills;
-        public event Action GoalReached;
         public event Action<int, int> EnemyKilled;
 
         public void AddKill()
@@ -25,7 +24,10 @@ namespace Services
             kills++;
             
             EnemyKilled?.Invoke(kills, killGoal);
-            if (kills == killGoal) GoalReached?.Invoke();
+            if (kills != killGoal) return;
+            
+            var boss = enemyManager.SpawnBoss();
+            boss.BossKilled += EndGame;
         }
         
         public GameState State { get; private set; }
@@ -51,10 +53,9 @@ namespace Services
             cameraManager.Target = playerManager.PlayerTarget;
             
             enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
-            enemyManager.OnGameStart();
             enemyManager.SetTarget(playerManager.PlayerTarget);
+            enemyManager.OnGameStart();
 
-            GoalReached += EndGame;
             EnemyKilled?.Invoke(0, killGoal);
 
             var saveName = PlayerPrefs.GetString("saveName");

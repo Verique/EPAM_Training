@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Player.Weapons;
+using Stats;
 using UnityEngine;
 
 namespace Services
@@ -16,10 +17,11 @@ namespace Services
         private GameManager gameManager;
 
         private BaseWeapon CurrentWeapon => weapons[currentWeaponIndex];
-        public BaseWeapon GetWeapon(int index) => weapons[ConvertIndex(index)];
+        private BaseWeapon GetWeapon(int index) => weapons[ConvertIndex(index)];
 
-        public event Action<int> WeaponSwitched;
-        public event Action<float> WeaponReloading;
+        public event Action<BaseWeapon, BaseWeapon, BaseWeapon> WeaponSwitched;
+        public event Action<Stat<int>> AmmoChanged;
+        public event Action<float, Stat<int>> WeaponReloading;
 
         private void Awake()
         {
@@ -67,15 +69,26 @@ namespace Services
         private void SwitchWeapon(int index)
         {
             CurrentWeapon.WeaponReloading -= OnReload;
+            CurrentWeapon.ClipStat.ValueChanged -= OnAmmoChanged;
             CurrentWeapon.PrepareToSwitch();
             currentWeaponIndex = index;
             CurrentWeapon.WeaponReloading += OnReload;
-            WeaponSwitched?.Invoke(index);
+            CurrentWeapon.ClipStat.ValueChanged += OnAmmoChanged;
+            OnAmmoChanged(0);
+            WeaponSwitched?.Invoke(
+                GetWeapon(currentWeaponIndex - 1),
+                GetWeapon(currentWeaponIndex),
+                GetWeapon(currentWeaponIndex + 1));
         }
 
         private void OnReload(float reloadTime)
         {
-            WeaponReloading?.Invoke(reloadTime);
+            WeaponReloading?.Invoke(reloadTime, CurrentWeapon.ClipStat);
+        }
+
+        private void OnAmmoChanged(int ammo)
+        {
+            AmmoChanged?.Invoke(CurrentWeapon.ClipStat);
         }
 
         private void OnMouseScrolled(float scrollDelta)

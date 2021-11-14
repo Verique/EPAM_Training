@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Extensions;
 using Player;
 using SaveData;
@@ -16,6 +17,10 @@ namespace Services
         
         private Renderer playerRenderer;
         private PlayerExperience experience;
+
+        public event Action<Stat<int>> PlayerHealthChanged;
+        public event Action<Stat<int>> PlayerGainedExp; 
+        public event Action<int> LevelUp;
 
         public ITarget PlayerTarget { get; private set; }
         public PlayerStatLoader StatLoader { get; private set; }
@@ -41,6 +46,14 @@ namespace Services
             
             var stats = StatLoader.Stats;
             stats.Health.MinValueReached += () => player.gameObject.SetActive(false);
+            stats.Health.ValueChanged += healthStat => PlayerHealthChanged?.Invoke(stats.Health);
+            PlayerHealthChanged?.Invoke(stats.Health);
+            
+            stats.Level.ValueChanged += i => LevelUp?.Invoke(i);
+            LevelUp?.Invoke(stats.Level.Value);
+            
+            stats.Experience.ValueChanged += exp => PlayerGainedExp?.Invoke(stats.Experience);
+            PlayerGainedExp?.Invoke(stats.Experience);
         }
 
         private IEnumerator PlayerDamageTakenIndication()
@@ -64,7 +77,6 @@ namespace Services
         public void LoadData(PlayerData data)
         {
             player.position = data.position;
-            Debug.Log($"{(Vector3)data.position} - {player.position}");
             player.rotation = Quaternion.Euler(data.rotation);
             StatLoader.LoadStats(data.stats);
         }

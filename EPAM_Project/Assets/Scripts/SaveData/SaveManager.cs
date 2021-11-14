@@ -13,7 +13,8 @@ namespace SaveData
         {
             var playerData = ServiceLocator.Instance.Get<PlayerManager>().GetSaveData();
             var enemyData = ServiceLocator.Instance.Get<EnemyManager>().GetSaveData();
-            SaveJson(new GameData(playerData, enemyData), saveName);
+            var gameData = ServiceLocator.Instance.Get<GameManager>().GetSaveData();
+            SaveJson(new GameData(gameData, playerData, enemyData), saveName);
         }
 
         public void Load(string saveName)
@@ -21,6 +22,7 @@ namespace SaveData
             var gameData = LoadJson<GameData>(saveName);
             ServiceLocator.Instance.Get<PlayerManager>().LoadData(gameData.playerData); 
             ServiceLocator.Instance.Get<EnemyManager>().LoadData(gameData.enemyData);
+            ServiceLocator.Instance.Get<GameManager>().LoadData(gameData.gameStateData);
         }
 
         private static T LoadJson<T>(string fileName)

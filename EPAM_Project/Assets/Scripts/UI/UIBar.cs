@@ -1,19 +1,18 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI
 {
     [RequireComponent(typeof(RectTransform))]
-    public class UIBar : MonoBehaviour
+    public abstract class UIBar : UIElement
     {
-        [SerializeField] protected GameObject barGO;
         private Vector2 initialBarSize;
         private RectTransform barTransform;
         protected int MaxValue { get; set; }
 
-        private void Start()
+        protected virtual void Awake()
         {
-            SetupBar();
+            barTransform = GetComponent<RectTransform>();
+            initialBarSize = barTransform.sizeDelta;
         }
 
         protected void UpdateBarHeight(int newValue)
@@ -26,12 +25,6 @@ namespace UI
         {
             var width = initialBarSize.x * newValue / MaxValue;
             barTransform.sizeDelta = new Vector2(width, initialBarSize.y);
-        }
-
-        protected virtual void SetupBar()
-        {
-            barTransform = barGO.GetComponent<RectTransform>();
-            initialBarSize = barTransform.sizeDelta;
         }
     }
 }

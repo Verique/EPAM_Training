@@ -1,6 +1,7 @@
 using System.Collections;
 using Player.Weapons;
 using Services;
+using Stats;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,59 +10,30 @@ namespace UI
     [RequireComponent(typeof(Image))]
     public class AmmoBar : UIBar
     {
+        private Coroutine reloadIndication;
         private Image image;
         private readonly Color reloadColor = Color.black;
         private readonly Color defaultColor = new Color32(219, 164, 99, 255);
-        private BaseWeapon currentWeapon;
-        private WeaponManager weaponManager;
-
-        private void Awake()
+        
+        private void StartReloadIndication(float reloadTime, Stat<int> ammoStat)
         {
-            image = GetComponent<Image>();
+            reloadIndication = StartCoroutine(ReloadIndication(reloadTime, ammoStat));
         }
 
-        protected override void SetupBar()
+        private void OnAmmoChange(Stat<int> ammo)
         {
-            base.SetupBar();
-
-            weaponManager = ServiceLocator.Instance.Get<WeaponManager>();
-
-            weaponManager.WeaponSwitched += OnWeaponSwitched;
-            weaponManager.WeaponReloading += StartReloadIndication;
+            MaxValue = ammo.maxValue;
+            UpdateBarHeight(ammo.Value);
         }
 
-        private void StartReloadIndication(float reloadTime)
-        {
-            StartCoroutine(nameof(ReloadIndication), reloadTime);
-        }
-
-        private void OnWeaponSwitched(int index)
-        {
-            StopCoroutine(nameof(ReloadIndication));
-            image.color = defaultColor;
-            
-            var newWeapon = weaponManager.GetWeapon(index);
-            
-            if (currentWeapon != null)
-            {
-                currentWeapon.ClipStat.ValueChanged -= UpdateBarHeight;
-            }
-            
-            MaxValue = newWeapon.ClipStat.maxValue;
-            UpdateBarHeight(newWeapon.ClipStat.Value);
-            newWeapon.ClipStat.ValueChanged += UpdateBarHeight;
-
-            currentWeapon = newWeapon;
-        }
-
-        private IEnumerator ReloadIndication(float reloadTime)
+        private IEnumerator ReloadIndication(float reloadTime, Stat<int> ammoStat)
         {
             image.color = reloadColor;
             var startTime = Time.time;
             var timeDiff = Time.time - startTime;
 
-            var startAmmo = currentWeapon.ClipStat.Value;
-            var ammoDiff = currentWeapon.ClipStat.maxValue - startAmmo;
+            var startAmmo = ammoStat.Value;
+            var ammoDiff = ammoStat.maxValue - startAmmo;
 
             while (timeDiff <= reloadTime)
             {
@@ -71,6 +43,21 @@ namespace UI
                 yield return new WaitForEndOfFrame();
                 timeDiff = Time.time - startTime;
             }
+        }
+        
+
+        public override void Init(UIManager manager)
+        {
+            image = GetComponent<Image>();
+            manager.PlayerAmmoChanged += OnAmmoChange;
+            manager.PlayerReloading += StartReloadIndication;
+            manager.WeaponSwitched += OnWeaponSwitched;
+        }
+
+        private void OnWeaponSwitched(BaseWeapon arg1, BaseWeapon arg2, BaseWeapon arg3)
+        {
+            if (reloadIndication != null) StopCoroutine(reloadIndication);
+            image.color = defaultColor;
         }
     }
 }

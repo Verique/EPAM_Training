@@ -15,23 +15,31 @@ namespace Services
         private EnemyManager enemyManager;
         private CameraManager cameraManager;
         private PlayerManager playerManager;
-
-        public int KillGoal => killGoal;
         private int kills;
+        private float time;
+
         public event Action<int, int> EnemyKilled;
+        public event Action<GameStats> GameEnded;
+
+        private int Kills
+        {
+            get => kills;
+            set
+            {
+                kills = value;
+                EnemyKilled?.Invoke(Kills, killGoal);
+                if (Kills != killGoal) return;
+            
+                enemyManager.SpawnBoss();
+            }
+        }
+
+        public GameState State { get; private set; }
 
         public void AddKill()
         {
-            kills++;
-            
-            EnemyKilled?.Invoke(kills, killGoal);
-            if (kills != killGoal) return;
-            
-            var boss = enemyManager.SpawnBoss();
-            boss.BossKilled += EndGame;
+            Kills++;
         }
-        
-        public GameState State { get; private set; }
 
         private void Awake()
         {
@@ -46,7 +54,7 @@ namespace Services
         private void StartGame()
         {
             playerManager = ServiceLocator.Instance.Get<PlayerManager>();
-            playerManager.StatLoader.Stats.Health.MinValueReached += EndGame;
+            playerManager.StatLoader.Stats.Health.MinValueReached += () => EndGame("You are dead!");
 
             ServiceLocator.Instance.Get<InputManager>().PauseKeyUp += Pause;
             
@@ -56,6 +64,9 @@ namespace Services
             enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
             enemyManager.SetTarget(playerManager.PlayerTarget);
             enemyManager.OnGameStart();
+            enemyManager.BossKilled += () => EndGame("You win!");
+
+            EnemyKilled?.Invoke(Kills, killGoal);
 
             var saveName = PlayerPrefs.GetString("saveName");
             if (saveName != "")
@@ -91,10 +102,12 @@ namespace Services
             SceneManager.LoadScene("InitialScene");
         }
 
-        private void EndGame()
+        private void EndGame(string message)
         {
             State = GameState.GameOver;
             cameraManager.enabled = false;
+            
+            GameEnded?.Invoke(new GameStats(Kills, Time.timeSinceLevelLoad + time, message));
             
             enemyManager.OnGameEnd();
             gameOverScreen.SetActive(true);
@@ -104,6 +117,19 @@ namespace Services
         {
             State = GameState.MainMenu;
             SceneManager.LoadScene("MainMenu");
+        }
+
+        public GameStateData GetSaveData()
+        {
+            var saveTime = Time.timeSinceLevelLoad + time;
+            return new GameStateData(kills, saveTime);
+        }
+        
+        public void LoadData(GameStateData data)
+        {
+            kills = data.kills;
+            EnemyKilled?.Invoke(kills, killGoal);
+            time = data.time;
         }
     }
 }

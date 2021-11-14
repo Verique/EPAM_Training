@@ -5,19 +5,17 @@ using UnityEngine.UI;
 namespace UI
 {
     [RequireComponent(typeof(Text))]
-    public class LevelText : MonoBehaviour
+    public class LevelText : UIText
     {
-        private Text text;
-
-        private void Start()
-        {
-            text = GetComponent<Text>();
-            ServiceLocator.Instance.Get<PlayerManager>().StatLoader.Stats.Level.ValueChanged += UpdateText;
-        }
-
         private void UpdateText(int newLvl)
         {
-            text.text = $"Level : {newLvl}";
+            Text.text = $"Level : {newLvl}";
+        }
+
+        public override void Init(UIManager manager)
+        {
+            Text = GetComponent<Text>();
+            manager.PlayerLevelUp += UpdateText;
         }
     }
 }

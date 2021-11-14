@@ -26,7 +26,9 @@ namespace Services
         private bool isSpawning;
         private ObjectPool pool;
 
-        public event Action<Boss> BossSpawned;
+        public event Action<string> BossSpawned;
+        public event Action BossKilled;
+        public event Action<Stat<int>> BossHealthChanged;
 
         private IEnumerable<GameObject> Enemys
         {
@@ -39,6 +41,8 @@ namespace Services
 
                     result.AddRange(enemys);
                 }
+                
+                result.AddRange(pool.GetPooledObjects("boss"));
 
                 return result;
             }
@@ -55,29 +59,31 @@ namespace Services
             while (isSpawning)
             {
                 var poolTagToSpawn = ChooseEnemy();
-                Spawn<MeleeEnemy>(poolTagToSpawn);
+                Spawn<MeleeEnemy>(poolTagToSpawn, RandomSpawnLocation);
                 yield return new WaitForSeconds(TimeToSpawn);
             }
         }
 
-        private T Spawn<T>(string poolTag) where T : BaseEnemy
+        private T Spawn<T>(string poolTag, Vector3 location) where T : BaseEnemy
         {
-            var spawnPos = RandomSpawnLocation;
-            var enemy = pool.Spawn<T>(poolTag, spawnPos, Quaternion.identity);
+            var enemy = pool.Spawn<T>(poolTag, location, Quaternion.identity);
             enemy.Player = player;
             return enemy;
         }
 
-        public Boss SpawnBoss()
+        public void SpawnBoss() => SpawnBossAt(RandomSpawnLocation);
+
+        private void SpawnBossAt(Vector3 location)
         {
-            var boss = Spawn<Boss>("boss");
-            boss.BossSpawned += OnBossSpawned;
-            return boss;
+            var boss = Spawn<Boss>("boss", location);
+            BossEvents(boss);
         }
 
-        private void OnBossSpawned(Boss boss)
+        private void BossEvents(Boss boss)
         {
-            BossSpawned?.Invoke(boss);
+            BossSpawned?.Invoke(boss.PoolTag);
+            boss.BossKilled += () => BossKilled?.Invoke();
+            boss.BossDamaged += stat => BossHealthChanged?.Invoke(stat); 
         }
         
         private static Vector3 RandomSpawnLocation => new Vector3( 
@@ -115,7 +121,7 @@ namespace Services
         public List<EnemyData> GetSaveData()
         {
             return Enemys
-                .Select(obj => obj.GetComponent<MeleeEnemy>())
+                .Select(obj => obj.GetComponent<BaseEnemy>())
                 .Where((behaviour => behaviour.isActiveAndEnabled))
                 .Select(behaviour => new EnemyData(
                     behaviour.transform.position.ToSerializable(), 
@@ -128,7 +134,9 @@ namespace Services
         {
             foreach (var eData in data)
             {
-                pool.Spawn<EnemyStatLoader>(eData.poolTag, eData.position, Quaternion.identity).LoadStats(eData.stats);
+                var enemy = Spawn<BaseEnemy>(eData.poolTag, eData.position);
+                if (enemy is Boss b) BossEvents(b);
+                enemy.GetComponent<EnemyStatLoader>().LoadStats(eData.stats);
             }
         }
 

@@ -1,17 +1,19 @@
 using Services;
+using Stats;
 
 namespace UI
 {
     public class ExpBar : UIBar
     {
-        protected override void SetupBar()
+        public override void Init(UIManager manager)
         {
-            base.SetupBar();
-            var expStat = ServiceLocator.Instance.Get<PlayerManager>().StatLoader.Stats.Experience;
-            
+            manager.PlayerExpChanged += OnPlayerExpChanged;
+        }
+
+        private void OnPlayerExpChanged(Stat<int> expStat)
+        {
             MaxValue = expStat.maxValue;
             UpdateBarHeight(expStat.Value);
-            expStat.ValueChanged += UpdateBarHeight;
         }
     }
 }

@@ -1,16 +1,19 @@
 using Services;
+using Stats;
 
 namespace UI
 {
     public class PlayerHealthbar : UIBar
     {
-        protected override void SetupBar()
+        public override void Init(UIManager manager)
         {
-            base.SetupBar();
-            var healthStat = ServiceLocator.Instance.Get<PlayerManager>().StatLoader.Stats.Health;
+            manager.PlayerHealthChanged += OnPlayerHealthChanged;
+        }
+
+        private void OnPlayerHealthChanged(Stat<int> healthStat)
+        {
             MaxValue = healthStat.maxValue;
             UpdateBarHeight(healthStat.Value);
-            healthStat.ValueChanged += UpdateBarHeight;
         }
     }
 }

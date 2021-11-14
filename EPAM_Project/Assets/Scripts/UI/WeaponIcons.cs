@@ -1,29 +1,26 @@
-﻿using Services;
+﻿using Player.Weapons;
+using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class WeaponIcons : MonoBehaviour
+    public class WeaponIcons : UIElement
     {
         [SerializeField] private Image current;
         [SerializeField] private Image next;
         [SerializeField] private Image last;
 
-        private WeaponManager weaponManager;
-
-        private void Start()
+        private void OnWeaponSwitched(BaseWeapon lastW, BaseWeapon currentW, BaseWeapon nextW)
         {
-            weaponManager = ServiceLocator.Instance.Get<WeaponManager>();
-
-            weaponManager.WeaponSwitched += OnWeaponSwitched;
+            current.sprite = currentW.WeaponIcon;
+            next.sprite = nextW.WeaponIcon;
+            last.sprite = lastW.WeaponIcon;
         }
 
-        private void OnWeaponSwitched(int index)
+        public override void Init(UIManager manager)
         {
-            current.sprite = weaponManager.GetWeapon(index).WeaponIcon;
-            next.sprite = weaponManager.GetWeapon(index + 1).WeaponIcon;
-            last.sprite = weaponManager.GetWeapon(index - 1).WeaponIcon;
+            manager.WeaponSwitched += OnWeaponSwitched;
         }
     }
 }

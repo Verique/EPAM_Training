@@ -19,7 +19,7 @@ namespace Enemy
         private GameManager gameManager;
         private PlayerManager pManager;
         private EnemyState state;
-
+        
         private float squaredAttackDistance;
         private float squaredSkillDistance;
         private float lastAttackTime;

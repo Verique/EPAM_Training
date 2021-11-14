@@ -26,6 +26,8 @@ namespace Services
         private bool isSpawning;
         private ObjectPool pool;
 
+        public event Action<Boss> BossSpawned;
+
         private IEnumerable<GameObject> Enemys
         {
             get
@@ -66,7 +68,17 @@ namespace Services
             return enemy;
         }
 
-        public Boss SpawnBoss() => Spawn<Boss>("boss");
+        public Boss SpawnBoss()
+        {
+            var boss = Spawn<Boss>("boss");
+            boss.BossSpawned += OnBossSpawned;
+            return boss;
+        }
+
+        private void OnBossSpawned(Boss boss)
+        {
+            BossSpawned?.Invoke(boss);
+        }
         
         private static Vector3 RandomSpawnLocation => new Vector3( 
             Random.Range(-LevelSize, LevelSize), 

@@ -34,8 +34,8 @@ MonoBehaviour:
     value: 10
   <Health>k__BackingField:
     minValue: 0
-    maxValue: 500
-    value: 500
+    maxValue: 1000
+    value: 1000
   <Experience>k__BackingField:
     minValue: 0
     maxValue: 3

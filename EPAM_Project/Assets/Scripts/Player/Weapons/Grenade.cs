@@ -73,7 +73,7 @@ namespace Player.Weapons
 
             var t = transform;
             
-            var pSystem = pool.Spawn<ParticleSystem>("effect", t.position, t.rotation);
+            var pSystem = pool.Spawn<ParticleSystem>("explosionFx", t.position, t.rotation);
             var sh = pSystem.shape;
             sh.radius = Stats.ShotRadius.Value;
             pSystem.Play();

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Player.Weapons
@@ -5,7 +6,8 @@ namespace Player.Weapons
     [RequireComponent(typeof(Rigidbody))]
     public class AutoBullet : BaseShot
     {
-        private Rigidbody rgbd;
+        protected Rigidbody rgbd;
+        protected virtual string DamageTag => "player";
 
         protected override void Awake()
         {
@@ -13,17 +15,16 @@ namespace Player.Weapons
             rgbd = GetComponent<Rigidbody>();
         }
 
-        protected override void OnEnable()
+        private void OnEnable()
         {
-            base.OnEnable();
             rgbd.velocity = Stats.Speed.Value * STransform.up;
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Terrain")) gameObject.SetActive(false);
-            if (!other.gameObject.TryGetComponent(out Health health)) return;
-            var hit = health.TakeDamage(Stats.Damage.Value, "player");
+            if (!other.TryGetComponent(out Health health)) return;
+            var hit = health.TakeDamage(Stats.Damage.Value, DamageTag);
             gameObject.SetActive(!hit);
         }
     }

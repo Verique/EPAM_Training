@@ -9,10 +9,8 @@ namespace Player.Weapons
         
         [SerializeField] private float laserFadeOutTime = .2f;
 
-        protected override void OnEnable()
+        protected void OnEnable()
         {
-            base.OnEnable();
-            
             var results = new RaycastHit[BufferSize];
             var laserWidth = Stats.ShotRadius.Value;
             var laserLength = Stats.ShotLength.Value;

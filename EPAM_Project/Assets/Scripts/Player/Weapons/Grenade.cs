@@ -23,9 +23,8 @@ namespace Player.Weapons
             rgbd = GetComponent<Rigidbody>();
         }
 
-        protected override void OnEnable()
+        protected void OnEnable()
         {
-            base.OnEnable();
             CalculateLandingPoint(Destination);
             pool = ServiceLocator.Instance.Get<ObjectPool>();
         }

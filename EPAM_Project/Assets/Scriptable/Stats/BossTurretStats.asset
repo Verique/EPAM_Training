@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9d20f6c2b8e491bbea2358c70b255ce, type: 3}
-  m_Name: BossStats
+  m_Name: BossTurretStats
   m_EditorClassIdentifier: 
   <Speed>k__BackingField:
     minValue: 20
@@ -22,24 +22,24 @@ MonoBehaviour:
     value: 1
   <AttackDistance>k__BackingField:
     minValue: 0
-    maxValue: 10
-    value: 10
+    maxValue: 100
+    value: 100
   <SkillDistance>k__BackingField:
     minValue: 0
-    maxValue: 400
-    value: 400
+    maxValue: 0
+    value: 0
   <SkillCooldown>k__BackingField:
     minValue: 0
-    maxValue: 10
-    value: 10
+    maxValue: 0
+    value: 0
   <Health>k__BackingField:
     minValue: 0
-    maxValue: 1000
-    value: 1000
+    maxValue: 100
+    value: 100
   <Experience>k__BackingField:
     minValue: 0
-    maxValue: 3
-    value: 3
+    maxValue: 1
+    value: 1
   <Damage>k__BackingField:
     minValue: 0
     maxValue: 50

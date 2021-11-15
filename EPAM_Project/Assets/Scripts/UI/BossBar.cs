@@ -26,6 +26,7 @@ namespace UI
             manager.BossSpawned += OnBossSpawned;
             manager.BossHealthChanged += OnBossHealthChanged;
             manager.BossKilled += () => SetActive(false);
+            manager.GameEnded += (s) => SetActive(false);
         }
 
         private void OnBossHealthChanged(Stat<int> healthStat)

@@ -1,4 +1,5 @@
-﻿using Stats;
+﻿using System;
+using Stats;
 using UnityEngine;
 
 namespace Player.Weapons
@@ -14,10 +15,6 @@ namespace Player.Weapons
         protected virtual void Awake()
         {
             STransform = GetComponent<Transform>();
-        }
-
-        protected virtual void OnEnable()
-        {
             Stats = GetComponent<ShotStatLoader>().Stats;
         }
     }

@@ -35,12 +35,17 @@ namespace Services
         public event Action BossKilled;
         public event Action<Stat<int>> BossHealthChanged;
 
+        [SerializeField] private UIElement bossDirectionView;
+        public event Action<Vector2> BossDirectionChanged;
+        public event Action<Vector2> PlayerMovedOnScreen;
+
         private void Awake()
         {
             var weaponManager = ServiceLocator.Instance.Get<WeaponManager>();
             var playerManager = ServiceLocator.Instance.Get<PlayerManager>();
             var gameManager = ServiceLocator.Instance.Get<GameManager>();
             var enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
+            var cameraManager = ServiceLocator.Instance.Get<CameraManager>();
             
             endGameStatsView.Init(this);
             gameManager.GameEnded += stats => GameEnded?.Invoke(stats);
@@ -68,6 +73,10 @@ namespace Services
             enemyManager.BossSpawned += bossName => BossSpawned?.Invoke(bossName);
             enemyManager.BossKilled += () => BossKilled?.Invoke();
             enemyManager.BossHealthChanged += stat => BossHealthChanged?.Invoke(stat);
+            
+            bossDirectionView.Init(this);
+            enemyManager.BossDirection += vector => BossDirectionChanged?.Invoke(vector);
+            cameraManager.TargetMovedOnScreen += vector => PlayerMovedOnScreen?.Invoke(vector);
         }
     }
 }

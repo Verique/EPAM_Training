@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Services
@@ -7,6 +8,8 @@ namespace Services
         private const float SmoothTime = 0.2f;
         [SerializeField] private Vector3 offset;
         [SerializeField] private Camera cam;
+
+        public event Action<Vector2> TargetMovedOnScreen;
 
         public ITarget Target { get; set; }
 
@@ -37,6 +40,7 @@ namespace Services
         {
             camPos = Vector3.Lerp(Target.Position, mousePos, 0.2f) - offset;
             camPos = Vector3.SmoothDamp(cam.transform.position, camPos, ref sDampVelocity, SmoothTime);
+            TargetMovedOnScreen?.Invoke(WorldPosToScreen(Target.Position));
         }
 
         private void LateUpdate()

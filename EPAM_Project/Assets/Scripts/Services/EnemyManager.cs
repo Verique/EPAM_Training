@@ -16,7 +16,8 @@ namespace Services
         private readonly Tuple<string, int>[] poolTagWeights = 
         {
             ("meleeEnemy", 5).ToTuple(),
-            ("dashEnemy", 1).ToTuple()
+            ("dashEnemy", 1).ToTuple(),
+            ("bossTurret", 0).ToTuple()
         };
 
         private const float LevelSize = 500f;
@@ -26,6 +27,7 @@ namespace Services
         private bool isSpawning;
         private ObjectPool pool;
 
+        public event Action<Vector2> BossDirection;
         public event Action<string> BossSpawned;
         public event Action BossKilled;
         public event Action<Stat<int>> BossHealthChanged;
@@ -59,19 +61,19 @@ namespace Services
             while (isSpawning)
             {
                 var poolTagToSpawn = ChooseEnemy();
-                Spawn<MeleeEnemy>(poolTagToSpawn, RandomSpawnLocation);
+                Spawn<MeleeEnemy>(poolTagToSpawn, RandomSpawnLocationWithinSquare(LevelSize));
                 yield return new WaitForSeconds(TimeToSpawn);
             }
         }
 
-        private T Spawn<T>(string poolTag, Vector3 location) where T : BaseEnemy
+        public T Spawn<T>(string poolTag, Vector3 location) where T : BaseEnemy
         {
             var enemy = pool.Spawn<T>(poolTag, location, Quaternion.identity);
             enemy.Player = player;
             return enemy;
         }
 
-        public void SpawnBoss() => SpawnBossAt(RandomSpawnLocation);
+        public void SpawnBoss() => SpawnBossAt(RandomSpawnLocationWithinSquare(LevelSize));
 
         private void SpawnBossAt(Vector3 location)
         {
@@ -83,14 +85,26 @@ namespace Services
         {
             BossSpawned?.Invoke(boss.PoolTag);
             boss.BossKilled += () => BossKilled?.Invoke();
-            boss.BossDamaged += stat => BossHealthChanged?.Invoke(stat); 
+            boss.BossDamaged += stat => BossHealthChanged?.Invoke(stat);
+            boss.BossMoved += vector3 => BossDirection?.Invoke((vector3 - player.Position).ToVector2());
         }
-        
-        private static Vector3 RandomSpawnLocation => new Vector3( 
-            Random.Range(-LevelSize, LevelSize), 
-            SpawnHeight, 
-            Random.Range(-LevelSize, LevelSize));
-        
+
+        public Vector3 RandomSpawnLocationWithinSquare(float size)
+        {
+            Vector3 spawnLocation;
+
+            do
+            {
+                spawnLocation = new Vector3(
+                    Random.Range(-size, size),
+                    SpawnHeight,
+                    Random.Range(-size, size));
+            } 
+            while (Physics.CheckSphere(spawnLocation, 2, ~LayerMask.NameToLayer("Terrain")));
+
+            return spawnLocation;
+        }
+
         private string ChooseEnemy()
         {
             var overallWeight = poolTagWeights.Select(pair => pair.Item2).Sum();
@@ -101,11 +115,13 @@ namespace Services
             
             foreach (var (poolTag, weight) in poolTagWeights)
             {
+                if (weight == 0) continue;
                 currentArea += weight;
                 if (roll <= currentArea) return poolTag;
             }
 
             return "";
+            
         }
 
         private void StartSpawning()

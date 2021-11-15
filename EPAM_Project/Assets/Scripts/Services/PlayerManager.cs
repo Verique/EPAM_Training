@@ -19,7 +19,7 @@ namespace Services
         private PlayerExperience experience;
 
         public event Action<Stat<int>> PlayerHealthChanged;
-        public event Action<Stat<int>> PlayerGainedExp; 
+        public event Action<Stat<int>> PlayerGainedExp;
         public event Action<int> LevelUp;
 
         public ITarget PlayerTarget { get; private set; }

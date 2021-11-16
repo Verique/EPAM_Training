@@ -12,21 +12,25 @@ namespace Player.Weapons
         
         private Rigidbody rgbd;
         private ObjectPool pool;
+        private SoundManager soundManager;
         private const int BufferSize = 100;
 
         private Vector3 landingPoint;
         private bool landingPointCalculated;
 
+        public override string SoungEffectShotTag => "grenadeSfx";
+
         protected override void Awake()
         {
             base.Awake();
             rgbd = GetComponent<Rigidbody>();
+            soundManager = ServiceLocator.Instance.Get<SoundManager>();
+            pool = ServiceLocator.Instance.Get<ObjectPool>();
         }
 
         protected void OnEnable()
         {
             CalculateLandingPoint(Destination);
-            pool = ServiceLocator.Instance.Get<ObjectPool>();
         }
 
         private void CalculateLandingPoint(Vector3 desiredPoint)
@@ -71,11 +75,14 @@ namespace Player.Weapons
             yield return new WaitForSeconds(explosionDelay);
 
             var t = transform;
+            var position = t.position;
             
-            var pSystem = pool.Spawn<ParticleSystem>("explosionFx", t.position, t.rotation);
+            var pSystem = pool.Spawn<ParticleSystem>("explosionFx", position, t.rotation);
             var sh = pSystem.shape;
             sh.radius = Stats.ShotRadius.Value;
             pSystem.Play();
+
+            soundManager.PlayAt("explosionSfx", position);
             
             var results = new Collider[BufferSize];
             var hitCount = Physics.OverlapSphereNonAlloc(STransform.position, Stats.ShotRadius.Value, results);

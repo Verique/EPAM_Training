@@ -50,5 +50,7 @@ namespace Player.Weapons
             
             gameObject.SetActive(false);
         }
+
+        public override string SoungEffectShotTag => "laserSfx";
     }
 }

@@ -7,6 +7,7 @@ namespace Player.Weapons
     [RequireComponent(typeof(ShotStatLoader))]
     public abstract class BaseShot : MonoBehaviour
     {
+        public abstract string SoungEffectShotTag { get; }
         protected Transform STransform;
         protected ShotStats Stats;
         

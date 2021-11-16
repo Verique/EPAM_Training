@@ -9,6 +9,8 @@ namespace Player.Weapons
         protected Rigidbody rgbd;
         protected virtual string DamageTag => "player";
 
+        public override string SoungEffectShotTag => "autoBulletSfx";
+
         protected override void Awake()
         {
             base.Awake();

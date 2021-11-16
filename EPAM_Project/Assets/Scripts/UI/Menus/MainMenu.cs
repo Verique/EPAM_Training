@@ -1,3 +1,5 @@
+using System;
+using Services;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +16,10 @@ namespace UI.Menus
             #endif 
         }
 
+        private void Awake()
+        {
+            ServiceLocator.Instance.Get<SoundManager>().PlayMusic("mainMenuMusic");
+        }
 
         public void StartNewGame()
         {

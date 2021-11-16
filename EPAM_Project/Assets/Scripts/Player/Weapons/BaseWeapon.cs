@@ -18,6 +18,7 @@ namespace Player.Weapons
         
         private WeaponStats stats;
         private ObjectPool pool;
+        private SoundManager soundManager;
 
         protected abstract string ObjectPoolTag { get; }
         public Stat<int> ClipStat { get; private set; }
@@ -27,6 +28,7 @@ namespace Player.Weapons
         protected virtual void Awake()
         {
             pool = ServiceLocator.Instance.Get<ObjectPool>();
+            soundManager = ServiceLocator.Instance.Get<SoundManager>();
             stats = GetComponent<WeaponStatLoader>().Stats;
             ClipStat = stats.Clip;
             cooldownTime = 0;
@@ -51,13 +53,15 @@ namespace Player.Weapons
         {
             ActionDone(stats.RateOfFire.Value);
             stats.Clip.Value--;
-            
-            var wTransform = transform;
-            pool.SpawnWithSetup<BaseShot>(
+
+            var t = transform;
+            var position = t.position;
+            var shot = pool.SpawnWithSetup<BaseShot>(
                 ObjectPoolTag, 
-                wTransform.position, 
-                wTransform.rotation, 
+                position, 
+                t.rotation, 
                 baseShot => baseShot.Destination = destination);
+            soundManager.PlayAt(shot.SoungEffectShotTag, position);
         }
 
         public void Reload()

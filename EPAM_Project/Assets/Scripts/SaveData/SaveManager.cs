@@ -27,7 +27,10 @@ namespace SaveData
 
         private static T LoadJson<T>(string fileName)
         {
-            var path = string.Format(Application.persistentDataPath + $"/{fileName}.json"); 
+            var path = string.Format(Application.persistentDataPath + $"/{fileName}.json");
+
+            if (!new FileInfo(path).Exists) return default;
+
             using var sr = new StreamReader(path);
             using var reader = new JsonTextReader(sr);
 
@@ -42,6 +45,23 @@ namespace SaveData
             
             new JsonSerializer().Serialize(writer, data);
         }
+
+        public void SaveAudioSettings(GameAudioSettings settings) =>
+            SaveJson(settings, "audio");
+
+        public GameAudioSettings LoadAudioSettings()
+        {
+            var settings = LoadJson<GameAudioSettings>("audio");
+            
+            if (settings == null)
+            {
+                settings = new GameAudioSettings();
+                SaveAudioSettings(settings);
+            }
+
+            return settings;
+        }
+
 
         public static List<string> GetSaveFiles()
         {

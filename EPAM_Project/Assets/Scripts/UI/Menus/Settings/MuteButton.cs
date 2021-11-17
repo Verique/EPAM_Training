@@ -9,7 +9,7 @@ namespace UI.Menus.Settings
         private Image image;
         public bool IsMuted { get; private set; }
 
-        private void Awake()
+        public void Init()
         {
             button = GetComponent<Button>();
             image = GetComponent<Image>();

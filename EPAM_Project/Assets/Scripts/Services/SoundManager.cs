@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SaveData;
 using UnityEngine;
 
 namespace Services
@@ -18,11 +19,8 @@ namespace Services
         private AudioSource audioSource;
         private ObjectPool pool;
 
-        private float musicVolume;
-        private bool isMusicMuted;
-        private float sfxVolume;
-        private bool isSfxMuted;
-
+        private GameAudioSettings settings;
+        
         private void Awake()
         {
             if (has3DEffects) pool = ServiceLocator.Instance.Get<ObjectPool>();
@@ -39,17 +37,17 @@ namespace Services
 
         public void PlayOneShot(string soundTag)
         {
-            if (isSfxMuted) return;
+            if (settings.sfxMuted) return;
             var clip = GetClip(soundTag);
-            audioSource.PlayOneShot(clip, sfxVolume);
+            audioSource.PlayOneShot(clip, settings.sfxVolume);
         }
 
         public void PlayAt(string soundTag, Vector3 position)
         {
-            if (isSfxMuted) return;
+            if (settings.sfxMuted) return;
             var audioSourceAtPosition = pool.Spawn<AudioSource>(AudioSourcePoolTag, position, Quaternion.identity);
             audioSourceAtPosition.clip = GetClip(soundTag);
-            audioSourceAtPosition.volume = sfxVolume;
+            audioSourceAtPosition.volume = settings.sfxVolume;
             audioSourceAtPosition.Play();
         }
         
@@ -59,15 +57,13 @@ namespace Services
             return soundDict[soundTag].clip;
         }
 
-        public void ApplySettings()
+        private void ApplySettings() => ApplySettings(ServiceLocator.Instance.Get<SaveManager>().LoadAudioSettings());
+
+        public void ApplySettings(GameAudioSettings newSettings)
         {
-            musicVolume = PlayerPrefs.GetFloat(MusicPref, 1);
-            audioSource.volume = musicVolume;
-            isMusicMuted = bool.Parse(PlayerPrefs.GetString(MusicPref + MutedSuffix, "False"));
-            audioSource.mute = isMusicMuted;
-            
-            sfxVolume = PlayerPrefs.GetFloat(SfxPref, 1);
-            isSfxMuted = bool.Parse(PlayerPrefs.GetString(SfxPref + MutedSuffix, "False"));
+            settings = newSettings;
+            audioSource.volume = settings.musicVolume;
+            audioSource.mute = settings.musicMuted;
         }
     }
 }

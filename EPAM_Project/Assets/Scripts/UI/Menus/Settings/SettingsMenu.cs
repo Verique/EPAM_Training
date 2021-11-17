@@ -1,4 +1,5 @@
-﻿using Services;
+﻿using SaveData;
+using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +11,22 @@ namespace UI.Menus.Settings
         [SerializeField] private Button closeButton;
         
         [SerializeField] private SliderSetting enemySpeed;
-        [SerializeField] private SliderSetting musicVolumeSetting;
-        [SerializeField] private SliderSetting effectsVolumeSetting;
+        [SerializeField] private VolumeSetting musicVolumeSetting;
+        [SerializeField] private VolumeSetting effectsVolumeSetting;
 
+
+        private GameAudioSettings audioSettings;
+        private SaveManager saveManager;
         private void Awake()
         {
+            saveManager = ServiceLocator.Instance.Get<SaveManager>();
+            
             closeButton.onClick.AddListener(ApplySettings);
             closeButton.onClick.AddListener(Hide);
+            
+            audioSettings = saveManager.LoadAudioSettings();
+            musicVolumeSetting.Init(audioSettings);
+            effectsVolumeSetting.Init(audioSettings);
         }
 
         private void ApplySettings()
@@ -25,7 +35,8 @@ namespace UI.Menus.Settings
             musicVolumeSetting.Apply();
             effectsVolumeSetting.Apply();
             
-            ServiceLocator.Instance.Get<SoundManager>().ApplySettings();
+            saveManager.SaveAudioSettings(audioSettings);
+            ServiceLocator.Instance.Get<SoundManager>().ApplySettings(audioSettings);
         }
 
         private void Hide() => SetActive(false);

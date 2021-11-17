@@ -2,7 +2,6 @@
 using Services;
 using Stats;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace Enemy
 {

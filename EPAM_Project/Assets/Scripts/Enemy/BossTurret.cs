@@ -1,13 +1,11 @@
 ﻿using Extensions;
 using Player.Weapons;
 using Services;
-using UnityEngine;
 
 namespace Enemy
 {
     public class BossTurret : BaseEnemy
     {
-        [SerializeField] private float spreadShotAngle;
         public override string PoolTag => "bossTurret";
         private string EnemyBulletTag => "enemyBullet";
         private ObjectPool pool;

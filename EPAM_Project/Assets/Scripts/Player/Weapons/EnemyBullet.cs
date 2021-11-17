@@ -9,7 +9,7 @@ namespace Player.Weapons
 
         private void OnEnable()
         {
-            rgbd.velocity = Stats.Speed.Value * transform.forward;
+            Rgbd.velocity = Stats.Speed.Value * transform.forward;
         }
     }
 }

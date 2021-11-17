@@ -4405,6 +4405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189683347c734e8dacd24ae41eb8997c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  has3DEffects: 1
   sounds:
   - clipName: defaultMusic
     clip: {fileID: 8300000, guid: 77e1c8f890890864ebbac7dd6aea6b6e, type: 3}

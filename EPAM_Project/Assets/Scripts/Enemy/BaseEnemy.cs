@@ -12,7 +12,6 @@ namespace Enemy
     [RequireComponent(typeof(NavMeshAgent))]
     public abstract class BaseEnemy : MonoBehaviour
     {
-        public abstract string PoolTag { get; }
         protected NavMeshAgent Agent;
         protected EnemyStats Stats;
         
@@ -26,6 +25,7 @@ namespace Enemy
         private float lastSkillTime;
 
         public ITarget Player { get; set; }
+        public abstract string PoolTag { get; }
 
         protected virtual void Init()
         {

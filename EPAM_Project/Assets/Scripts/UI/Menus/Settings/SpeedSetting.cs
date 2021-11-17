@@ -1,25 +1,22 @@
 using Stats;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace UI.Menus
+namespace UI.Menus.Settings
 {
-    public class SpeedSetting : MonoBehaviour
+    public class SpeedSetting : SliderSetting
     {
-        private Slider slider;
-
         [SerializeField] private EnemyStats baseStats;
-        private void Start()
+
+        protected override void Init()
         {
-            slider = GetComponent<Slider>();
             slider.maxValue = baseStats.Speed.maxValue;
             slider.minValue = baseStats.Speed.minValue;
             slider.value = baseStats.Speed.Value;
         }
 
-        public void ChangeSetting(float value)
+        public override void Apply()
         {
-            baseStats.Speed.Value = value;
+            baseStats.Speed.Value = slider.value;
         }
     }
 }

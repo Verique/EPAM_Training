@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Player.Weapons
@@ -6,7 +5,7 @@ namespace Player.Weapons
     [RequireComponent(typeof(Rigidbody))]
     public class AutoBullet : BaseShot
     {
-        protected Rigidbody rgbd;
+        protected Rigidbody Rgbd;
         protected virtual string DamageTag => "player";
 
         public override string SoungEffectShotTag => "autoBulletSfx";
@@ -14,12 +13,12 @@ namespace Player.Weapons
         protected override void Awake()
         {
             base.Awake();
-            rgbd = GetComponent<Rigidbody>();
+            Rgbd = GetComponent<Rigidbody>();
         }
 
         private void OnEnable()
         {
-            rgbd.velocity = Stats.Speed.Value * STransform.up;
+            Rgbd.velocity = Stats.Speed.Value * STransform.up;
         }
 
         private void OnTriggerEnter(Collider other)

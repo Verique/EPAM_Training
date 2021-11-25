@@ -6,8 +6,10 @@ namespace Enemy
 {
     public class BossTurret : BaseEnemy
     {
+        private const string EnemyBulletTag = "enemyBullet";
+        
         public override string PoolTag => "bossTurret";
-        private string EnemyBulletTag => "enemyBullet";
+        
         private ObjectPool pool;
 
         protected override void Init()
@@ -23,6 +25,7 @@ namespace Enemy
             var position = transform.position;
             var diff = Player.Position - position;
             var rotation = diff.ToRotation();
+            
             pool.Spawn<EnemyBullet>(EnemyBulletTag, position + diff.normalized * 10, rotation);
             StartMove();
         }

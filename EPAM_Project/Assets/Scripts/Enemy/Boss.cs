@@ -8,11 +8,10 @@ namespace Enemy
     public class Boss : BaseEnemy
     {
         private const float SpawnSize = 40f;
+        private const string TurretTag = "bossTurret";
         public override string PoolTag => "boss";
-        public const string TurretTag = "bossTurret";
 
         public event Action<Stat<int>> BossDamaged; 
-        public event Action BossKilled;
         public event Action<Vector3> BossMoved;
 
         private EnemyManager eManager;
@@ -29,7 +28,7 @@ namespace Enemy
         {
             base.StartSkill();
             var spawnLocation = eManager.RandomSpawnLocationWithinSquare(SpawnSize) + transform.position;
-            eManager.Spawn<BossTurret>(TurretTag, spawnLocation);
+            eManager.Spawn(TurretTag, spawnLocation);
             StartMove();
         }
 
@@ -37,12 +36,6 @@ namespace Enemy
         {
             base.Move();
             BossMoved?.Invoke(transform.position);
-        }
-
-        protected override void OnKill(string dmgTag)
-        {
-            base.OnKill(dmgTag);
-            BossKilled?.Invoke();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace SaveData
     {
         public float musicVolume = 1;
         public float sfxVolume = 1;
-        public bool musicMuted = false;
-        public bool sfxMuted = false;
+        public bool musicMuted;
+        public bool sfxMuted;
     }
 }

@@ -4,6 +4,9 @@ namespace Enemy
 {
     public class DashingEnemy : MeleeEnemy
     {
+        private const int UsualAgentPriority = 50;
+        private const int DashAgentPriority = 49;
+        
         public override string PoolTag => "dashEnemy";
 
         [SerializeField] private float dashSpeed = 100f;
@@ -11,9 +14,7 @@ namespace Enemy
         protected override void StartSkill()
         {
             base.StartSkill();
-            Agent.speed = dashSpeed;
-            Agent.destination = Player.Position;
-            Agent.avoidancePriority = 49;
+            SetAgent(DashAgentPriority, dashSpeed, Player.Position);
         }
 
         protected override void Skill()
@@ -26,9 +27,14 @@ namespace Enemy
         protected override void StartMove()
         {
             base.StartMove();
-            Agent.avoidancePriority = 50;
-            Agent.speed = Stats.Speed.Value;
-            Agent.destination = Player.Position;
+            SetAgent(UsualAgentPriority, Stats.Speed.Value, Player.Position);
+        }
+
+        private void SetAgent(int prio, float speed, Vector3 dest)
+        {
+            Agent.avoidancePriority = prio;
+            Agent.speed = speed;
+            Agent.destination = dest;
         }
     }
 }

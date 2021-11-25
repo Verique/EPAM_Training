@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SaveData
 {
@@ -10,11 +11,11 @@ namespace SaveData
         public PlayerData playerData;
         public List<EnemyData> enemyData;
 
-        public GameData(GameStateData gameStateData, PlayerData playerData, List<EnemyData> enemyData)
+        public GameData(GameStateData gameStateData, PlayerData playerData, IEnumerable<EnemyData> enemyData)
         {
             this.gameStateData = gameStateData;
             this.playerData = playerData;
-            this.enemyData = enemyData;
+            this.enemyData = enemyData.ToList();
         }
     }
 }

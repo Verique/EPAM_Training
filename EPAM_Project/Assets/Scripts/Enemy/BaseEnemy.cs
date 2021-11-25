@@ -15,14 +15,14 @@ namespace Enemy
         protected NavMeshAgent Agent;
         protected EnemyStats Stats;
         
-        private GameManager gameManager;
-        private PlayerManager pManager;
         private EnemyState state;
         
         private float squaredAttackDistance;
         private float squaredSkillDistance;
         private float lastAttackTime;
         private float lastSkillTime;
+
+        public event Action<int> EnemyKilledExp;
 
         public ITarget Player { get; set; }
         public abstract string PoolTag { get; }
@@ -31,32 +31,26 @@ namespace Enemy
         {
             Stats = GetComponent<EnemyStatLoader>().Stats;
             Agent = GetComponent<NavMeshAgent>();
-            pManager = ServiceLocator.Instance.Get<PlayerManager>();
-            gameManager = ServiceLocator.Instance.Get<GameManager>();
             var healthComp = GetComponent<Health>();
+            
             var primDistance = Stats.AttackDistance.Value;
             var scndDistance = Stats.SkillDistance.Value;
             squaredAttackDistance = primDistance * primDistance;
             squaredSkillDistance = scndDistance * scndDistance;
             Agent.speed = Stats.Speed.Value;
+            
             Stats.Speed.ValueChanged += newSpeed => Agent.speed = newSpeed;
             healthComp.KilledBy += OnKill;
-            Stats.Health.MinValueReached += () => gameObject.SetActive(false);
         }
 
         protected virtual void OnKill(string dmgTag)
         {
             if (dmgTag != "player" && dmgTag != "explosion") return;
             
-            pManager.GetExp(Stats.Experience.Value);
-            gameManager.AddKill();
+            EnemyKilledExp?.Invoke(Stats.Experience.Value);
+            gameObject.SetActive(false);
         }
-
-        private void SwitchState(EnemyState newState)
-        {
-            state = newState;
-        }
-
+        
         protected virtual void Move()
         { }
 
@@ -68,17 +62,17 @@ namespace Enemy
 
         protected virtual void StartSkill()
         {
-            SwitchState(EnemyState.UsingSkill);
+            state = EnemyState.UsingSkill;
             lastSkillTime = Time.time;
         }
 
         protected virtual void StartAttack()
         {
-            SwitchState(EnemyState.Attacking);
+            state = EnemyState.Attacking;
             lastAttackTime = Time.time;
         }
 
-        protected virtual void StartMove() => SwitchState(EnemyState.Moving);
+        protected virtual void StartMove() => state = EnemyState.Moving;
 
         protected Vector2 VectorTo(Vector3 position) =>
             (position - transform.position).ToVector2();

@@ -20,6 +20,7 @@ namespace Services
         private float time;
 
         public event Action<int, int> EnemyKilled;
+        public event Action<int> GoalReached; 
         public event Action<GameStats> GameEnded;
 
         private int Kills
@@ -30,18 +31,13 @@ namespace Services
                 kills = value;
                 EnemyKilled?.Invoke(Kills, killGoal);
                 if (Kills != killGoal) return;
-            
-                enemyManager.SpawnBoss();
+                
+                GoalReached?.Invoke(killGoal);
                 soundManager.PlayMusic("bossMusic");
             }
         }
 
         public GameState State { get; private set; }
-
-        public void AddKill()
-        {
-            Kills++;
-        }
 
         private void Awake()
         {
@@ -59,12 +55,17 @@ namespace Services
 
         private void StartGame()
         {
-            playerManager.StatLoader.Stats.Health.MinValueReached += () => EndGame("You are dead!");
             ServiceLocator.Instance.Get<InputManager>().PauseKeyUp += Pause;
+            
             cameraManager.Target = playerManager.PlayerTarget;
-            enemyManager.SetTarget(playerManager.PlayerTarget);
+            
+            enemyManager.Target = playerManager.PlayerTarget;
             enemyManager.OnGameStart();
+            enemyManager.EnemyKilledExp += exp => Kills++;
             enemyManager.BossKilled += () => EndGame("You win!");
+            
+            playerManager.StatLoader.Stats.Health.MinValueReached += () => EndGame("You are dead!");
+            
             soundManager.PlayMusic("defaultMusic");
 
             EnemyKilled?.Invoke(Kills, killGoal);

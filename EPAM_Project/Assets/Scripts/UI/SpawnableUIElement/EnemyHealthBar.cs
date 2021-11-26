@@ -1,23 +1,21 @@
-﻿using Services;
+﻿using Enemy;
+using Services;
+using Stats;
 using UnityEngine;
-using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 namespace UI.SpawnableUIElement
 {
     [RequireComponent(typeof(Image), typeof(RectTransform))]
-    public class EnemyHealthBar : SpawnableUIElement
+    public class EnemyHealthBar : SpawnableUIIntStatView
     {
-        public override void EventHandler<T>(T param)
-        {
-            if (!(param is int health)) return;
-            
-            var width = initialBarSize.x * health / Prefs.MaxValue;
-            barTransform.sizeDelta = new Vector2(width, initialBarSize.y);
-        }
-
+        private readonly Vector2 hpOffset = new Vector3(-30, 20);
         private CameraManager cameraManager;
         private Vector2 initialBarSize;
         private RectTransform barTransform;
+        private Vector2 position;
+
+        public EnemyHasHpBar Enemy { get; set; }
 
         private void Start()
         {
@@ -37,7 +35,18 @@ namespace UI.SpawnableUIElement
 
         private void LateUpdate()
         {
-            barTransform.position = cameraManager.WorldPosToScreen(Prefs.Target.position) + Prefs.Offset;
+            barTransform.position = position;
+        }
+
+        public override void OnValueChanged(Stat<int> healthStat)
+        {
+            var width = initialBarSize.x * healthStat.Value / healthStat.maxValue;
+            barTransform.sizeDelta = new Vector2(width, initialBarSize.y);
+        }
+
+        public override void OnTargetMoved(Vector3 newPos)
+        {
+            position = cameraManager.WorldPosToScreen(newPos) + hpOffset;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Services;
 using Stats;
+using UI.SpawnableUIElement;
 using UnityEngine;
 
 namespace Enemy
@@ -8,31 +9,34 @@ namespace Enemy
     [RequireComponent(typeof(EnemyStatLoader))]
     public class EnemyHasHpBar : MonoBehaviour
     {
-        private readonly Vector3 offset = new Vector3(-30, 20, 0);
-        
-        private SpawnableUIManager infoManager;
+        private SpawnableUIManager sUIManager;
         private Stat<int> healthStat;
-        private Action<int> action;
-        private GameObject eBar;
+        private EnemyHealthBar bar;
+
+        public event Action<Vector3> EnemyMoved;
+        public event Action<Stat<int>> HealthChanged;
 
         private void Start()
         {
             healthStat = GetComponent<EnemyStatLoader>().Stats.Health;
-            infoManager = ServiceLocator.Instance.Get<SpawnableUIManager>();
+            sUIManager = ServiceLocator.Instance.Get<SpawnableUIManager>();
+            healthStat.ValueChanged += i => HealthChanged?.Invoke(healthStat);
+        }
+
+        private void Update()
+        {
+            EnemyMoved?.Invoke(transform.position);
         }
 
         private void OnBecameVisible()
         {
-            var prefs = new SpawnableUIManager.UIInfoPrefs(transform, offset, healthStat.maxValue);
-            eBar = infoManager.Link(prefs, "hbar", out action);
-            action(healthStat.Value);
-            healthStat.ValueChanged += action;
+            bar = sUIManager.GetHpBar(this);
+            HealthChanged?.Invoke(healthStat);
         }
 
         private void OnBecameInvisible()
         {
-            if (eBar != null) eBar.SetActive(false);
-            healthStat.ValueChanged -= action;
+            sUIManager.ReleaseHpBar(bar);
         }
     }
 }

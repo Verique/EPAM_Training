@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Services;
@@ -9,6 +10,8 @@ namespace SaveData
 {
     public class SaveManager : MonoBehaviour, IService
     {
+        private const string audioSettingsPath = "settings/audio";
+        
         public void Save(string saveName)
         {
             var playerData = ServiceLocator.Instance.Get<PlayerManager>().GetSaveData();
@@ -39,7 +42,8 @@ namespace SaveData
 
         private static void SaveJson<T>(T data, string fileName)
         {
-            var path = string.Format(Application.persistentDataPath + $"/{fileName}.json"); 
+            var path = string.Format(Application.persistentDataPath + $"/{fileName}.json");
+            Directory.CreateDirectory(Path.GetDirectoryName(path) ?? throw new InvalidOperationException());
             using var sw = new StreamWriter(path, false);
             using var writer = new JsonTextWriter(sw);
             
@@ -47,11 +51,11 @@ namespace SaveData
         }
 
         public void SaveAudioSettings(GameAudioSettings settings) =>
-            SaveJson(settings, "audio");
+            SaveJson(settings, audioSettingsPath);
 
         public GameAudioSettings LoadAudioSettings()
         {
-            var settings = LoadJson<GameAudioSettings>("audio");
+            var settings = LoadJson<GameAudioSettings>(audioSettingsPath);
             
             if (settings == null)
             {

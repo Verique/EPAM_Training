@@ -128,7 +128,7 @@ namespace Services
 
         private void LinkEnemyDeath()
         {
-            foreach (var enemy in Enemys.Select(o => o.GetComponent<MeleeEnemy>()))
+            foreach (var enemy in Enemys.Select(o => o.GetComponent<BaseEnemy>()))
             {
                 enemy.EnemyKilledExp += OnEnemyKilled;
             }
@@ -137,12 +137,14 @@ namespace Services
         public void OnGameStart()
         {
             pool = ServiceLocator.Instance.Get<ObjectPool>();
-            ServiceLocator.Instance.Get<GameManager>().GoalReached += i => Spawn("boss", RandomSpawnLocationWithinSquare(LevelSize));
+            var gameManager = ServiceLocator.Instance.Get<GameManager>();
+            gameManager.GoalReached += i => Spawn("boss", RandomSpawnLocationWithinSquare(LevelSize));
+            gameManager.GameEnded += stats => OnGameEnd();
             LinkEnemyDeath();
             StartSpawning();
         }
 
-        public void OnGameEnd()
+        private void OnGameEnd()
         {
             StopSpawning();
             

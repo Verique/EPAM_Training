@@ -7,14 +7,14 @@ namespace UI.Menus.Settings
     {
         [SerializeField] protected MuteButton muteButton;
 
-        protected GameAudioSettings audioSettings;
+        protected GameAudioSettings AudioSettings;
         public virtual void Init(GameAudioSettings settings)
         {
             slider.maxValue = 1;
             slider.minValue = 0;
             slider.wholeNumbers = false;
             muteButton.Init();
-            audioSettings = settings;
+            AudioSettings = settings;
         }
 
         protected override void Init()

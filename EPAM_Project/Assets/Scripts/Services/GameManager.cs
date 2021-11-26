@@ -1,6 +1,5 @@
 ﻿using System;
 using SaveData;
-using UI.Menus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,20 +7,17 @@ namespace Services
 {
     public class GameManager : MonoBehaviour, IService
     {
-        [SerializeField] private GameObject gameOverScreen;
-        [SerializeField] private PauseScreen pauseScreen;
         [SerializeField] private int killGoal = 4;
 
-        private EnemyManager enemyManager;
-        private CameraManager cameraManager;
         private SoundManager soundManager;
-        private PlayerManager playerManager;
         private int kills;
         private float time;
 
         public event Action<int, int> EnemyKilled;
         public event Action<int> GoalReached; 
         public event Action<GameStats> GameEnded;
+        public event Action GamePaused;
+        public event Action GameResumed;
 
         private int Kills
         {
@@ -39,56 +35,55 @@ namespace Services
 
         public GameState State { get; private set; }
 
-        private void Awake()
-        {
-            State = GameState.Setup;
-            playerManager = ServiceLocator.Instance.Get<PlayerManager>();
-            soundManager = ServiceLocator.Instance.Get<SoundManager>();
-            cameraManager = ServiceLocator.Instance.Get<CameraManager>();
-            enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
-        }
-
         private void Start()
         {
+            soundManager = ServiceLocator.Instance.Get<SoundManager>();
             StartGame();
         }
 
         private void StartGame()
-        {
-            ServiceLocator.Instance.Get<InputManager>().PauseKeyUp += Pause;
+        { 
+            State = GameState.Setup;
+            
+            var playerManager = ServiceLocator.Instance.Get<PlayerManager>();
+            var cameraManager = ServiceLocator.Instance.Get<CameraManager>();
+            var enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
+            var inputManager = ServiceLocator.Instance.Get<InputManager>();
+            var saveManager = ServiceLocator.Instance.Get<SaveManager>();
+            
+            inputManager.PauseKeyUp += PauseResumeToggle;
             
             cameraManager.Target = playerManager.PlayerTarget;
             
             enemyManager.Target = playerManager.PlayerTarget;
             enemyManager.OnGameStart();
             enemyManager.EnemyKilledExp += exp => Kills++;
-            enemyManager.BossKilled += () => EndGame("You win!");
-            
-            playerManager.StatLoader.Stats.Health.MinValueReached += () => EndGame("You are dead!");
+
+            enemyManager.BossKilled += GameWon;
+            playerManager.StatLoader.Stats.Health.MinValueReached += GameLost;
             
             soundManager.PlayMusic("defaultMusic");
 
             EnemyKilled?.Invoke(Kills, killGoal);
 
             var saveName = PlayerPrefs.GetString("saveName");
-            if (saveName != "")
-                ServiceLocator.Instance.Get<SaveManager>().Load(saveName);
+            if (saveName != "") saveManager.Load(saveName);
             
             State = GameState.Default;
         }
 
-        public void Pause()
+        public void PauseResumeToggle()
         {
             switch (State)
             {
                 case GameState.Default:
                     State = GameState.Pause;
-                    pauseScreen.SetActive(true);
+                    GamePaused?.Invoke();
                     break;
                 
                 case GameState.Pause:
                     State = GameState.Default;
-                    pauseScreen.SetActive(false);
+                    GameResumed?.Invoke();
                     break;
             }
         }
@@ -107,13 +102,11 @@ namespace Services
         private void EndGame(string message)
         {
             State = GameState.GameOver;
-            cameraManager.enabled = false;
-            
             GameEnded?.Invoke(new GameStats(Kills, Time.timeSinceLevelLoad + time, message));
-            
-            enemyManager.OnGameEnd();
-            gameOverScreen.SetActive(true);
         }
+        
+        private void GameWon() => EndGame("You win!");
+        private void GameLost() => EndGame("You are dead!");
 
         public void ToMainMenu()
         {
@@ -130,8 +123,8 @@ namespace Services
         public void LoadData(GameStateData data)
         {
             kills = data.kills;
-            EnemyKilled?.Invoke(kills, killGoal);
             time = data.time;
+            EnemyKilled?.Invoke(kills, killGoal);
         }
     }
 }

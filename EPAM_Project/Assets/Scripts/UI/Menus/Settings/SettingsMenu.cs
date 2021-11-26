@@ -1,15 +1,14 @@
 ﻿using SaveData;
 using Services;
+using UI.Menus.MainMenu;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Menus.Settings
 {
-    public class SettingsMenu : MonoBehaviour
+    public class SettingsMenu : UIMenu<IHasSettingsMenu>
     {
-        [SerializeField] private GameObject settingsPanel;
         [SerializeField] private Button closeButton;
-        
         [SerializeField] private SliderSetting enemySpeed;
         [SerializeField] private VolumeSetting musicVolumeSetting;
         [SerializeField] private VolumeSetting effectsVolumeSetting;
@@ -39,13 +38,9 @@ namespace UI.Menus.Settings
             ServiceLocator.Instance.Get<SoundManager>().ApplySettings(audioSettings);
         }
 
-        private void Hide() => SetActive(false);
-        public void Show() => SetActive(true);
-
-        private void SetActive(bool isActive)
+        public override void Init(IHasSettingsMenu manager)
         {
-            settingsPanel.SetActive(isActive);   
-            closeButton.gameObject.SetActive(isActive);
+            manager.SettingsOpened += Show;
         }
     }
 }

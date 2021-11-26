@@ -1,11 +1,10 @@
-﻿using Services;
-using Stats;
+﻿using Stats;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.HUD
 {
-    public class BossBar : UIBar
+    public class BossBar : UIBar<HUDManager>
     {
         [SerializeField] private GameObject barGO;
         [SerializeField] private Text bossNameText;
@@ -21,12 +20,11 @@ namespace UI
             bossNameText.text = bossName;
         }
 
-        public override void Init(UIManager manager)
+        public override void Init(HUDManager manager)
         {
             manager.BossSpawned += OnBossSpawned;
             manager.BossHealthChanged += OnBossHealthChanged;
-            manager.BossKilled += () => SetActive(false);
-            manager.GameEnded += (s) => SetActive(false);
+            manager.GameEnded += () => SetActive(false);
         }
 
         private void OnBossHealthChanged(Stat<int> healthStat)

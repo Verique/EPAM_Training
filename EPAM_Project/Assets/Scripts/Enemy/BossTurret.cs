@@ -7,7 +7,6 @@ namespace Enemy
     public class BossTurret : BaseEnemy
     {
         private const string EnemyBulletTag = "enemyBullet";
-        
         public override string PoolTag => "bossTurret";
         
         private ObjectPool pool;

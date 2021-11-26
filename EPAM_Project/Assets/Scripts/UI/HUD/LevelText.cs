@@ -1,18 +1,17 @@
-using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.HUD
 {
     [RequireComponent(typeof(Text))]
-    public class LevelText : UIText
+    public class LevelText : UIText<HUDManager>
     {
         private void UpdateText(int newLvl)
         {
             Text.text = $"Level : {newLvl}";
         }
 
-        public override void Init(UIManager manager)
+        public override void Init(HUDManager manager)
         {
             Text = GetComponent<Text>();
             manager.PlayerLevelUp += UpdateText;

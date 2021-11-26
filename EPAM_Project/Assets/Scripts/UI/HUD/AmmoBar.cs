@@ -1,14 +1,13 @@
 using System.Collections;
 using Player.Weapons;
-using Services;
 using Stats;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.HUD
 {
     [RequireComponent(typeof(Image))]
-    public class AmmoBar : UIBar
+    public class AmmoBar : UIBar<HUDManager>
     {
         private Coroutine reloadIndication;
         private Image image;
@@ -45,8 +44,7 @@ namespace UI
             }
         }
         
-
-        public override void Init(UIManager manager)
+        public override void Init(HUDManager manager)
         {
             image = GetComponent<Image>();
             manager.PlayerAmmoChanged += OnAmmoChange;

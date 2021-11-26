@@ -37,6 +37,8 @@ namespace Services
 
         private void InitPool(IEnumerable<Pool> poolList)
         {
+            if (poolList == null) return;
+            
             foreach (var pool in poolList)
             {
                 var objectPool = new List<GameObject>();

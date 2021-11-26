@@ -25,7 +25,7 @@ namespace Services
         public ITarget PlayerTarget { get; private set; }
         public PlayerStatLoader StatLoader { get; private set; }
 
-        private void Start()
+        private void Awake()
         {
             player = FindObjectOfType<PlayerMovement>().transform;
             PlayerTarget = player.GetComponent<ITarget>();
@@ -33,6 +33,10 @@ namespace Services
             playerRenderer = player.GetComponentInChildren<Renderer>();
             StatLoader = player.GetComponent<PlayerStatLoader>();
             health = player.GetComponent<Health>();
+        }
+
+        private void Start()
+        {
             health.DamageTaken += currentHealth => StartCoroutine(nameof(PlayerDamageTakenIndication));
             
             ServiceLocator.Instance.Get<EnemyManager>().EnemyKilledExp += exp => experience.GetExperience(exp);

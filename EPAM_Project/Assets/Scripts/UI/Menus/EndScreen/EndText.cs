@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Menus.EndScreen
 {
-    public class EndText : UIText
+    public class EndText : UIText<UIManager>
     {
         [SerializeField] private Text msgText;
         [SerializeField] private Text killsText;

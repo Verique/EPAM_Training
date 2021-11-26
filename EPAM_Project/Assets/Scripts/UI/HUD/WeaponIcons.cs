@@ -1,11 +1,10 @@
 ﻿using Player.Weapons;
-using Services;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.HUD
 {
-    public class WeaponIcons : UIElement
+    public class WeaponIcons : UIElement<HUDManager>
     {
         [SerializeField] private Image current;
         [SerializeField] private Image next;
@@ -18,7 +17,7 @@ namespace UI
             last.sprite = lastW.WeaponIcon;
         }
 
-        public override void Init(UIManager manager)
+        public override void Init(HUDManager manager)
         {
             manager.WeaponSwitched += OnWeaponSwitched;
         }

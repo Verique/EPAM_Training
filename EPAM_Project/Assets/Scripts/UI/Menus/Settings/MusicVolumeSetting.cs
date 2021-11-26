@@ -1,5 +1,4 @@
 ﻿using SaveData;
-using UnityEngine;
 
 namespace UI.Menus.Settings
 {
@@ -7,8 +6,8 @@ namespace UI.Menus.Settings
     {
         public override void Apply()
         {
-            audioSettings.musicMuted = muteButton.IsMuted;
-            audioSettings.musicVolume = slider.value;
+            AudioSettings.musicMuted = muteButton.IsMuted;
+            AudioSettings.musicVolume = slider.value;
         }
 
         public override void Init(GameAudioSettings settings)

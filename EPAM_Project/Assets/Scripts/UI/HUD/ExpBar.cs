@@ -1,11 +1,10 @@
-using Services;
 using Stats;
 
-namespace UI
+namespace UI.HUD
 {
-    public class ExpBar : UIBar
+    public class ExpBar : UIBar<HUDManager>
     {
-        public override void Init(UIManager manager)
+        public override void Init(HUDManager manager)
         {
             manager.PlayerExpChanged += OnPlayerExpChanged;
         }

@@ -1,35 +1,37 @@
 ﻿using System.Collections.Generic;
 using SaveData;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace UI.Menus
+namespace UI.Menus.SaveLoad
 {
-    public abstract class LoadSaveMenu : MonoBehaviour
+    public abstract class LoadSaveMenu<T> : UIMenu<T> where T : IUIManager 
     {
         protected const int MaxSaveCount = 10;
         private const int ButtonOffset = 30;
     
-        [SerializeField] protected GameObject buttonPrefab;
+        [SerializeField] protected LoadSaveButton buttonPrefab;
         [SerializeField] protected ScrollRect scrollRect;
+        [SerializeField] protected Button exitButton;
 
         private int elementCount;
-    
-        public void OpenMenu()
-        {
-            GetSaveFileList();
 
-            gameObject.SetActive(true);
+        protected override void Show()
+        {
+            base.Show();
+            GetSaveFileList();
         }
 
-        public void AddElement()
+        private void Awake()
+        {
+            exitButton.onClick.AddListener(Hide);
+        }
+
+        protected void AddElement()
         {
             elementCount++;
         }
     
-        public void CloseMenu() => gameObject.SetActive(false);
-
         private void GetSaveFileList()
         {
             var saveFileNames = SaveManager.GetSaveFiles();
@@ -40,26 +42,24 @@ namespace UI.Menus
             SetContentHeight(parentRectTransform, elementCount * ButtonOffset);
         }
 
-        protected void AddButton(string text, UnityAction action)
+        private LoadSaveButton AddButton()
         {
             //needs object pooling
             var newGO = Instantiate(buttonPrefab, Vector3.zero, Quaternion.identity, scrollRect.content);
             var pos = new Vector3(0, - elementCount * ButtonOffset, 0);
             newGO.transform.localPosition = pos;
-        
-            var button = newGO.GetComponent<Button>();
-            var buttonText = newGO.GetComponentInChildren<Text>();
-
-            button.onClick.AddListener(action);
-            buttonText.text = text;
             elementCount++;
+            
+            return newGO;
         }
 
         protected virtual void AddButtons(List<string> saveFileNames)
         {
             foreach (var saveFileName in saveFileNames)
             {
-                AddButton(saveFileName, () => OnClickButton(saveFileName));
+                var button = AddButton();
+                button.ButtonClicked += () => OnClickButton(saveFileName);
+                button.SetText(saveFileName);
             }
         }
     

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace UI
 {
     [RequireComponent(typeof(RectTransform))]
-    public abstract class UIBar : UIElement
+    public abstract class UIBar<T> : UIElement<T> where T : IUIManager
     {
         private Vector2 initialBarSize;
         private RectTransform barTransform;

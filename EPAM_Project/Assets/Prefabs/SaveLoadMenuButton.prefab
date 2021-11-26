@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 4370736997481397928}
   - component: {fileID: 4370736997481397929}
   - component: {fileID: 4370736997481397930}
+  - component: {fileID: -719259106624528348}
   m_Layer: 5
   m_Name: SaveLoadMenuButton
   m_TagString: Untagged
@@ -200,3 +201,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-719259106624528348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4370736997481397932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8463c6e446b64681ab4bb3ad8bf8f92d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

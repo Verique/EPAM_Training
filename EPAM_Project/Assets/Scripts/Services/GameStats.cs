@@ -2,9 +2,9 @@
 {
     public class GameStats
     {
-        public int Kills;
-        public string TimeSurvived;
-        public string Message;
+        public readonly int Kills;
+        public readonly string TimeSurvived;
+        public readonly string Message;
 
         public GameStats(int kills, float timeSurvived, string message)
         {

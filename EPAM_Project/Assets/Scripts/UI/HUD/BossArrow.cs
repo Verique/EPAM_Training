@@ -1,18 +1,17 @@
 ﻿using Extensions;
-using Services;
 using UnityEngine;
 
-namespace UI
+namespace UI.HUD
 {
-    public class BossArrow : UIElement
+    public class BossArrow : UIElement<HUDManager>
     {
         private Vector2 direction;
-        public override void Init(UIManager manager)
+        public override void Init(HUDManager manager)
         {
             manager.BossDirectionChanged += OnBossDirectionChanged;
             manager.BossSpawned += (bName) => gameObject.SetActive(true);
             manager.PlayerMovedOnScreen += OnPlayerMovedOnScreen;
-            manager.GameEnded += stats => gameObject.SetActive(false);
+            manager.GameEnded += () => gameObject.SetActive(false);
         }
 
         private void OnPlayerMovedOnScreen(Vector2 obj)

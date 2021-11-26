@@ -5,9 +5,9 @@ using UnityEngine.UI;
 namespace UI
 {
     [RequireComponent(typeof(Text))]
-    public abstract class UIText : UIElement
+    public abstract class UIText<T> : UIElement<T> where T : IUIManager
     {
         protected Text Text;
-        public abstract override void Init(UIManager manager);
+        public abstract override void Init(T manager);
     }
 }

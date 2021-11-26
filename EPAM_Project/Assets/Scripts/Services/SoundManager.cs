@@ -6,48 +6,44 @@ using UnityEngine;
 
 namespace Services
 {
-    [RequireComponent(typeof(AudioSource))]
     public class SoundManager : MonoBehaviour, IService
     {
-        private const string MusicPref = "musicVolume";
-        private const string SfxPref = "effectsVolume";
-        private const string MutedSuffix = "IsMuted";
         private const string AudioSourcePoolTag = "audio";
-        [SerializeField] private bool has3DEffects;
+        
         [SerializeField] private List<SoundInfo> sounds;
+        [SerializeField] private AudioSource musicAudioSource;
+        [SerializeField] private AudioSource sfxAudioSource;
+        
         private Dictionary<string, SoundInfo> soundDict;
-        private AudioSource audioSource;
         private ObjectPool pool;
 
-        private GameAudioSettings settings;
-        
         private void Awake()
         {
-            if (has3DEffects) pool = ServiceLocator.Instance.Get<ObjectPool>();
+            pool = ServiceLocator.Instance.Get<ObjectPool>();
             soundDict = sounds.ToDictionary(info => info.clipName);
-            audioSource = GetComponent<AudioSource>();
             ApplySettings();
         }
 
         public void PlayMusic(string soundTag)
         {
-            audioSource.clip = GetClip(soundTag);
-            audioSource.Play();
+            musicAudioSource.clip = GetClip(soundTag);
+            if (musicAudioSource.mute) return;
+            musicAudioSource.Play();
         }
 
         public void PlayOneShot(string soundTag)
         {
-            if (settings.sfxMuted) return;
+            if (sfxAudioSource.mute) return;
             var clip = GetClip(soundTag);
-            audioSource.PlayOneShot(clip, settings.sfxVolume);
+            sfxAudioSource.PlayOneShot(clip, sfxAudioSource.volume);
         }
 
         public void PlayAt(string soundTag, Vector3 position)
         {
-            if (settings.sfxMuted) return;
+            if (sfxAudioSource.mute) return;
             var audioSourceAtPosition = pool.Spawn<AudioSource>(AudioSourcePoolTag, position, Quaternion.identity);
             audioSourceAtPosition.clip = GetClip(soundTag);
-            audioSourceAtPosition.volume = settings.sfxVolume;
+            audioSourceAtPosition.volume = sfxAudioSource.volume;
             audioSourceAtPosition.Play();
         }
         
@@ -59,11 +55,14 @@ namespace Services
 
         private void ApplySettings() => ApplySettings(ServiceLocator.Instance.Get<SaveManager>().LoadAudioSettings());
 
-        public void ApplySettings(GameAudioSettings newSettings)
+        public void ApplySettings(GameAudioSettings settings)
         {
-            settings = newSettings;
-            audioSource.volume = settings.musicVolume;
-            audioSource.mute = settings.musicMuted;
+            musicAudioSource.volume = settings.musicVolume;
+            musicAudioSource.mute = settings.musicMuted;
+            if (settings.musicMuted) musicAudioSource.Stop();
+            else musicAudioSource.Play();
+            sfxAudioSource.mute = settings.sfxMuted;
+            sfxAudioSource.volume = settings.sfxVolume;
         }
     }
 }

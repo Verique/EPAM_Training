@@ -6,8 +6,8 @@ namespace UI.Menus.Settings
     {
         public override void Apply()
         {
-            audioSettings.sfxMuted = muteButton.IsMuted;
-            audioSettings.sfxVolume = slider.value;
+            AudioSettings.sfxMuted = muteButton.IsMuted;
+            AudioSettings.sfxVolume = slider.value;
         }
 
         public override void Init(GameAudioSettings settings)

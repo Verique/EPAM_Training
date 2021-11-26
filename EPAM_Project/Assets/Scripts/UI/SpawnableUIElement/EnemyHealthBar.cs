@@ -39,6 +39,5 @@ namespace UI.SpawnableUIElement
         {
             barTransform.position = cameraManager.WorldPosToScreen(Prefs.Target.position) + Prefs.Offset;
         }
-        
     }
 }

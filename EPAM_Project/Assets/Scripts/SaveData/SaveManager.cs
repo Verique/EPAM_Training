@@ -10,7 +10,7 @@ namespace SaveData
 {
     public class SaveManager : MonoBehaviour, IService
     {
-        private const string audioSettingsPath = "settings/audio";
+        private const string AudioSettingsPath = "settings/audio";
         
         public void Save(string saveName)
         {
@@ -51,11 +51,11 @@ namespace SaveData
         }
 
         public void SaveAudioSettings(GameAudioSettings settings) =>
-            SaveJson(settings, audioSettingsPath);
+            SaveJson(settings, AudioSettingsPath);
 
         public GameAudioSettings LoadAudioSettings()
         {
-            var settings = LoadJson<GameAudioSettings>(audioSettingsPath);
+            var settings = LoadJson<GameAudioSettings>(AudioSettingsPath);
             
             if (settings == null)
             {

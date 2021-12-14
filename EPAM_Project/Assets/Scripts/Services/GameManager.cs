@@ -9,7 +9,6 @@ namespace Services
     {
         [SerializeField] private int killGoal = 4;
 
-        private SoundManager soundManager;
         private int kills;
         private float time;
 
@@ -29,7 +28,6 @@ namespace Services
                 if (Kills != killGoal) return;
                 
                 GoalReached?.Invoke(killGoal);
-                soundManager.PlayMusic("bossMusic");
             }
         }
 
@@ -37,7 +35,6 @@ namespace Services
 
         private void Start()
         {
-            soundManager = ServiceLocator.Instance.Get<SoundManager>();
             StartGame();
         }
 
@@ -50,7 +47,7 @@ namespace Services
             var enemyManager = ServiceLocator.Instance.Get<EnemyManager>();
             var inputManager = ServiceLocator.Instance.Get<InputManager>();
             var saveManager = ServiceLocator.Instance.Get<SaveManager>();
-            
+            var soundManager = ServiceLocator.Instance.Get<SoundManager>(); 
             inputManager.PauseKeyUp += PauseResumeToggle;
             
             cameraManager.Target = playerManager.PlayerTarget;
@@ -60,6 +57,7 @@ namespace Services
             enemyManager.EnemyKilledExp += exp => Kills++;
 
             enemyManager.BossKilled += GameWon;
+            enemyManager.BossSpawned += (str) => soundManager.PlayMusic("bossMusic");
             playerManager.StatLoader.Stats.Health.MinValueReached += GameLost;
             
             soundManager.PlayMusic("defaultMusic");

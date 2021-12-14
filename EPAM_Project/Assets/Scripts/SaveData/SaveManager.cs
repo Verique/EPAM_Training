@@ -14,6 +14,7 @@ namespace SaveData
         
         public void Save(string saveName)
         {
+            PlayerPrefs.SetString("saveName", saveName);
             var playerData = ServiceLocator.Instance.Get<PlayerManager>().GetSaveData();
             var enemyData = ServiceLocator.Instance.Get<EnemyManager>().GetSaveData();
             var gameData = ServiceLocator.Instance.Get<GameManager>().GetSaveData();

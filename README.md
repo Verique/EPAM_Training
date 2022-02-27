@@ -1,5 +1,3 @@
 # EPAM_Training
 
-Trying GitExtension in VSCode
-
-Trying out GitKraken
+Coding  was done for EPAM Unity Developer Training
